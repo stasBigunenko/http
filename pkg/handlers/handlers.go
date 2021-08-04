@@ -21,7 +21,7 @@ func (h *postHandler) NewRouter() *mux.Router {
 	r := mux.NewRouter()
 	r.HandleFunc("/post", h.CreatePost).Methods("POST")
 	r.HandleFunc("/post/{Id}", h.GetPost).Methods("GET")
-	r.HandleFunc("/post", h.GetAll).Methods("GET")
+	r.HandleFunc("/posts", h.GetAll).Methods("GET")
 	r.HandleFunc("/post/{Id}", h.DeletePost).Methods("DELETE")
 	r.HandleFunc("/post/{Id}", h.UpdatePost).Methods("PUT")
 
@@ -36,7 +36,6 @@ func New(s *storage.Storage) *postHandler {
 }
 
 func (h *postHandler) CreatePost(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("It is working!!!") //debug not working!
 	var post model.Post
 	json.NewDecoder(r.Body).Decode(&post)
 	res, err := h.Services.CreateId(&post)

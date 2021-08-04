@@ -61,7 +61,8 @@ func (s *Storage) Update(id int, p model.Post) (model.Post, error) {
 	if !ok {
 		return model.Post{}, errors.New("Post cann't be updated - Id not found")
 	}
-	s.Storage[id] = p
+	p.Id = id
+	s.Storage[p.Id] = p
 	return p, nil
 }
 
