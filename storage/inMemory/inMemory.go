@@ -1,6 +1,7 @@
 package inMemory
 
 import (
+	"errors"
 	_ "errors"
 	"fmt"
 	"src/http/pkg/model"
@@ -23,6 +24,9 @@ func New() *Storage {
 //Create function: save to storage and return Post model
 func (s *Storage) Create(p model.Post) (model.Post, error) {
 	s.IdStor++
+	if p.Message == "" {
+		return model.Post{}, errors.New("The message is empty")
+	}
 	p.Id = s.IdStor
 	t := time.Now()
 	t.Format("2006-01-02 15:04:05")
@@ -42,22 +46,30 @@ func (s *Storage) Get(Id int) (model.Post, error) {
 }
 
 //GetAll function: return slice with all Posts in the storage
-func (s *Storage) GetAll() ([]model.Post, error) {
-	p := []model.Post{}
+func (s *Storage) GetAll() []model.Post {
+	var p []model.Post
 	for _, v := range s.Storage {
 		p = append(p, v)
 	}
-	return p, nil
+	return p
 }
 
 //Update function: find in storage requested Id and update it according the data from request
 func (s *Storage) Update(p model.Post) (model.Post, error) {
+	_, ok := s.Storage[s.IdStor]
+	if !ok {
+		return model.Post{}, errors.New("Post cann't be updated - Id not found")
+	}
 	s.Storage[s.IdStor] = p
 	return p, nil
 }
 
 //Delete function: find in storage requested Id and delete it from storage
 func (s *Storage) Delete(IdStor int) (string, error) {
+	_, ok := s.Storage[s.IdStor]
+	if !ok {
+		return "", errors.New("Post cann't be deleted - Id not found")
+	}
 	delete(s.Storage, IdStor)
 	str := "Post deleted"
 	return str, nil

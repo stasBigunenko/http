@@ -37,8 +37,13 @@ func New(s *storage.Storage) *postHandler {
 func (h *postHandler) CreatePost(w http.ResponseWriter, r *http.Request) {
 	var post model.Post
 	json.NewDecoder(r.Body).Decode(&post)
-	res, _ := h.Services.CreateId(&post)
+	res, err := h.Services.CreateId(&post)
+	if err != nil {
+		w.Write([]byte("could not create posts"))
+		return
+	}
 	json.NewEncoder(w).Encode(&res)
+
 }
 
 func (h *postHandler) GetPost(w http.ResponseWriter, r *http.Request) {
@@ -46,24 +51,40 @@ func (h *postHandler) GetPost(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	key := vars["Id"]
 	idInt, _ := strconv.Atoi(key)
-	res, _ := h.Services.GetId(idInt)
+	res, err := h.Services.GetId(idInt)
+	if err != nil {
+		w.Write([]byte("could not get post"))
+		return
+	}
 	json.NewEncoder(w).Encode(&res)
 }
 func (h *postHandler) GetAll(w http.ResponseWriter, r *http.Request) {
-	res, _ := h.Services.GetALL()
+	res, err := h.Services.GetALL()
+	if err != nil {
+		w.Write([]byte("could not get all posts"))
+		return
+	}
 	json.NewEncoder(w).Encode(&res)
 }
 
 func (h *postHandler) DeletePost(w http.ResponseWriter, r *http.Request) {
 	id := mux.Vars(r)
 	idInt, _ := strconv.Atoi(id["id"])
-	res, _ := h.Services.DeleteId(idInt)
+	res, err := h.Services.DeleteId(idInt)
+	if err != nil {
+		w.Write([]byte("could not delete post"))
+		return
+	}
 	json.NewEncoder(w).Encode(&res)
 }
 
 func (h *postHandler) UpdatePost(w http.ResponseWriter, r *http.Request) {
 	var post model.Post
 	json.NewDecoder(r.Body).Decode(&post)
-	res, _ := h.Services.UpdateId(&post)
+	res, err := h.Services.UpdateId(&post)
+	if err != nil {
+		w.Write([]byte("could not update post"))
+		return
+	}
 	json.NewEncoder(w).Encode(&res)
 }
