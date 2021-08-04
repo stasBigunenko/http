@@ -2,7 +2,6 @@ package inMemory
 
 import (
 	"errors"
-	_ "errors"
 	"fmt"
 	"src/http/pkg/model"
 	"time"
@@ -21,10 +20,11 @@ func New() *Storage {
 	}
 }
 
-//Create function: save to storage and return Post model
+//Create function: save received post to the storage and return post
 func (s *Storage) Create(p model.Post) (model.Post, error) {
 	s.IdStor++
 	if p.Message == "" {
+		s.IdStor--
 		return model.Post{}, errors.New("The message is empty")
 	}
 	p.Id = s.IdStor
@@ -35,8 +35,9 @@ func (s *Storage) Create(p model.Post) (model.Post, error) {
 	return p, nil
 }
 
-//Get function: find in storage requested Id and return Post model with the same Id
+//Get function: find in storage requested Id and return Post with the same Id
 func (s *Storage) Get(Id int) (model.Post, error) {
+	fmt.Println("Doesn't work") //debugger
 	var p model.Post
 	p, ok := s.Storage[Id]
 	if !ok {
@@ -54,7 +55,7 @@ func (s *Storage) GetAll() []model.Post {
 	return p
 }
 
-//Update function: find in storage requested Id and update it according the data from request
+//Update function: find in the storage requested Id and update it according the data from request
 func (s *Storage) Update(p model.Post) (model.Post, error) {
 	_, ok := s.Storage[s.IdStor]
 	if !ok {
@@ -64,7 +65,7 @@ func (s *Storage) Update(p model.Post) (model.Post, error) {
 	return p, nil
 }
 
-//Delete function: find in storage requested Id and delete it from storage
+//Delete function: find in the storage requested Id and delete it from storage
 func (s *Storage) Delete(IdStor int) (string, error) {
 	_, ok := s.Storage[s.IdStor]
 	if !ok {
