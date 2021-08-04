@@ -48,8 +48,8 @@ func (s *Store) DeleteId(id int) (string, error) {
 	return str, nil
 }
 
-func (s *Store) UpdateId(post *model.Post) (*model.Post, error) {
-	postUpdate, err := s.Store.Update(*post)
+func (s *Store) UpdateId(id int, post *model.Post) (*model.Post, error) {
+	postUpdate, err := s.Store.Update(id, *post)
 	if err != nil {
 		return nil, errors.New("Couldn't update post")
 	}

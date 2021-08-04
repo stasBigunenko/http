@@ -36,12 +36,12 @@ func (s *Storage) Create(p model.Post) (model.Post, error) {
 }
 
 //Get function: find in storage requested Id and return Post with the same Id
-func (s *Storage) Get(Id int) (model.Post, error) {
+func (s *Storage) Get(id int) (model.Post, error) {
 	fmt.Println("Doesn't work") //debugger
 	var p model.Post
-	p, ok := s.Storage[Id]
+	p, ok := s.Storage[id]
 	if !ok {
-		return model.Post{}, fmt.Errorf("Post with Id %d not found", Id)
+		return model.Post{}, fmt.Errorf("Post with Id %d not found", id)
 	}
 	return p, nil
 }
@@ -56,22 +56,22 @@ func (s *Storage) GetAll() []model.Post {
 }
 
 //Update function: find in the storage requested Id and update it according the data from request
-func (s *Storage) Update(p model.Post) (model.Post, error) {
-	_, ok := s.Storage[s.IdStor]
+func (s *Storage) Update(id int, p model.Post) (model.Post, error) {
+	_, ok := s.Storage[id]
 	if !ok {
 		return model.Post{}, errors.New("Post cann't be updated - Id not found")
 	}
-	s.Storage[s.IdStor] = p
+	s.Storage[id] = p
 	return p, nil
 }
 
 //Delete function: find in the storage requested Id and delete it from storage
-func (s *Storage) Delete(IdStor int) (string, error) {
-	_, ok := s.Storage[s.IdStor]
+func (s *Storage) Delete(id int) (string, error) {
+	_, ok := s.Storage[id]
 	if !ok {
 		return "", errors.New("Post cann't be deleted - Id not found")
 	}
-	delete(s.Storage, IdStor)
+	delete(s.Storage, id)
 	str := "Post deleted"
 	return str, nil
 }

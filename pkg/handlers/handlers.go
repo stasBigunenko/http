@@ -12,6 +12,7 @@ import (
 )
 
 //Handlers with the CRUD functions
+//decoding requests from []byte and coding response in []byte
 type postHandler struct {
 	Services services.Store
 }
@@ -35,11 +36,12 @@ func New(s *storage.Storage) *postHandler {
 }
 
 func (h *postHandler) CreatePost(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("It is working!!!") //debug not working!
 	var post model.Post
 	json.NewDecoder(r.Body).Decode(&post)
 	res, err := h.Services.CreateId(&post)
 	if err != nil {
-		w.Write([]byte("could not create posts"))
+		w.Write([]byte("could not create empty post"))
 		return
 	}
 	json.NewEncoder(w).Encode(&res)
@@ -68,6 +70,7 @@ func (h *postHandler) GetAll(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *postHandler) DeletePost(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("It is working!!!") //debug not working!
 	id := mux.Vars(r)
 	idInt, _ := strconv.Atoi(id["id"])
 	res, err := h.Services.DeleteId(idInt)
@@ -79,9 +82,12 @@ func (h *postHandler) DeletePost(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *postHandler) UpdatePost(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("It is working!!!") //debug not working!
 	var post model.Post
+	id := mux.Vars(r)
+	idInt, _ := strconv.Atoi(id["id"])
 	json.NewDecoder(r.Body).Decode(&post)
-	res, err := h.Services.UpdateId(&post)
+	res, err := h.Services.UpdateId(idInt, &post)
 	if err != nil {
 		w.Write([]byte("could not update post"))
 		return
