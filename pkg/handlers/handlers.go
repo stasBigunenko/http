@@ -11,6 +11,7 @@ import (
 	"strconv"
 )
 
+//Handlers with the CRUD functions
 type postHandler struct {
 	Services services.Store
 }
@@ -41,7 +42,7 @@ func (h *postHandler) CreatePost(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *postHandler) GetPost(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("Pe4ataet") //debug not working
+	fmt.Println("It is working!!!") //debug not working!
 	vars := mux.Vars(r)
 	key := vars["Id"]
 	idInt, _ := strconv.Atoi(key)

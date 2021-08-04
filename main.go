@@ -7,6 +7,7 @@ import (
 	"src/http/pkg/handlers"
 )
 
+//Start server and initialize server's config
 func main() {
 	server := cmd.New()
 	server.ServerConfig()

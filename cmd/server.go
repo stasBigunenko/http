@@ -6,14 +6,14 @@ import (
 	"src/http/storage/inMemory"
 )
 
+//Server config
 type Server struct {
 	Config  *config.Config
 	Storage storage.Storage
 }
 
 func New() *Server {
-	return &Server{
-	}
+	return &Server{}
 }
 
 func (s *Server) ServerConfig() error {
@@ -25,4 +25,3 @@ func (s *Server) StorageServer() error {
 	s.Storage = inMemory.New()
 	return nil
 }
-
