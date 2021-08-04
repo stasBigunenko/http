@@ -58,6 +58,7 @@ func (s *Storage) GetAll() []model.Post {
 //Update function: find in the storage requested Id and update it according the data from request
 func (s *Storage) Update(id int, p model.Post) (model.Post, error) {
 	_, ok := s.Storage[id]
+	fmt.Println(s.Storage[id])
 	if !ok {
 		return model.Post{}, errors.New("Post cann't be updated - Id not found")
 	}

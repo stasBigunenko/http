@@ -2,7 +2,6 @@ package handlers
 
 import (
 	"encoding/json"
-	"fmt"
 	"github.com/gorilla/mux"
 	"net/http"
 	"src/http/pkg/model"
@@ -20,10 +19,10 @@ type postHandler struct {
 func (h *postHandler) NewRouter() *mux.Router {
 	r := mux.NewRouter()
 	r.HandleFunc("/post", h.CreatePost).Methods("POST")
-	r.HandleFunc("/post/{Id}", h.GetPost).Methods("GET")
+	r.HandleFunc("/post", h.GetPost).Methods("GET")
 	r.HandleFunc("/posts", h.GetAll).Methods("GET")
-	r.HandleFunc("/post/{Id}", h.DeletePost).Methods("DELETE")
-	r.HandleFunc("/post/{Id}", h.UpdatePost).Methods("PUT")
+	r.HandleFunc("/post", h.DeletePost).Methods("DELETE")
+	r.HandleFunc("/post", h.UpdatePost).Methods("PUT")
 
 	return r
 }
@@ -48,11 +47,8 @@ func (h *postHandler) CreatePost(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *postHandler) GetPost(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("It is working!!!") //debug not working!
-	vars := mux.Vars(r)
-	key := vars["Id"]
-	idInt, _ := strconv.Atoi(key)
-	res, err := h.Services.GetId(idInt)
+	id, err := strconv.Atoi(r.URL.Query().Get("Id"))
+	res, err := h.Services.GetId(id)
 	if err != nil {
 		w.Write([]byte("could not get post"))
 		return
@@ -69,10 +65,8 @@ func (h *postHandler) GetAll(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *postHandler) DeletePost(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("It is working!!!") //debug not working!
-	id := mux.Vars(r)
-	idInt, _ := strconv.Atoi(id["id"])
-	res, err := h.Services.DeleteId(idInt)
+	id, err := strconv.Atoi(r.URL.Query().Get("Id"))
+	res, err := h.Services.DeleteId(id)
 	if err != nil {
 		w.Write([]byte("could not delete post"))
 		return
@@ -81,12 +75,10 @@ func (h *postHandler) DeletePost(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *postHandler) UpdatePost(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("It is working!!!") //debug not working!
 	var post model.Post
-	id := mux.Vars(r)
-	idInt, _ := strconv.Atoi(id["id"])
+	id, err := strconv.Atoi(r.URL.Query().Get("Id"))
 	json.NewDecoder(r.Body).Decode(&post)
-	res, err := h.Services.UpdateId(idInt, &post)
+	res, err := h.Services.UpdateId(id, &post)
 	if err != nil {
 		w.Write([]byte("could not update post"))
 		return
