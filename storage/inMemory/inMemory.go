@@ -37,7 +37,6 @@ func (s *Storage) Create(p model.Post) (model.Post, error) {
 
 //Get function: find in storage requested Id and return Post with the same Id
 func (s *Storage) Get(id int) (model.Post, error) {
-	fmt.Println("Doesn't work") //debugger
 	var p model.Post
 	p, ok := s.Storage[id]
 	if !ok {
@@ -56,13 +55,13 @@ func (s *Storage) GetAll() []model.Post {
 }
 
 //Update function: find in the storage requested Id and update it according the data from request
-func (s *Storage) Update(id int, p model.Post) (model.Post, error) {
-	_, ok := s.Storage[id]
-	fmt.Println(s.Storage[id])
+func (s *Storage) Update(p model.Post) (model.Post, error) {
+	_, ok := s.Storage[p.Id]
+	fmt.Println(p.Id) //debugger
 	if !ok {
 		return model.Post{}, errors.New("Post cann't be updated - Id not found")
 	}
-	s.Storage[id] = p
+	s.Storage[p.Id] = p
 	return p, nil
 }
 

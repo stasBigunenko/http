@@ -76,9 +76,8 @@ func (h *postHandler) DeletePost(w http.ResponseWriter, r *http.Request) {
 
 func (h *postHandler) UpdatePost(w http.ResponseWriter, r *http.Request) {
 	var post model.Post
-	id, err := strconv.Atoi(r.URL.Query().Get("Id"))
 	json.NewDecoder(r.Body).Decode(&post)
-	res, err := h.Services.UpdateId(id, &post)
+	res, err := h.Services.UpdateId(&post)
 	if err != nil {
 		w.Write([]byte("could not update post"))
 		return
