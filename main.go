@@ -4,7 +4,7 @@ import (
 	"log"
 	"net/http"
 	"src/http/cmd"
-	"src/http/pkg/Handlers"
+	"src/http/pkg/handlers"
 )
 
 func main() {
@@ -12,7 +12,7 @@ func main() {
 	server.ServerConfig()
 	server.StorageServer()
 	store := server.Storage
-	handler := Handlers.New(&store)
+	handler := handlers.New(&store)
 	newRouter := handler.NewRouter()
 	log.Fatal(http.ListenAndServe(server.Config.Port, newRouter))
 }
