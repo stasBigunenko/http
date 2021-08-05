@@ -10,5 +10,5 @@ type Storage interface {
 	Get(int) (model.Post, error)
 	GetAll() []model.Post
 	Update(model.Post) (model.Post, error)
-	Delete(int) (string, error)
+	Delete(int) error
 }

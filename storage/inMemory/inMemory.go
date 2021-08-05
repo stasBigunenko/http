@@ -8,6 +8,7 @@ import (
 )
 
 //Storage functions
+
 type Storage struct {
 	Storage map[int]model.Post
 	IdStor  int
@@ -20,18 +21,22 @@ func New() *Storage {
 	}
 }
 
-//Create function: save received post to the storage and return post
+//Create function: save received post to the storage and return post struct
 func (s *Storage) Create(p model.Post) (model.Post, error) {
 	s.IdStor++
+	if p.Author == "" {
+		s.IdStor--
+		return model.Post{}, errors.New("The author is empty.")
+	}
 	if p.Message == "" {
 		s.IdStor--
-		return model.Post{}, errors.New("The message is empty")
+		return model.Post{}, errors.New("The message is empty.")
 	}
 	p.Id = s.IdStor
 	t := time.Now()
 	t.Format("2006-01-02 15:04:05")
 	p.Time = t
-	s.Storage[s.IdStor] = p
+	s.Storage[p.Id] = p
 	return p, nil
 }
 
@@ -45,7 +50,7 @@ func (s *Storage) Get(id int) (model.Post, error) {
 	return p, nil
 }
 
-//GetAll function: return slice with all Posts in the storage
+//GetAll function: return slice with all Posts in the Storage
 func (s *Storage) GetAll() []model.Post {
 	var p []model.Post
 	for _, v := range s.Storage {
@@ -54,24 +59,31 @@ func (s *Storage) GetAll() []model.Post {
 	return p
 }
 
-//Update function: find in the storage requested Id and update it according the data from request
+//Update function: find in the Storage requested Id and update it according the data from request
 func (s *Storage) Update(p model.Post) (model.Post, error) {
 	_, ok := s.Storage[p.Id]
-	fmt.Println(p.Id) //debugger
 	if !ok {
 		return model.Post{}, errors.New("Post cann't be updated - Id not found")
 	}
+	if p.Author == "" {
+		p.Author = s.Storage[p.Id].Author
+	}
+	if p.Message == "" {
+		p.Message = s.Storage[p.Id].Message
+	}
+	t := time.Now()
+	t.Format("2006-01-02 15:04:05")
+	p.Time = t
 	s.Storage[p.Id] = p
 	return p, nil
 }
 
-//Delete function: find in the storage requested Id and delete it from storage
-func (s *Storage) Delete(id int) (string, error) {
+//Delete function: find in the storage requested Id and delete it from Storage
+func (s *Storage) Delete(id int) error {
 	_, ok := s.Storage[id]
 	if !ok {
-		return "", errors.New("Post cann't be deleted - Id not found")
+		return errors.New("Post cann't be deleted - Id not found")
 	}
 	delete(s.Storage, id)
-	str := "Post deleted"
-	return str, nil
+	return nil
 }

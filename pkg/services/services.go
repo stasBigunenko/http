@@ -2,11 +2,13 @@ package services
 
 import (
 	"errors"
+	"fmt"
 	"src/http/pkg/model"
 	"src/http/storage"
 )
 
-//Service's functions which are working directly with storage
+//Service's functions which are working directly with Storage's functions
+
 type Store struct {
 	Store storage.Storage
 }
@@ -40,11 +42,11 @@ func (s *Store) GetALL() (*[]model.Post, error) {
 }
 
 func (s *Store) DeleteId(id int) (string, error) {
-	_, err := s.Store.Delete(id)
+	err := s.Store.Delete(id)
 	if err != nil {
 		return "", errors.New("Couldn't get posts")
 	}
-	str := "Post deleted"
+	str := fmt.Sprintf("The post with id= %d have been deleted.", id)
 	return str, nil
 }
 
