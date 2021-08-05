@@ -1,4 +1,4 @@
-simpler HTTP server
+simple HTTP server
 
 The server automatically will connect with http connection on localhost (on 127.0.0.1:8080). If you want to change any of these values you can use enviroment variables "PORT" and/or "HOST".
 
