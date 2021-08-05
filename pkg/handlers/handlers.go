@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/gorilla/mux"
+	"log"
 	"net/http"
 	"src/http/pkg/model"
 	"src/http/pkg/services"
@@ -16,6 +17,14 @@ type postHandler struct {
 	Services services.Store
 }
 
+// Simple middleware function which write log in the terminal requested URI
+func simpleLog(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		log.Println(r.RequestURI)
+		next.ServeHTTP(w, r)
+	})
+}
+
 func (h *postHandler) NewRouter() *mux.Router {
 	r := mux.NewRouter()
 	r.HandleFunc("/post/", h.CreatePost).Methods("POST")
@@ -23,7 +32,7 @@ func (h *postHandler) NewRouter() *mux.Router {
 	r.HandleFunc("/posts", h.GetAll).Methods("GET")
 	r.HandleFunc("/post/{id}", h.DeletePost).Methods("DELETE")
 	r.HandleFunc("/post/{id}", h.UpdatePost).Methods("PUT")
-
+	r.Use(simpleLog)
 	return r
 }
 
