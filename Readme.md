@@ -3,12 +3,7 @@ simple HTTP server
 The server automatically will connect with http connection on localhost (on 127.0.0.1:8080). If you want to change any of these values you can use enviroment variables "PORT" and/or "HOST".
 
 The server working with Post struct in json format.
-Post {
-    Id: int
-    Author: string
-    Message: string
-    Time: time according your system
-}
+Post {"Id": "int", "Author": "string", "Message": "string", "Time": "time according your system"}
 
 The server response on the simple request as POST, GET, PUT and DELETE.
 
