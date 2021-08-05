@@ -17,10 +17,12 @@ type postHandler struct {
 	Services services.Store
 }
 
-// Simple middleware function which write log in the terminal requested URI
+// Simple middleware function which write log in the terminal requested Method and URI
 func simpleLog(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		log.Println(r.Method)
 		log.Println(r.RequestURI)
+		fmt.Println("-------------")
 		next.ServeHTTP(w, r)
 	})
 }
