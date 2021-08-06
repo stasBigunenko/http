@@ -4,7 +4,6 @@ import (
 	"errors"
 	"fmt"
 	"src/http/pkg/model"
-	"time"
 )
 
 //Storage functions
@@ -33,9 +32,9 @@ func (s *Storage) Create(p model.Post) (model.Post, error) {
 		return model.Post{}, errors.New("The message is empty.")
 	}
 	p.Id = s.IdStor
-	t := time.Now()
-	t.Format(time.RFC1123)
-	p.Time = t
+	//t := time.Now()
+	//t.Format(time.RFC1123)
+	//p.Time = t
 	s.Storage[p.Id] = p
 	return p, nil
 }
@@ -73,9 +72,9 @@ func (s *Storage) Update(p model.Post) (model.Post, error) {
 	if p.Message == "" {
 		p.Message = s.Storage[p.Id].Message
 	}
-	t := time.Now()
-	t.Format(time.RFC1123)
-	p.Time = t
+	//t := time.Now()
+	//t.Format(time.RFC1123)
+	//p.Time = t
 	s.Storage[p.Id] = p
 	return p, nil
 }

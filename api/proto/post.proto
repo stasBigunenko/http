@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package api;
+
+service Post {
+    rpc GetPost(PostId) returns (Post) {}
+    rpc GetPosts() returns (stream Post) {}
+    rpc CreatePost(NewPost) returns (Post) {}
+    rpc UpdatePost(PostObject) returns (Post) {}
+    rpc DeletePost(PostId) returns (PostId) {}
+}
+
