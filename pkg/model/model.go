@@ -5,6 +5,7 @@ import (
 )
 
 //Post model struct
+
 type Post struct {
 	Id      int       `json:"Id"`
 	Author  string    `json:"Author"`

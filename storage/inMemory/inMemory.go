@@ -63,7 +63,9 @@ func (s *Storage) GetAll() []model.Post {
 func (s *Storage) Update(p model.Post) (model.Post, error) {
 	_, ok := s.Storage[p.Id]
 	if !ok {
-		return model.Post{}, errors.New("Post cann't be updated - Id not found")
+		//s.Create(p)
+		//return p, nil
+		return model.Post{}, fmt.Errorf("Post cann't be updated. The post doesn't exist")
 	}
 	if p.Author == "" {
 		p.Author = s.Storage[p.Id].Author

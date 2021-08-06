@@ -5,6 +5,7 @@ import (
 )
 
 //Storage Interface
+
 type Storage interface {
 	Create(model.Post) (model.Post, error)
 	Get(int) (model.Post, error)
