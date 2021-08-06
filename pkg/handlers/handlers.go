@@ -50,7 +50,7 @@ func New(s *storage.Storage) *postHandler {
 func (h *postHandler) CreatePost(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	if r.Method != http.MethodPost {
-		//w.WriteHeader(405)
+		w.WriteHeader(405)
 		w.Write([]byte("Method Not Allowed"))
 		return
 	}
