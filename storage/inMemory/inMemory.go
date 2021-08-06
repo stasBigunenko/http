@@ -34,7 +34,7 @@ func (s *Storage) Create(p model.Post) (model.Post, error) {
 	}
 	p.Id = s.IdStor
 	t := time.Now()
-	t.Format("2006-01-02 15:04:05")
+	t.Format(time.RFC1123)
 	p.Time = t
 	s.Storage[p.Id] = p
 	return p, nil
@@ -72,7 +72,7 @@ func (s *Storage) Update(p model.Post) (model.Post, error) {
 		p.Message = s.Storage[p.Id].Message
 	}
 	t := time.Now()
-	t.Format("2006-01-02 15:04:05")
+	t.Format(time.RFC1123)
 	p.Time = t
 	s.Storage[p.Id] = p
 	return p, nil
