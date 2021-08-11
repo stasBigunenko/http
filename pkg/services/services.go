@@ -10,6 +10,9 @@ import (
 	"strconv"
 )
 
+// FilePath :name and path of the *.csv file
+const FilePath = "./static/result.csv"
+
 //Service's functions which are working directly with Storage's functions
 
 type Store struct {
@@ -70,7 +73,7 @@ func (s *Store) CreatePost(post *model.Post) error {
 
 //Upload function: open the file and save all posts in memory one by one
 func (s *Store) Upload() error {
-	csvFile, err := os.OpenFile("./static/result.csv", os.O_RDONLY, 0666)
+	csvFile, err := os.OpenFile(FilePath, os.O_RDONLY, 0666)
 	if err != nil {
 		return err
 	}
@@ -103,7 +106,7 @@ func (s *Store) Upload() error {
 
 //Download function: create a *.csv file with all our posts which have been saved in memory
 func (s *Store) Download(res []model.Post) error {
-	csvFile, err := os.Create("./static/result.csv")
+	csvFile, err := os.Create(FilePath)
 	if err != nil {
 		return err
 	}

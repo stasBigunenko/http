@@ -21,6 +21,13 @@ type PostHandler struct {
 	services *services.Store
 }
 
+func New(router *mux.Router, stor storage.Storage) *PostHandler {
+	return &PostHandler{
+		router:   router,
+		services: services.NewStore(stor),
+	}
+}
+
 //Simple middleware function which write log in the terminal requested Method and URI
 func simpleLog(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -63,13 +70,6 @@ func (h *PostHandler) Routes() {
 	h.router.HandleFunc("/post/upload", processTimeout(h.UploadPost, 5*time.Second)).Methods("POST")
 	h.router.HandleFunc("/post/download", processTimeout(h.DownloadPost, 5*time.Second)).Methods("POST")
 	h.router.Use(simpleLog)
-}
-
-func New(router *mux.Router, stor storage.Storage) *PostHandler {
-	return &PostHandler{
-		router:   router,
-		services: services.NewStore(stor),
-	}
 }
 
 //CreatePost Create post with decoding request and encoding response

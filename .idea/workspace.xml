@@ -4,12 +4,12 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b5978d65-be42-4398-bbc3-d4985a9977b2" name="Default Changelist" comment="Changed Server struct and main file. Added shutdown timeout">
+    <list default="true" id="b5978d65-be42-4398-bbc3-d4985a9977b2" name="Default Changelist" comment="Fixed some issues">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api/proto/post.proto" beforeDir="false" afterPath="$PROJECT_DIR$/api/proto/post.proto" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmd/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/server.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/result.csv" beforeDir="false" afterPath="$PROJECT_DIR$/static/result.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/handlers/handlers.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/handlers/handlers.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/services/services.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/services/services.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -138,7 +138,8 @@
     <MESSAGE value="Added some headers errors, refactored time format" />
     <MESSAGE value="Added some features, errors, process time" />
     <MESSAGE value="Changed Server struct and main file. Added shutdown timeout" />
-    <option name="LAST_COMMIT_MESSAGE" value="Changed Server struct and main file. Added shutdown timeout" />
+    <MESSAGE value="Fixed some issues" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed some issues" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>

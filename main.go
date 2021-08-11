@@ -8,7 +8,7 @@ import (
 	"src/http/cmd"
 )
 
-//Start server and initialize server's config
+//Start server and initialize server's config, storage, router
 func main() {
 	server := cmd.New()
 	err := server.ServerConfig()
