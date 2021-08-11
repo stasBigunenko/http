@@ -1,7 +1,10 @@
 package main
 
 import (
+	"context"
 	"log"
+	"os"
+	"os/signal"
 	"src/http/cmd"
 )
 
@@ -19,8 +22,18 @@ func main() {
 	}
 	server.ConfigRoutes()
 
-	err = server.Run()
-	if err != nil {
-		log.Fatal(err)
+	c := make(chan os.Signal, 1)
+	signal.Notify(c, os.Interrupt)
+
+	ctx, cancel := context.WithCancel(context.Background())
+
+	go func() {
+		oscall := <-c
+		log.Printf("system call:%+v", oscall)
+		cancel()
+	}()
+
+	if err := server.Run(ctx); err != nil {
+		log.Printf("failed to serve:+%v\n", err)
 	}
 }

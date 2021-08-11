@@ -44,7 +44,7 @@ func (s *Server) ConfigRoutes() {
 	postroutes.Routes()
 }
 
-func (s *Server) Run() error {
+func (s *Server) Run(ctx context.Context) error {
 	log.Println("Server is running on " + s.config.Port)
 	srv := &http.Server{
 		Addr:    s.config.Port,
