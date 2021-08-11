@@ -6,5 +6,8 @@ type Post struct {
 	Id      int    `json:"Id"`
 	Author  string `json:"Author"`
 	Message string `json:"Message"`
-	//Time    time.Time `json:"Time"`
+}
+
+type MyResponse struct {
+	Msg string `json:"msg"`
 }

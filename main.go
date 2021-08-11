@@ -12,8 +12,8 @@ func main() {
 	server := cmd.New()
 	server.ServerConfig()
 	server.StorageServer()
-	store := server.Storage
-	handler := handlers.New(&store)
+	handler := handlers.New(&server.Storage)
 	newRouter := handler.NewRouter()
+
 	log.Fatal(http.ListenAndServe(server.Config.Port, newRouter))
 }

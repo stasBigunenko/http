@@ -12,4 +12,5 @@ type Storage interface {
 	GetAll() []model.Post
 	Update(model.Post) (model.Post, error)
 	Delete(int) error
+	CreateFromFile(model.Post) error
 }

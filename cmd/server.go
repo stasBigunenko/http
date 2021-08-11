@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"github.com/gorilla/mux"
 	"src/http/cmd/config"
 	"src/http/storage"
 	"src/http/storage/inMemory"
@@ -10,6 +11,7 @@ import (
 type Server struct {
 	Config  *config.Config
 	Storage storage.Storage
+	Router  *mux.Router
 }
 
 func New() *Server {

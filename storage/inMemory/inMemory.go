@@ -25,16 +25,13 @@ func (s *Storage) Create(p model.Post) (model.Post, error) {
 	s.IdStor++
 	if p.Author == "" {
 		s.IdStor--
-		return model.Post{}, errors.New("The author is empty.")
+		return model.Post{}, errors.New("author is empty")
 	}
 	if p.Message == "" {
 		s.IdStor--
-		return model.Post{}, errors.New("The message is empty.")
+		return model.Post{}, errors.New("message is empty")
 	}
 	p.Id = s.IdStor
-	//t := time.Now()
-	//t.Format(time.RFC1123)
-	//p.Time = t
 	s.Storage[p.Id] = p
 	return p, nil
 }
@@ -44,7 +41,7 @@ func (s *Storage) Get(id int) (model.Post, error) {
 	var p model.Post
 	p, ok := s.Storage[id]
 	if !ok {
-		return model.Post{}, fmt.Errorf("Post with Id %d not found", id)
+		return model.Post{}, fmt.Errorf("post with Id %d not found", id)
 	}
 	return p, nil
 }
@@ -62,9 +59,7 @@ func (s *Storage) GetAll() []model.Post {
 func (s *Storage) Update(p model.Post) (model.Post, error) {
 	_, ok := s.Storage[p.Id]
 	if !ok {
-		//s.Create(p)
-		//return p, nil
-		return model.Post{}, fmt.Errorf("Post cann't be updated. The post doesn't exist")
+		return model.Post{}, fmt.Errorf("post cann't be updated. The post doesn't exist")
 	}
 	if p.Author == "" {
 		p.Author = s.Storage[p.Id].Author
@@ -72,9 +67,7 @@ func (s *Storage) Update(p model.Post) (model.Post, error) {
 	if p.Message == "" {
 		p.Message = s.Storage[p.Id].Message
 	}
-	//t := time.Now()
-	//t.Format(time.RFC1123)
-	//p.Time = t
+
 	s.Storage[p.Id] = p
 	return p, nil
 }
@@ -83,8 +76,23 @@ func (s *Storage) Update(p model.Post) (model.Post, error) {
 func (s *Storage) Delete(id int) error {
 	_, ok := s.Storage[id]
 	if !ok {
-		return errors.New("Post cann't be deleted - Id not found")
+		return errors.New("post can't be deleted - Id not found")
 	}
 	delete(s.Storage, id)
+	return nil
+}
+
+func (s *Storage) CreateFromFile(p model.Post) error {
+	s.IdStor = p.Id
+	if p.Author == "" {
+		s.IdStor--
+		return errors.New("author is empty")
+	}
+	if p.Message == "" {
+		s.IdStor--
+		return errors.New("message is empty")
+	}
+
+	s.Storage[p.Id] = p
 	return nil
 }
