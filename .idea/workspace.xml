@@ -4,18 +4,13 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b5978d65-be42-4398-bbc3-d4985a9977b2" name="Default Changelist" comment="Changes the struct">
+    <list default="true" id="b5978d65-be42-4398-bbc3-d4985a9977b2" name="Default Changelist" comment="Added some features, errors, process time">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api/proto/post.proto" beforeDir="false" afterPath="$PROJECT_DIR$/api/proto/post.proto" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmd/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/server.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pkg/handlers/handlers.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/handlers/handlers.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/model/model.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/model/model.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/services/services.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/services/services.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/inMemory/inMemory.go" beforeDir="false" afterPath="$PROJECT_DIR$/storage/inMemory/inMemory.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/storage.go" beforeDir="false" afterPath="$PROJECT_DIR$/storage/storage.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/result.csv" beforeDir="false" afterPath="$PROJECT_DIR$/static/result.csv" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -142,7 +137,8 @@
     <MESSAGE value="Added simple middleware log" />
     <MESSAGE value="Added simple middleware log some fixes" />
     <MESSAGE value="Added some headers errors, refactored time format" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added some headers errors, refactored time format" />
+    <MESSAGE value="Added some features, errors, process time" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added some features, errors, process time" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>

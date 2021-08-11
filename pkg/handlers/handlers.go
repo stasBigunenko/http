@@ -16,8 +16,9 @@ import (
 
 //Handlers with the CRUD functions
 
-type postHandler struct {
-	Services services.Store
+type PostHandler struct {
+	router   *mux.Router
+	services *services.Store
 }
 
 //Simple middleware function which write log in the terminal requested Method and URI
@@ -53,28 +54,26 @@ func processTimeout(h http.HandlerFunc, duration time.Duration) http.HandlerFunc
 	}
 }
 
-func (h *postHandler) NewRouter() *mux.Router {
-	r := mux.NewRouter()
-	r.HandleFunc("/post/", processTimeout(h.CreatePost, 5*time.Second)).Methods("POST")
-	r.HandleFunc("/post/{id}", processTimeout(h.GetPost, 5*time.Second)).Methods("GET")
-	r.HandleFunc("/posts", processTimeout(h.GetAll, 5*time.Second)).Methods("GET")
-	r.HandleFunc("/post/{id}", processTimeout(h.DeletePost, 5*time.Second)).Methods("DELETE")
-	r.HandleFunc("/post/{id}", processTimeout(h.UpdatePost, 5*time.Second)).Methods("PUT")
-	r.HandleFunc("/post/upload", processTimeout(h.UploadPost, 5*time.Second)).Methods("POST")
-	r.HandleFunc("/post/download", processTimeout(h.DownloadPost, 5*time.Second)).Methods("POST")
-	r.Use(simpleLog)
-	return r
+func (h *PostHandler) Routes() {
+	h.router.HandleFunc("/post/", processTimeout(h.CreatePost, 5*time.Second)).Methods("POST")
+	h.router.HandleFunc("/post/{id}", processTimeout(h.GetPost, 5*time.Second)).Methods("GET")
+	h.router.HandleFunc("/posts", processTimeout(h.GetAll, 5*time.Second)).Methods("GET")
+	h.router.HandleFunc("/post/{id}", processTimeout(h.DeletePost, 5*time.Second)).Methods("DELETE")
+	h.router.HandleFunc("/post/{id}", processTimeout(h.UpdatePost, 5*time.Second)).Methods("PUT")
+	h.router.HandleFunc("/post/upload", processTimeout(h.UploadPost, 5*time.Second)).Methods("POST")
+	h.router.HandleFunc("/post/download", processTimeout(h.DownloadPost, 5*time.Second)).Methods("POST")
+	h.router.Use(simpleLog)
 }
 
-func New(s *storage.Storage) *postHandler {
-	ps := services.NewStore(*s)
-	return &postHandler{
-		*ps,
+func New(router *mux.Router, stor storage.Storage) *PostHandler {
+	return &PostHandler{
+		router:   router,
+		services: services.NewStore(stor),
 	}
 }
 
 //CreatePost Create post with decoding request and encoding response
-func (h *postHandler) CreatePost(w http.ResponseWriter, r *http.Request) {
+func (h *PostHandler) CreatePost(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	if r.Method != http.MethodPost {
 		msg := services.Response("Method Not Allowed")
@@ -84,7 +83,7 @@ func (h *postHandler) CreatePost(w http.ResponseWriter, r *http.Request) {
 	}
 	var post model.Post
 	json.NewDecoder(r.Body).Decode(&post)
-	res, err := h.Services.CreateId(&post)
+	res, err := h.services.CreateId(&post)
 	if err != nil {
 		msg := services.Response("Could not create empty post")
 		w.WriteHeader(406)
@@ -96,7 +95,7 @@ func (h *postHandler) CreatePost(w http.ResponseWriter, r *http.Request) {
 }
 
 //GetPost Get post by Id with decoding request and encoding response
-func (h *postHandler) GetPost(w http.ResponseWriter, r *http.Request) {
+func (h *PostHandler) GetPost(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	if r.Method != http.MethodGet {
 		msg := services.Response("Method Not Allowed")
@@ -114,7 +113,7 @@ func (h *postHandler) GetPost(w http.ResponseWriter, r *http.Request) {
 		w.Write(msg)
 		return
 	}
-	res, err := h.Services.GetId(id)
+	res, err := h.services.GetId(id)
 	if err != nil {
 		msg := services.Response("This id doesn't exist")
 		w.WriteHeader(404)
@@ -126,7 +125,7 @@ func (h *postHandler) GetPost(w http.ResponseWriter, r *http.Request) {
 }
 
 //GetAll posts by Id with decoding request and encoding response
-func (h *postHandler) GetAll(w http.ResponseWriter, r *http.Request) {
+func (h *PostHandler) GetAll(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	if r.Method != http.MethodGet {
 		msg := services.Response("Method Not Allowed")
@@ -134,7 +133,7 @@ func (h *postHandler) GetAll(w http.ResponseWriter, r *http.Request) {
 		w.Write(msg)
 		return
 	}
-	res, err := h.Services.GetALL()
+	res, err := h.services.GetALL()
 	if err != nil {
 		msg := services.Response("Bad request")
 		w.WriteHeader(404)
@@ -154,7 +153,7 @@ func (h *postHandler) GetAll(w http.ResponseWriter, r *http.Request) {
 }
 
 //DeletePost post by Id with decoding request and encoding response
-func (h *postHandler) DeletePost(w http.ResponseWriter, r *http.Request) {
+func (h *PostHandler) DeletePost(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	if r.Method != http.MethodDelete {
 		msg := services.Response("Method Not Allowed")
@@ -172,7 +171,7 @@ func (h *postHandler) DeletePost(w http.ResponseWriter, r *http.Request) {
 		w.Write(msg)
 		return
 	}
-	err = h.Services.DeleteId(id)
+	err = h.services.DeleteId(id)
 	if err != nil {
 		msg := services.Response("The Id not found")
 		w.WriteHeader(404)
@@ -185,7 +184,7 @@ func (h *postHandler) DeletePost(w http.ResponseWriter, r *http.Request) {
 }
 
 //UpdatePost post by Id with decoding request and encoding response
-func (h *postHandler) UpdatePost(w http.ResponseWriter, r *http.Request) {
+func (h *PostHandler) UpdatePost(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	if r.Method != http.MethodPut {
 		msg := services.Response("Method Not Allowed")
@@ -207,7 +206,7 @@ func (h *postHandler) UpdatePost(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	post.Id = id
-	res, err := h.Services.UpdateId(&post)
+	res, err := h.services.UpdateId(&post)
 	if err != nil {
 		msg := services.Response("Couldn't update requested post.")
 		w.WriteHeader(404)
@@ -219,7 +218,7 @@ func (h *postHandler) UpdatePost(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(&res)
 }
 
-func (h *postHandler) DownloadPost(w http.ResponseWriter, r *http.Request) {
+func (h *PostHandler) DownloadPost(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	if r.Method != http.MethodPost {
 		msg := services.Response("Method Not Allowed")
@@ -227,7 +226,7 @@ func (h *postHandler) DownloadPost(w http.ResponseWriter, r *http.Request) {
 		w.Write(msg)
 		return
 	}
-	res, err := h.Services.GetALL()
+	res, err := h.services.GetALL()
 	if err != nil {
 		msg := services.Response("Couldn't find posts.")
 		w.WriteHeader(200)
@@ -235,7 +234,7 @@ func (h *postHandler) DownloadPost(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = h.Services.Download(*res)
+	err = h.services.Download(*res)
 	if err != nil {
 		msg := services.Response("The file couldn't be created")
 		w.WriteHeader(401)
@@ -247,7 +246,7 @@ func (h *postHandler) DownloadPost(w http.ResponseWriter, r *http.Request) {
 	w.Write(msg)
 }
 
-func (h *postHandler) UploadPost(w http.ResponseWriter, r *http.Request) {
+func (h *PostHandler) UploadPost(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	if r.Method != http.MethodPost {
 		msg := services.Response("Method Not Allowed")
@@ -256,7 +255,7 @@ func (h *postHandler) UploadPost(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err := h.Services.Upload()
+	err := h.services.Upload()
 	if err != nil {
 		msg := services.Response("Couldn't upload data from the file")
 		w.WriteHeader(401)
