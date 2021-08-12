@@ -3,10 +3,8 @@ package handlers
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 	"github.com/gorilla/mux"
 	"html/template"
-	"log"
 	"net/http"
 	"src/http/pkg/model"
 	"src/http/pkg/services"
@@ -35,16 +33,6 @@ func New(router *mux.Router, store storage.Storage) *PostHandler {
 		router:   router,
 		services: services.NewStore(store),
 	}
-}
-
-//Simple middleware function which write log in the terminal requested Method and URI
-func simpleLog(next http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		log.Println(r.Method)
-		log.Println(r.RequestURI)
-		fmt.Println("-------------")
-		next.ServeHTTP(w, r)
-	})
 }
 
 //Middleware: timeout to handler process
@@ -78,7 +66,6 @@ func (h *PostHandler) Routes() {
 	h.router.HandleFunc("/post/{id}", processTimeout(h.UpdatePost, 5*time.Second)).Methods("PUT")
 	h.router.HandleFunc("/post/upload", processTimeout(h.UploadPost, 5*time.Second)).Methods("POST")
 	h.router.HandleFunc("/post/download", processTimeout(h.DownloadPost, 5*time.Second)).Methods("POST")
-	h.router.Use(simpleLog)
 }
 
 //CreatePost Create post with decoding request and encoding response
