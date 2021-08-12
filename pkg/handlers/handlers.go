@@ -35,7 +35,7 @@ func New(router *mux.Router, store storage.Storage) *PostHandler {
 	}
 }
 
-//Middleware: timeout to handler process
+//Middleware: timeout to the handler process
 func processTimeout(h http.HandlerFunc, duration time.Duration) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx, cancel := context.WithTimeout(r.Context(), duration)

@@ -46,6 +46,7 @@ func (s *Server) Run(ctx context.Context) (err error) {
 	s.ConfigRoutes()
 
 	log.Println("Server is running on " + s.config.Port)
+
 	srv := &http.Server{
 		Addr:    s.config.Port,
 		Handler: s.router,
