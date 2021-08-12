@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/gorilla/mux"
+	"html/template"
 	"log"
 	"net/http"
 	"src/http/pkg/model"
@@ -14,17 +15,25 @@ import (
 	"time"
 )
 
-//Handlers with the CRUD functions
+//Handlers with the CRUD functions and Middleware
 
 type PostHandler struct {
 	router   *mux.Router
 	services *services.Store
 }
 
-func New(router *mux.Router, stor storage.Storage) *PostHandler {
+const MaxRequestSize = 2 * 1024
+
+var tpl *template.Template
+
+func init() {
+	tpl = template.Must(template.ParseGlob("./pkg/templates/*"))
+}
+
+func New(router *mux.Router, store storage.Storage) *PostHandler {
 	return &PostHandler{
 		router:   router,
-		services: services.NewStore(stor),
+		services: services.NewStore(store),
 	}
 }
 
@@ -81,8 +90,19 @@ func (h *PostHandler) CreatePost(w http.ResponseWriter, r *http.Request) {
 		w.Write(msg)
 		return
 	}
+
+	//receive requests only with size limit 2024 bytes
+	r.Body = http.MaxBytesReader(w, r.Body, MaxRequestSize)
+
 	var post model.Post
-	json.NewDecoder(r.Body).Decode(&post)
+
+	err := json.NewDecoder(r.Body).Decode(&post)
+	if err != nil {
+		msg := services.Response("Too big request.")
+		w.WriteHeader(404)
+		w.Write(msg)
+		return
+	}
 	res, err := h.services.CreateId(&post)
 	if err != nil {
 		msg := services.Response("Could not create empty post")
@@ -103,6 +123,7 @@ func (h *PostHandler) GetPost(w http.ResponseWriter, r *http.Request) {
 		w.Write(msg)
 		return
 	}
+
 	//id, err := strconv.Atoi(r.URL.Query().Get("id"))
 	vars := mux.Vars(r)
 	key := vars["id"]
@@ -142,7 +163,7 @@ func (h *PostHandler) GetAll(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if len(*res) == 0 {
-		msg := services.Response("There is no post in the memory.")
+		msg := services.Response("There is no posts in the memory.")
 		w.WriteHeader(200)
 		w.Write(msg)
 		return
@@ -192,10 +213,19 @@ func (h *PostHandler) UpdatePost(w http.ResponseWriter, r *http.Request) {
 		w.Write(msg)
 		return
 	}
+
+	r.Body = http.MaxBytesReader(w, r.Body, MaxRequestSize)
+
 	//id, err := strconv.Atoi(r.URL.Query().Get("Id"))
 	//msg := r.URL.Query().Get("Message")
 	var post model.Post
-	json.NewDecoder(r.Body).Decode(&post)
+	err := json.NewDecoder(r.Body).Decode(&post)
+	if err != nil {
+		msg := services.Response("Too big file.")
+		w.WriteHeader(401)
+		w.Write(msg)
+		return
+	}
 	vars := mux.Vars(r)
 	key := vars["id"]
 	id, err := strconv.Atoi(key)

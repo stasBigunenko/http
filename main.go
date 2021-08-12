@@ -20,7 +20,6 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	server.ConfigRoutes()
 
 	c := make(chan os.Signal, 1)
 	signal.Notify(c, os.Interrupt)

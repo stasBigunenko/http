@@ -4,12 +4,15 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b5978d65-be42-4398-bbc3-d4985a9977b2" name="Default Changelist" comment="Fixed some issues">
+    <list default="true" id="b5978d65-be42-4398-bbc3-d4985a9977b2" name="Default Changelist" comment="Added const FilePath for the csv file">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api/proto/post.proto" beforeDir="false" afterPath="$PROJECT_DIR$/api/proto/post.proto" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmd/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/server.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pkg/handlers/handlers.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/handlers/handlers.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pkg/services/services.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/services/services.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/result.csv" beforeDir="false" afterPath="$PROJECT_DIR$/static/result.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/inMemory/inMemory.go" beforeDir="false" afterPath="$PROJECT_DIR$/storage/inMemory/inMemory.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,7 +58,7 @@
     <property name="go.import.settings.migrated" value="true" />
     <property name="go.modules.go.list.on.any.changes.was.set" value="true" />
     <property name="go.sdk.automatically.set" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../hackerRank/HackerrankChallange/11.08.2021.go" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../hackerRank/training2.go" />
     <property name="settings.editor.selected.configurable" value="go.sdk" />
   </component>
   <component name="RecentsManager">
@@ -64,11 +67,12 @@
       <recent name="C:\goProjects\src\src\hackerRank" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\goProjects\src\src\http\pkg\templates" />
       <recent name="C:\goProjects\src\src\http\pkg\services" />
       <recent name="C:\goProjects\src\src\http\cmd\config" />
     </key>
   </component>
-  <component name="RunManager" selected="Go Build.go build src/http">
+  <component name="RunManager" selected="Makefile Target.all">
     <configuration name="go build handlers.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true">
       <module name="http" />
       <working_directory value="$PROJECT_DIR$" />
@@ -87,8 +91,15 @@
       <filePath value="$PROJECT_DIR$/main.go" />
       <method v="2" />
     </configuration>
+    <configuration name="all" type="MAKEFILE_TARGET_RUN_CONFIGURATION" factoryName="Makefile" temporary="true">
+      <makefile filename="$PROJECT_DIR$/makefile" target="all" workingDirectory="" arguments="">
+        <envs />
+      </makefile>
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Makefile Target.all" />
         <item itemvalue="Go Build.go build src/http" />
         <item itemvalue="Go Build.go build handlers.go" />
       </list>
@@ -139,7 +150,8 @@
     <MESSAGE value="Added some features, errors, process time" />
     <MESSAGE value="Changed Server struct and main file. Added shutdown timeout" />
     <MESSAGE value="Fixed some issues" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed some issues" />
+    <MESSAGE value="Added const FilePath for the csv file" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added const FilePath for the csv file" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>

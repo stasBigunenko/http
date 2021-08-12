@@ -5,13 +5,10 @@ import (
 	"github.com/gorilla/mux"
 	"log"
 	"net/http"
-	"os"
-	"os/signal"
 	"src/http/cmd/config"
 	"src/http/pkg/handlers"
 	"src/http/storage"
 	"src/http/storage/inMemory"
-	"syscall"
 	"time"
 )
 
@@ -34,8 +31,8 @@ func (s *Server) ServerConfig() error {
 }
 
 func (s *Server) StorageServer() error {
-	stor := inMemory.New()
-	s.storage = stor
+	store := inMemory.New()
+	s.storage = store
 	return nil
 }
 
@@ -44,30 +41,42 @@ func (s *Server) ConfigRoutes() {
 	postroutes.Routes()
 }
 
-func (s *Server) Run(ctx context.Context) error {
+func (s *Server) Run(ctx context.Context) (err error) {
+
+	s.ConfigRoutes()
+
 	log.Println("Server is running on " + s.config.Port)
 	srv := &http.Server{
 		Addr:    s.config.Port,
 		Handler: s.router,
 	}
+
 	go func() {
-		err := srv.ListenAndServe()
-		if err != nil && err != http.ErrServerClosed {
-			log.Fatal(err)
+		if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+			log.Fatalf("listen:%+s\n", err)
 		}
 	}()
 
-	done := make(chan os.Signal, 1)
-	signal.Notify(done, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
+	log.Printf("server started")
 
-	<-done
-	log.Println("Server Stopped")
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
-	defer cancel()
-	err := srv.Shutdown(ctx)
-	if err != nil {
-		log.Fatalf("Server Shutdown Failed:%+v", err)
+	<-ctx.Done()
+
+	log.Printf("server stopped")
+
+	ctxShutDown, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer func() {
+		cancel()
+	}()
+
+	if err := srv.Shutdown(ctxShutDown); err != nil {
+		log.Fatalf("server Shutdown Failed:%+s", err)
 	}
-	log.Print("Server Exited Properly")
-	return nil
+
+	log.Printf("server exited properly")
+
+	if err == http.ErrServerClosed {
+		err = nil
+	}
+
+	return
 }

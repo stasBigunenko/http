@@ -12,21 +12,22 @@ import (
 
 // FilePath :name and path of the *.csv file
 const FilePath = "./static/result.csv"
+const File = "./static/temp.csv"
 
 //Service's functions which are working directly with Storage's functions
 
 type Store struct {
-	Store storage.Storage
+	store storage.Storage
 }
 
 func NewStore(s storage.Storage) *Store {
 	return &Store{
-		Store: s,
+		store: s,
 	}
 }
 
 func (s *Store) CreateId(post *model.Post) (*model.Post, error) {
-	postNew, err := s.Store.Create(*post)
+	postNew, err := s.store.Create(*post)
 	if err != nil {
 		return nil, err
 	}
@@ -34,7 +35,7 @@ func (s *Store) CreateId(post *model.Post) (*model.Post, error) {
 }
 
 func (s *Store) GetId(id int) (*model.Post, error) {
-	postId, err := s.Store.Get(id)
+	postId, err := s.store.Get(id)
 	if err != nil {
 		return nil, err
 	}
@@ -43,12 +44,12 @@ func (s *Store) GetId(id int) (*model.Post, error) {
 
 func (s *Store) GetALL() (*[]model.Post, error) {
 	var postAll []model.Post
-	postAll = s.Store.GetAll()
+	postAll = s.store.GetAll()
 	return &postAll, nil
 }
 
 func (s *Store) DeleteId(id int) error {
-	err := s.Store.Delete(id)
+	err := s.store.Delete(id)
 	if err != nil {
 		return err
 	}
@@ -56,7 +57,7 @@ func (s *Store) DeleteId(id int) error {
 }
 
 func (s *Store) UpdateId(post *model.Post) (*model.Post, error) {
-	postUpdate, err := s.Store.Update(*post)
+	postUpdate, err := s.store.Update(*post)
 	if err != nil {
 		return nil, err
 	}
@@ -64,7 +65,7 @@ func (s *Store) UpdateId(post *model.Post) (*model.Post, error) {
 }
 
 func (s *Store) CreatePost(post *model.Post) error {
-	err := s.Store.CreateFromFile(*post)
+	err := s.store.CreateFromFile(*post)
 	if err != nil {
 		return errors.New("couldn't create post from file")
 	}
@@ -73,6 +74,7 @@ func (s *Store) CreatePost(post *model.Post) error {
 
 //Upload function: open the file and save all posts in memory one by one
 func (s *Store) Upload() error {
+
 	csvFile, err := os.OpenFile(FilePath, os.O_RDONLY, 0666)
 	if err != nil {
 		return err
