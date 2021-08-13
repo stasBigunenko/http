@@ -51,7 +51,7 @@ func processTimeout(h http.HandlerFunc, duration time.Duration) http.HandlerFunc
 	}
 }
 
-func (h *PostHandler) Routes() {
+func (h *PostHandler) Routes() http.Handler {
 	h.router.HandleFunc("/post/", processTimeout(h.CreatePost, 5*time.Second)).Methods("POST")
 	h.router.HandleFunc("/post/{id}", processTimeout(h.GetPost, 5*time.Second)).Methods("GET")
 	h.router.HandleFunc("/posts", processTimeout(h.GetAll, 5*time.Second)).Methods("GET")
@@ -59,6 +59,7 @@ func (h *PostHandler) Routes() {
 	h.router.HandleFunc("/post/{id}", processTimeout(h.UpdatePost, 5*time.Second)).Methods("PUT")
 	h.router.HandleFunc("/post/upload", processTimeout(h.UploadPost, 5*time.Second)).Methods("POST")
 	h.router.HandleFunc("/post/download", processTimeout(h.DownloadPost, 5*time.Second)).Methods("POST")
+	return nil
 }
 
 //CreatePost Create post with decoding request and encoding response
@@ -92,7 +93,7 @@ func (h *PostHandler) CreatePost(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.WriteHeader(http.StatusOK)
+	w.WriteHeader(http.StatusCreated)
 	json.NewEncoder(w).Encode(&res)
 }
 

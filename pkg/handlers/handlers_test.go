@@ -2,10 +2,8 @@ package handlers
 
 import (
 	"bytes"
-	//"github.com/gorilla/mux"
 	"net/http"
 	"net/http/httptest"
-	//"src/http/cmd"
 	"src/http/pkg/model"
 	"testing"
 
@@ -17,7 +15,6 @@ var p = model.Post{}
 
 func TestPostHandler(t *testing.T) {
 	type fields struct {
-		//r *mux.Router
 		s storage.Storage
 	}
 
@@ -42,7 +39,7 @@ func TestPostHandler(t *testing.T) {
 			name: "POST /post OK",
 			fields: fields{
 				s: storage.MockStorage{
-					MockCreate: func (_ model.Post) (model.Post, error) {
+					MockCreate: func(_ model.Post) (model.Post, error) {
 						return p, nil
 					},
 				},
@@ -50,14 +47,13 @@ func TestPostHandler(t *testing.T) {
 			args: args{
 				url:    "/post",
 				method: "POST",
-				body:   []byte(`{"Author": "Igor","Message": "The first"}`),
+				body:   []byte(`{"Id": "1","Author": "Stas","Message": "The first"}`),
 			},
 			want: resp{code: http.StatusCreated},
 		},
 		{
 			name:   "POST /post no name",
-			fields: fields{
-			},
+			fields: fields{},
 			args: args{
 				url:    "/post",
 				method: "POST",
@@ -69,16 +65,12 @@ func TestPostHandler(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			srv := services.NewStore(tt.fields.s)
-			//drr := cmd.New()
-			//drr.ConfigRoutes()
-			//rrr := drr.GetRouter()
 
 			var s = &PostHandler{
-				//router: &rrr,
 				services: srv,
 			}
 
-			hs := httptest.NewServer(s.)
+			hs := httptest.NewServer(s.Routes())
 			defer hs.Close()
 
 			cl := hs.Client()
