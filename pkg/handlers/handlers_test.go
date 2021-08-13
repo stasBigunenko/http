@@ -16,8 +16,8 @@ var p = model.Post{}
 
 func TestPostHandler(t *testing.T) {
 	type fields struct {
-		s *storage.Storage
-		r *mux.Router
+		s storage.Storage
+		r mux.Router
 	}
 
 	type args struct {
@@ -66,7 +66,7 @@ func TestPostHandler(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			srv := services.NewStore(*tt.fields.s)
+			srv := services.NewStore(tt.fields.s)
 			server := cmd.New()       //Тут создаю сервер, чтобы я мог вытащить router, который в структуре Хендлера
 			rrv := server.GetRouter() //Для этого используется cmd пакет, в который подключен пакет handler
 			//Из-за чего ругается тест, что нельзя тестить подключенную библиотеку
