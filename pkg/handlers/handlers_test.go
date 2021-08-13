@@ -67,15 +67,15 @@ func TestPostHandler(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			srv := services.NewStore(tt.fields.s)
-			server := cmd.New()
-			rrv := server.GetRouter()
-
-			var s = &PostHandler{
+			server := cmd.New()       //Тут создаю сервер, чтобы я мог вытащить router, который в структуре Хендлера
+			rrv := server.GetRouter() //Для этого используется cmd пакет, в который подключен пакет handler
+			//Из-за чего ругается тест, что нельзя тестить подключенную библиотеку
+			var s = &PostHandler{ //И не пойму что его делать и как лечить, или все переделывать?
 				services: srv,
 				router:   &rrv,
 			}
 
-			hs := httptest.NewServer(s.Routes())
+			hs := httptest.NewServer(s.Routes()) //Тут соответственно пытаюсь создать
 			defer hs.Close()
 
 			cl := hs.Client()
