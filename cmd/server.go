@@ -21,6 +21,7 @@ type Server struct {
 
 func New() *Server {
 	return &Server{
+		config: config.Set(),
 		router: mux.NewRouter(),
 	}
 }
@@ -36,8 +37,12 @@ func (s *Server) StorageServer() error {
 	return nil
 }
 
+func (s *Server) GetRouter() mux.Router {
+	return *s.router
+}
+
 func (s *Server) ConfigRoutes() {
-	postroutes := handlers.New(s.router, s.storage)
+	postroutes := handlers.NewHandler(s.router, s.storage)
 	postroutes.Routes()
 }
 

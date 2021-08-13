@@ -12,7 +12,6 @@ import (
 
 // FilePath :name and path of the *.csv file
 const FilePath = "./static/result.csv"
-const File = "./static/temp.csv"
 
 //Service's functions which are working directly with Storage's functions
 
@@ -74,7 +73,6 @@ func (s *Store) CreatePost(post *model.Post) error {
 
 //Upload function: open the file and save all posts in memory one by one
 func (s *Store) Upload() error {
-
 	csvFile, err := os.OpenFile(FilePath, os.O_RDONLY, 0666)
 	if err != nil {
 		return err
