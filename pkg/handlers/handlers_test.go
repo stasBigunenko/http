@@ -71,8 +71,8 @@ func TestPostHandler(t *testing.T) {
 			rrv := server.GetRouter() //Для этого используется cmd пакет, в который подключен пакет handler
 			//Из-за чего ругается тест, что нельзя тестить подключенную библиотеку
 			var s = &PostHandler{ //И не пойму что его делать и как лечить, или все переделывать?
-				services: srv,
 				router:   &rrv,
+				services: srv,
 			}
 
 			hs := httptest.NewServer(s.Routes()) //Тут соответственно пытаюсь создать
