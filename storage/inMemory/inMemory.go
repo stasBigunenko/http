@@ -100,24 +100,23 @@ func (s *Storage) Delete(id int) error {
 func (s *Storage) CreateFromFile(p model.Post) error {
 	s.mu.Lock()
 	defer s.mu.Unlock()
-	//TODO with existing ID
-	for i := 0; i <= s.idStore; i++ {
-		//If we have that id in Storage we gave the next id to the post from file
-		if i == p.Id {
-			p.Id = s.idStore + 1
-			break
-		}
-	}
-	s.idStore = p.Id
+	//go through all id's of the Storage
+
 	if p.Author == "" {
-		s.idStore--
 		return errors.New("author is empty")
 	}
 	if p.Message == "" {
-		s.idStore--
 		return errors.New("message is empty")
 	}
 
+	//Checking if storage have the same id and if "yes" create the next one after the last id in the memory
+	_, ok := s.storage[p.Id]
+	if !ok {
+		s.idStore = p.Id
+	} else {
+		s.idStore += 1
+	}
+	p.Id = s.idStore
 	s.storage[p.Id] = p
 	return nil
 }

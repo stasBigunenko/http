@@ -82,7 +82,6 @@ func (s *Store) Upload(file multipart.File) error {
 
 	//Indicate number of fields of our struct
 	reader.FieldsPerRecord = 3
-
 	for {
 		csvData, err := reader.Read()
 		if err != nil {
