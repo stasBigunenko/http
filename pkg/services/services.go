@@ -4,14 +4,18 @@ import (
 	"encoding/csv"
 	"errors"
 	"fmt"
+	"github.com/jszwec/csvutil"
+	"io"
+	//"io"
+	"mime/multipart"
 	"os"
 	"src/http/pkg/model"
 	"src/http/storage"
 	"strconv"
 )
 
-// FilePath :name and path of the *.csv file
-const FilePath = "./static/result.csv"
+//FilePath :name and path of the *.csv file
+const FilePath = "./static/"
 
 //Service's functions which are working directly with Storage's functions
 
@@ -72,56 +76,54 @@ func (s *Store) CreatePost(post *model.Post) error {
 }
 
 //Upload function: open the file and save all posts in memory one by one
-func (s *Store) Upload() error {
-	csvFile, err := os.OpenFile(FilePath, os.O_RDONLY, 0666)
-	if err != nil {
-		return err
-	}
-	defer csvFile.Close()
+func (s *Store) Upload(file multipart.File) error {
 
-	reader := csv.NewReader(csvFile)
+	reader := csv.NewReader(file)
 
 	//Indicate number of fields of our struct
 	reader.FieldsPerRecord = 3
-	csvData, err := reader.ReadAll()
-	if err != nil {
-		fmt.Println(err)
-		os.Exit(1)
-	}
 
-	var post model.Post
+	for {
+		csvData, err := reader.Read()
+		if err != nil {
+			if err == io.EOF {
+				break
+			}
+			fmt.Println(err)
+			os.Exit(1)
+		}
 
-	//Go through all read data and call our function CreatePost to save the data in our Storage
-	for _, record := range csvData {
-		post.Id, err = strconv.Atoi(record[0])
+		//pass the headers of the csv file
+		if csvData[0] == "Id" {
+			continue
+		}
+
+		var post model.Post
+
+		//Go through read data and call our function CreatePost to save the data in our Storage
+		post.Id, err = strconv.Atoi(csvData[0])
 		if err != nil {
 			return err
 		}
-		post.Author = record[1]
-		post.Message = record[2]
+		post.Author = csvData[1]
+		post.Message = csvData[2]
 		s.CreatePost(&post)
 	}
+
 	return nil
 }
 
 //Download function: create a *.csv file with all our posts which have been saved in memory
-func (s *Store) Download(res []model.Post) error {
-	csvFile, err := os.Create(FilePath)
+func (s *Store) Download() ([]byte, error) {
+	allPosts, err := s.GetALL()
 	if err != nil {
-		return err
+		return nil, err
 	}
-	defer csvFile.Close()
 
-	writer := csv.NewWriter(csvFile)
-
-	//Write each post on the different row in the file
-	for _, val := range res {
-		var row []string
-		row = append(row, strconv.Itoa(val.Id))
-		row = append(row, val.Author)
-		row = append(row, val.Message)
-		writer.Write(row)
+	ap, err := csvutil.Marshal(allPosts)
+	if err != nil {
+		return nil, err
 	}
-	writer.Flush()
-	return nil
+
+	return ap, nil
 }

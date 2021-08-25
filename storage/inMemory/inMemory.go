@@ -2,6 +2,7 @@ package inMemory
 
 import (
 	"errors"
+	"sort"
 	"src/http/pkg/model"
 	"sync"
 )
@@ -59,6 +60,9 @@ func (s *Storage) GetAll() []model.Post {
 	for _, v := range s.storage {
 		p = append(p, v)
 	}
+	sort.Slice(p, func(i, j int) bool {
+		return p[i].Id < p[j].Id
+	})
 	return p
 }
 
@@ -96,6 +100,14 @@ func (s *Storage) Delete(id int) error {
 func (s *Storage) CreateFromFile(p model.Post) error {
 	s.mu.Lock()
 	defer s.mu.Unlock()
+	//TODO with existing ID
+	for i := 0; i <= s.idStore; i++ {
+		//If we have that id in Storage we gave the next id to the post from file
+		if i == p.Id {
+			p.Id = s.idStore + 1
+			break
+		}
+	}
 	s.idStore = p.Id
 	if p.Author == "" {
 		s.idStore--

@@ -53,12 +53,12 @@ func processTimeout(h http.HandlerFunc, duration time.Duration) http.HandlerFunc
 
 func (h *PostHandler) Routes() http.Handler {
 	h.router.HandleFunc("/post/", processTimeout(h.CreatePost, 5*time.Second)).Methods("POST")
+	h.router.HandleFunc("/post/download", processTimeout(h.DownloadPost, 5*time.Second)).Methods("GET")
 	h.router.HandleFunc("/post/{id}", processTimeout(h.GetPost, 5*time.Second)).Methods("GET")
 	h.router.HandleFunc("/posts", processTimeout(h.GetAll, 5*time.Second)).Methods("GET")
 	h.router.HandleFunc("/post/{id}", processTimeout(h.DeletePost, 5*time.Second)).Methods("DELETE")
 	h.router.HandleFunc("/post/{id}", processTimeout(h.UpdatePost, 5*time.Second)).Methods("PUT")
 	h.router.HandleFunc("/post/upload", processTimeout(h.UploadPost, 5*time.Second)).Methods("POST")
-	h.router.HandleFunc("/post/download", processTimeout(h.DownloadPost, 5*time.Second)).Methods("POST")
 	return nil
 }
 
@@ -238,23 +238,14 @@ func (h *PostHandler) UpdatePost(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *PostHandler) DownloadPost(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
-	if r.Method != http.MethodPost {
+	if r.Method != http.MethodGet {
 		msg := services.Response("Method Not Allowed")
 		w.WriteHeader(http.StatusMethodNotAllowed)
 		w.Write(msg)
 		return
 	}
 
-	res, err := h.services.GetALL()
-	if err != nil {
-		msg := services.Response("Couldn't find posts.")
-		w.WriteHeader(http.StatusUnauthorized)
-		w.Write(msg)
-		return
-	}
-
-	err = h.services.Download(*res)
+	res, err := h.services.Download()
 	if err != nil {
 		msg := services.Response("The file couldn't be created")
 		w.WriteHeader(http.StatusUnauthorized)
@@ -262,9 +253,13 @@ func (h *PostHandler) DownloadPost(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	msg := services.Response("The file have been created")
-	w.WriteHeader(http.StatusOK)
-	w.Write(msg)
+	t := time.Now()
+	time := (t.Format("2006_01_02_15-04"))
+
+	w.Header().Set("Content-Type", "text/csv")
+	w.Header().Set("Content-Disposition", "attachment; filename=result_"+time+".csv")
+	//msg := services.Response("The file downloaded to the memory")
+	w.Write(res)
 }
 
 func (h *PostHandler) UploadPost(w http.ResponseWriter, r *http.Request) {
@@ -276,7 +271,30 @@ func (h *PostHandler) UploadPost(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err := h.services.Upload()
+	err := r.ParseMultipartForm(50) // limit input length!
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+	}
+
+	r.Body = http.MaxBytesReader(w, r.Body, MaxRequestSize)
+
+	// upload file
+	file, fileHeader, err := r.FormFile("file")
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	fileSize := fileHeader.Size
+	if fileSize > MaxRequestSize {
+		msg := services.Response("Too big request.")
+		w.WriteHeader(http.StatusNotAcceptable)
+		w.Write(msg)
+		return
+	}
+
+	h.services.Upload(file)
+
 	if err != nil {
 		msg := services.Response("Couldn't upload data from the file")
 		w.WriteHeader(http.StatusUnauthorized)
