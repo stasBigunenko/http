@@ -100,7 +100,6 @@ func (s *Storage) Delete(id int) error {
 func (s *Storage) CreateFromFile(p model.Post) error {
 	s.mu.Lock()
 	defer s.mu.Unlock()
-	//go through all id's of the Storage
 
 	if p.Author == "" {
 		return errors.New("author is empty")

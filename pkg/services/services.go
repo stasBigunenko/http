@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"github.com/jszwec/csvutil"
 	"io"
-	//"io"
 	"mime/multipart"
 	"os"
 	"src/http/pkg/model"
@@ -19,17 +18,17 @@ const FilePath = "./static/"
 
 //Service's functions which are working directly with Storage's functions
 
-type Store struct {
+type Services struct {
 	store storage.Storage
 }
 
-func NewStore(s storage.Storage) *Store {
-	return &Store{
+func NewService(s storage.Storage) Services {
+	return Services{
 		store: s,
 	}
 }
 
-func (s *Store) CreateId(post *model.Post) (*model.Post, error) {
+func (s *Services) CreateId(post *model.Post) (*model.Post, error) {
 	postNew, err := s.store.Create(*post)
 	if err != nil {
 		return nil, err
@@ -37,7 +36,7 @@ func (s *Store) CreateId(post *model.Post) (*model.Post, error) {
 	return &postNew, nil
 }
 
-func (s *Store) GetId(id int) (*model.Post, error) {
+func (s *Services) GetId(id int) (*model.Post, error) {
 	postId, err := s.store.Get(id)
 	if err != nil {
 		return nil, err
@@ -45,13 +44,13 @@ func (s *Store) GetId(id int) (*model.Post, error) {
 	return &postId, nil
 }
 
-func (s *Store) GetALL() (*[]model.Post, error) {
+func (s *Services) GetALL() (*[]model.Post, error) {
 	var postAll []model.Post
 	postAll = s.store.GetAll()
 	return &postAll, nil
 }
 
-func (s *Store) DeleteId(id int) error {
+func (s *Services) DeleteId(id int) error {
 	err := s.store.Delete(id)
 	if err != nil {
 		return err
@@ -59,7 +58,7 @@ func (s *Store) DeleteId(id int) error {
 	return nil
 }
 
-func (s *Store) UpdateId(post *model.Post) (*model.Post, error) {
+func (s *Services) UpdateId(post *model.Post) (*model.Post, error) {
 	postUpdate, err := s.store.Update(*post)
 	if err != nil {
 		return nil, err
@@ -67,7 +66,7 @@ func (s *Store) UpdateId(post *model.Post) (*model.Post, error) {
 	return &postUpdate, nil
 }
 
-func (s *Store) CreatePost(post *model.Post) error {
+func (s *Services) CreatePost(post *model.Post) error {
 	err := s.store.CreateFromFile(*post)
 	if err != nil {
 		return errors.New("couldn't create post from file")
@@ -76,7 +75,7 @@ func (s *Store) CreatePost(post *model.Post) error {
 }
 
 //Upload function: open the file and save all posts in memory one by one
-func (s *Store) Upload(file multipart.File) error {
+func (s *Services) Upload(file multipart.File) error {
 
 	reader := csv.NewReader(file)
 
@@ -113,7 +112,7 @@ func (s *Store) Upload(file multipart.File) error {
 }
 
 //Download function: create a *.csv file with all our posts which have been saved in memory
-func (s *Store) Download() ([]byte, error) {
+func (s *Services) Download() ([]byte, error) {
 	allPosts, err := s.GetALL()
 	if err != nil {
 		return nil, err

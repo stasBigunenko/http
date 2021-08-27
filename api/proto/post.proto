@@ -1,6 +1,7 @@
 syntax = "proto3";
 
 package api;
+option go_package = "github.com/stasBigunenko/http";
 
 service PostService {
     rpc GetPost(PostId) returns (PostObj) {}
@@ -8,6 +9,7 @@ service PostService {
     rpc CreatePost(NewPost) returns (PostObj) {}
     rpc UpdatePost(NewPost) returns (PostObj) {}
     rpc DeletePost(PostId) returns (Empty) {}
+    rpc CreateFromFile(NewPost) returns (PostObj) {}
 }
 
 message Empty {}
