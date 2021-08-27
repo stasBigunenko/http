@@ -5,6 +5,8 @@ import (
 	"src/http/pkg/model"
 )
 
+//ServicesInteface
+
 type ServicesInterface interface {
 	CreateId(post *model.Post) (*model.Post, error)
 	GetId(id int) (*model.Post, error)

@@ -48,16 +48,17 @@ func processTimeout(h http.HandlerFunc, duration time.Duration) http.HandlerFunc
 	}
 }
 
-func (h *PostHandler) Routes() *mux.Router {
-	r := mux.NewRouter()
+func (h *PostHandler) Routes(r *mux.Router) *mux.Router {
 
-	r.HandleFunc("/post/", processTimeout(h.CreatePost, 5*time.Second)).Methods("POST")
-	r.HandleFunc("/post/download", processTimeout(h.DownloadPost, 5*time.Second)).Methods("GET")
-	r.HandleFunc("/post/{id}", processTimeout(h.GetPost, 5*time.Second)).Methods("GET")
-	r.HandleFunc("/posts", processTimeout(h.GetAll, 5*time.Second)).Methods("GET")
-	r.HandleFunc("/post/{id}", processTimeout(h.DeletePost, 5*time.Second)).Methods("DELETE")
-	r.HandleFunc("/post/{id}", processTimeout(h.UpdatePost, 5*time.Second)).Methods("PUT")
-	r.HandleFunc("/post/upload", processTimeout(h.UploadPost, 5*time.Second)).Methods("POST")
+	sub := r.PathPrefix("/posts").Subrouter()
+	sub.HandleFunc("/", processTimeout(h.GetAll, 5*time.Second)).Methods("GET")
+	sub.HandleFunc("/download", processTimeout(h.DownloadPost, 5*time.Second)).Methods("GET")
+	sub.HandleFunc("/upload", processTimeout(h.UploadPost, 5*time.Second)).Methods("POST")
+	sub.HandleFunc("/create", processTimeout(h.CreatePost, 5*time.Second)).Methods("POST")
+	sub.HandleFunc("/{id}", processTimeout(h.GetPost, 5*time.Second)).Methods("GET")
+	sub.HandleFunc("/{id}", processTimeout(h.DeletePost, 5*time.Second)).Methods("DELETE")
+	sub.HandleFunc("/{id}", processTimeout(h.UpdatePost, 5*time.Second)).Methods("PUT")
+
 	return r
 }
 

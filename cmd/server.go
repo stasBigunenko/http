@@ -44,11 +44,13 @@ func (s *Server) Run(ctx context.Context) (err error) {
 
 	postroutes := handlers.NewHandler(&services)
 
+	r := mux.NewRouter().StrictSlash(false)
+
 	log.Println("Server is running on " + s.config.Port)
 
 	srv := &http.Server{
 		Addr:    s.config.Port,
-		Handler: postroutes.Routes(),
+		Handler: postroutes.Routes(r),
 	}
 
 	go func() {
