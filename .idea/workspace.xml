@@ -4,11 +4,13 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b5978d65-be42-4398-bbc3-d4985a9977b2" name="Default Changelist" comment="Added untracked files">
+    <list default="true" id="b5978d65-be42-4398-bbc3-d4985a9977b2" name="Default Changelist" comment="Remake router in handlers">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmd/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/server.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pkg/handlers/handlers.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/handlers/handlers.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/services/interfaceServices.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/services/interfaceServices.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,7 +24,7 @@
       </list>
     </option>
   </component>
-  <component name="GOROOT" url="file://$PROJECT_DIR$/../../../../Go" />
+  <component name="GOROOT" url="file://$PROJECT_DIR$/../../../go" />
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -54,11 +56,13 @@
     <property name="go.import.settings.migrated" value="true" />
     <property name="go.modules.go.list.on.any.changes.was.set" value="true" />
     <property name="go.sdk.automatically.set" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../helloWorld" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="go.sdk" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\goProjects\src\hackerRank" />
+      <recent name="C:\goProjects\src\http\cmd" />
       <recent name="C:\goProjects\src\src\hackerRank\HackerrankChallange" />
       <recent name="C:\goProjects\src\src\hackerRank" />
     </key>
@@ -71,6 +75,15 @@
     </key>
   </component>
   <component name="RunManager" selected="Go Test.TestPostHandler_CreatePost in src/http/pkg/handlers">
+    <configuration default="true" type="GoApplicationRunConfiguration" factoryName="Go Application">
+      <module name="http" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="http" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <method v="2" />
+    </configuration>
     <configuration name="go build handlers.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true">
       <module name="http" />
       <working_directory value="$PROJECT_DIR$" />
@@ -145,7 +158,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="added some comments" />
     <MESSAGE value="added some errors" />
     <MESSAGE value="changed some comments" />
     <MESSAGE value="changed Update function" />
@@ -170,9 +182,21 @@
     <MESSAGE value="Refactored Storage iterator in CreateFromFile" />
     <MESSAGE value="Refactored handler and added servicesInterface" />
     <MESSAGE value="Added untracked files" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added untracked files" />
+    <MESSAGE value="Remake router in handlers" />
+    <option name="LAST_COMMIT_MESSAGE" value="Remake router in handlers" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/cmd/server.go</url>
+          <line>22</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

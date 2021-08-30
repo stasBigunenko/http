@@ -14,14 +14,14 @@ import (
 //Handlers with the CRUD functions and Middleware
 
 type PostHandler struct {
-	Service services.ServicesInterface
+	service services.ServicesInterface
 }
 
 const MaxRequestSize = 2 * 1024
 
-func NewHandler(Service services.ServicesInterface) *PostHandler {
+func NewHandler(service services.ServicesInterface) *PostHandler {
 	return &PostHandler{
-		Service: Service,
+		service: service,
 	}
 }
 
@@ -48,9 +48,10 @@ func processTimeout(h http.HandlerFunc, duration time.Duration) http.HandlerFunc
 	}
 }
 
-func (h *PostHandler) Routes(r *mux.Router) *mux.Router {
+func (h *PostHandler) Routes(sub *mux.Router) *mux.Router {
+	//r := mux.NewRouter().StrictSlash(false)
+	//sub := r.PathPrefix("/posts").Subrouter()
 
-	sub := r.PathPrefix("/posts").Subrouter()
 	sub.HandleFunc("/", processTimeout(h.GetAll, 5*time.Second)).Methods("GET")
 	sub.HandleFunc("/download", processTimeout(h.DownloadPost, 5*time.Second)).Methods("GET")
 	sub.HandleFunc("/upload", processTimeout(h.UploadPost, 5*time.Second)).Methods("POST")
@@ -59,7 +60,7 @@ func (h *PostHandler) Routes(r *mux.Router) *mux.Router {
 	sub.HandleFunc("/{id}", processTimeout(h.DeletePost, 5*time.Second)).Methods("DELETE")
 	sub.HandleFunc("/{id}", processTimeout(h.UpdatePost, 5*time.Second)).Methods("PUT")
 
-	return r
+	return sub
 }
 
 //CreatePost Create post with decoding request and encoding response
@@ -85,7 +86,7 @@ func (h *PostHandler) CreatePost(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	res, err := h.Service.CreateId(&post)
+	res, err := h.service.CreateId(&post)
 	if err != nil {
 		msg := services.Response("Could not create post")
 		w.WriteHeader(http.StatusBadRequest)
@@ -118,7 +119,7 @@ func (h *PostHandler) GetPost(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	res, err := h.Service.GetId(id)
+	res, err := h.service.GetId(id)
 	if err != nil {
 		msg := services.Response("This id doesn't exist")
 		w.WriteHeader(http.StatusNotFound)
@@ -138,7 +139,7 @@ func (h *PostHandler) GetAll(w http.ResponseWriter, r *http.Request) {
 		w.Write(msg)
 		return
 	}
-	res, err := h.Service.GetALL()
+	res, err := h.service.GetALL()
 	if err != nil {
 		msg := services.Response("Bad request")
 		w.WriteHeader(http.StatusInternalServerError)
@@ -178,7 +179,7 @@ func (h *PostHandler) DeletePost(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = h.Service.DeleteId(id)
+	err = h.service.DeleteId(id)
 	if err != nil {
 		msg := services.Response("This id doesn't exist")
 		w.WriteHeader(http.StatusNotFound)
@@ -225,7 +226,7 @@ func (h *PostHandler) UpdatePost(w http.ResponseWriter, r *http.Request) {
 	}
 
 	post.Id = id
-	res, err := h.Service.UpdateId(&post)
+	res, err := h.service.UpdateId(&post)
 	if err != nil {
 		msg := services.Response("Couldn't update requested post.")
 		w.WriteHeader(http.StatusNotFound)
@@ -245,7 +246,7 @@ func (h *PostHandler) DownloadPost(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	res, err := h.Service.Download()
+	res, err := h.service.Download()
 	if err != nil {
 		msg := services.Response("The file couldn't be created")
 		w.WriteHeader(http.StatusUnauthorized)
@@ -293,7 +294,7 @@ func (h *PostHandler) UploadPost(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	h.Service.Upload(file)
+	h.service.Upload(file)
 
 	if err != nil {
 		msg := services.Response("Couldn't upload data from the file")

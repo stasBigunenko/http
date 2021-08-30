@@ -6,8 +6,6 @@ import (
 	"log"
 	"net/http"
 	"src/http/cmd/config"
-	"src/http/pkg/handlers"
-	"src/http/pkg/services"
 	"src/http/storage"
 	"src/http/storage/inMemory"
 	"time"
@@ -24,7 +22,6 @@ func New() *Server {
 	return &Server{
 		config: config.Set(),
 	}
-	//mux.NewRouter().NewRoute().hand
 }
 
 func (s *Server) ServerConfig() error {
@@ -32,25 +29,19 @@ func (s *Server) ServerConfig() error {
 	return nil
 }
 
-func (s *Server) StorageServer() error {
+func (s *Server) StorageServer() (*storage.Storage, error) {
 	store := inMemory.New()
 	s.storage = store
-	return nil
+	return &s.storage, nil
 }
 
-func (s *Server) Run(ctx context.Context) (err error) {
-
-	services := services.NewService(s.storage)
-
-	postroutes := handlers.NewHandler(&services)
-
-	r := mux.NewRouter().StrictSlash(false)
+func (s *Server) Run(ctx context.Context, router *mux.Router) (err error) {
 
 	log.Println("Server is running on " + s.config.Port)
 
 	srv := &http.Server{
 		Addr:    s.config.Port,
-		Handler: postroutes.Routes(r),
+		Handler: router,
 	}
 
 	go func() {

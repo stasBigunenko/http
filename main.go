@@ -2,10 +2,13 @@ package main
 
 import (
 	"context"
+	"github.com/gorilla/mux"
 	"log"
 	"os"
 	"os/signal"
 	"src/http/cmd"
+	"src/http/pkg/handlers"
+	"src/http/pkg/services"
 )
 
 //Start server and initialize server's config, storage, router
@@ -16,10 +19,19 @@ func main() {
 		log.Fatal(err)
 	}
 
-	err = server.StorageServer()
+	store, err := server.StorageServer()
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	services := services.NewService(*store)
+
+	postroutes := handlers.NewHandler(&services)
+
+	r := mux.NewRouter().StrictSlash(false)
+	sub := r.PathPrefix("/posts").Subrouter()
+
+	router := postroutes.Routes(sub)
 
 	c := make(chan os.Signal, 1)
 	signal.Notify(c, os.Interrupt)
@@ -32,7 +44,7 @@ func main() {
 		cancel()
 	}()
 
-	if err := server.Run(ctx); err != nil {
+	if err := server.Run(ctx, router); err != nil {
 		log.Printf("failed to serve:+%v\n", err)
 	}
 }
