@@ -97,6 +97,7 @@ func (s *Storage) Delete(id int) error {
 	return nil
 }
 
+//Create post from file, one by one
 func (s *Storage) CreateFromFile(p model.Post) error {
 	s.mu.Lock()
 	defer s.mu.Unlock()

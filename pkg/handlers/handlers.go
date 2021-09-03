@@ -139,13 +139,7 @@ func (h *PostHandler) GetAll(w http.ResponseWriter, r *http.Request) {
 		w.Write(msg)
 		return
 	}
-	res, err := h.service.GetALL()
-	if err != nil {
-		msg := services.Response("Bad request")
-		w.WriteHeader(http.StatusInternalServerError)
-		w.Write(msg)
-		return
-	}
+	res := h.service.GetALL()
 
 	if len(*res) == 0 {
 		msg := services.Response("There is no posts in the memory.")
@@ -294,8 +288,7 @@ func (h *PostHandler) UploadPost(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	h.service.Upload(file)
-
+	err = h.service.Upload(file)
 	if err != nil {
 		msg := services.Response("Couldn't upload data from the file")
 		w.WriteHeader(http.StatusUnauthorized)

@@ -44,10 +44,10 @@ func (s *Services) GetId(id int) (*model.Post, error) {
 	return &postId, nil
 }
 
-func (s *Services) GetALL() (*[]model.Post, error) {
+func (s *Services) GetALL() *[]model.Post {
 	var postAll []model.Post
 	postAll = s.store.GetAll()
-	return &postAll, nil
+	return &postAll
 }
 
 func (s *Services) DeleteId(id int) error {
@@ -113,10 +113,7 @@ func (s *Services) Upload(file multipart.File) error {
 
 //Download function: create a *.csv file with all our posts which have been saved in memory
 func (s *Services) Download() ([]byte, error) {
-	allPosts, err := s.GetALL()
-	if err != nil {
-		return nil, err
-	}
+	allPosts := s.GetALL()
 
 	ap, err := csvutil.Marshal(allPosts)
 	if err != nil {
