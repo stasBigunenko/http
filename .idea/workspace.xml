@@ -4,21 +4,18 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b5978d65-be42-4398-bbc3-d4985a9977b2" name="Default Changelist" comment="Add handler tests">
+    <list default="true" id="b5978d65-be42-4398-bbc3-d4985a9977b2" name="Default Changelist" comment="gRPC as storage to http">
+      <change afterPath="$PROJECT_DIR$/cmd/grpcServer/configGRPC/config.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/proto/post.proto" beforeDir="false" afterPath="$PROJECT_DIR$/api/proto/post.proto" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmd/config/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/http/config.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmd/server.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmd/grpcServer/config.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmd/grpcServer/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/grpcServer/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmd/http/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/http/configHTTP/config.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmd/http/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/http/main.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/http/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/handlers/handlers.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/handlers/handlers.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/model/model.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/model/model.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/services/interfaceServices.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/services/interfaceServices.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/gRPC/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/gRPC/server.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pkg/services/services.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/services/services.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/result.csv" beforeDir="false" afterPath="$PROJECT_DIR$/static/result.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/inMemory/inMemory.go" beforeDir="false" afterPath="$PROJECT_DIR$/storage/inMemory/inMemory.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/storage.go" beforeDir="false" afterPath="$PROJECT_DIR$/storage/storage.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,6 +34,11 @@
   </component>
   <component name="GOROOT" url="file://$PROJECT_DIR$/../../../go" />
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitSEFilterConfiguration">
@@ -49,6 +51,9 @@
   </component>
   <component name="GoLibraries">
     <option name="indexEntireGoPath" value="false" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedIndex" value="1" />
   </component>
   <component name="ProjectId" id="1w243AwoBNUlpb1fAReqKW8jqS6" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -79,11 +84,11 @@
       <recent name="C:\goProjects\src\src\hackerRank" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\goProjects\src\http\cmd\grpcServer\configGRPC" />
+      <recent name="C:\goProjects\src\http\cmd\http\configHTTP" />
       <recent name="C:\goProjects\src\http\pkg\gRPC\grpccontroller" />
       <recent name="C:\goProjects\src\http\cmd\http" />
       <recent name="C:\goProjects\src\http\cmd\grpcServer" />
-      <recent name="C:\goProjects\src\src\helloWorld" />
-      <recent name="C:\goProjects\src\src\hackerRank" />
     </key>
   </component>
   <component name="RunManager" selected="Go Build.go build src/http/cmd/http">
@@ -114,18 +119,6 @@
       <filePath value="$PROJECT_DIR$/cmd/http/main.go" />
       <method v="2" />
     </configuration>
-    <configuration name="TestGetALL/GetAll_posts_Everything_OK in src/http/pkg/services" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
-      <module name="http" />
-      <working_directory value="$PROJECT_DIR$/pkg/services" />
-      <root_directory value="$PROJECT_DIR$" />
-      <kind value="PACKAGE" />
-      <package value="src/http/pkg/services" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$" />
-      <framework value="gotest" />
-      <pattern value="^\QTestGetALL\E$/^\QGetAll_posts_Everything_OK\E$" />
-      <method v="2" />
-    </configuration>
     <configuration default="true" type="GoTestRunConfiguration" factoryName="Go Test">
       <module name="http" />
       <working_directory value="$PROJECT_DIR$" />
@@ -136,35 +129,52 @@
       <framework value="gotest" />
       <method v="2" />
     </configuration>
-    <configuration name="go test src/http/pkg/handlers" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
-      <module name="http" />
-      <working_directory value="$PROJECT_DIR$/pkg/handlers" />
-      <root_directory value="$PROJECT_DIR$" />
-      <kind value="PACKAGE" />
-      <package value="src/http/pkg/handlers" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$" />
-      <framework value="gotest" />
+    <configuration name="docker-compose.yaml.grpc: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
+      <deployment type="docker-compose.yml">
+        <settings>
+          <option name="services">
+            <list>
+              <option value="grpc" />
+            </list>
+          </option>
+          <option name="sourceFilePath" value="docker-compose.yaml" />
+        </settings>
+      </deployment>
       <method v="2" />
     </configuration>
-    <configuration name="go test src/http/pkg/services (1)" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
-      <module name="http" />
-      <working_directory value="$PROJECT_DIR$/pkg/services" />
-      <root_directory value="$PROJECT_DIR$" />
-      <kind value="PACKAGE" />
-      <package value="src/http/pkg/services" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$" />
-      <framework value="gotest" />
+    <configuration name="docker-compose.yaml.http: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
+      <deployment type="docker-compose.yml">
+        <settings>
+          <option name="services">
+            <list>
+              <option value="http" />
+            </list>
+          </option>
+          <option name="sourceFilePath" value="docker-compose.yaml" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <configuration name="docker-compose.yaml.redis: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
+      <deployment type="docker-compose.yml">
+        <settings>
+          <option name="services">
+            <list>
+              <option value="redis" />
+            </list>
+          </option>
+          <option name="sourceFilePath" value="docker-compose.yaml" />
+        </settings>
+      </deployment>
       <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Go Build.go build src/http/cmd/http" />
         <item itemvalue="Go Build.go build src/http/cmd/grpcServer" />
-        <item itemvalue="Go Test.go test src/http/pkg/handlers" />
-        <item itemvalue="Go Test.TestGetALL/GetAll_posts_Everything_OK in src/http/pkg/services" />
-        <item itemvalue="Go Test.go test src/http/pkg/services (1)" />
+        <item itemvalue="Go Build.go build src/http/cmd/http" />
+        <item itemvalue="Docker.docker-compose.yaml.http: Compose Deployment" />
+        <item itemvalue="Docker.docker-compose.yaml.grpc: Compose Deployment" />
+        <item itemvalue="Docker.docker-compose.yaml.redis: Compose Deployment" />
       </list>
     </recent_temporary>
   </component>
@@ -197,7 +207,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="changed Update function" />
     <MESSAGE value="changed url address in routes" />
     <MESSAGE value="small fixes" />
     <MESSAGE value="Fixed functions and some errors" />
@@ -222,7 +231,8 @@
     <MESSAGE value="Remake router in handlers" />
     <MESSAGE value="Create Services Interface and remake main.go" />
     <MESSAGE value="Add handler tests" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add handler tests" />
+    <MESSAGE value="gRPC as storage to http" />
+    <option name="LAST_COMMIT_MESSAGE" value="gRPC as storage to http" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>

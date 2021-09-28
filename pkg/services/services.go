@@ -29,6 +29,14 @@ func NewService(s storage.Storage) Services {
 }
 
 func (s *Services) CreateId(post *model.Post) (*model.Post, error) {
+
+	if post.Author == "" {
+		return nil, errors.New("author is empty")
+	}
+	if post.Message == "" {
+		return nil, errors.New("message is empty")
+	}
+
 	postNew, err := s.store.Create(*post)
 	if err != nil {
 		return nil, err
@@ -47,6 +55,7 @@ func (s *Services) GetId(id string) (*model.Post, error) {
 	if err != nil {
 		return nil, err
 	}
+
 	return &postId, nil
 }
 
@@ -64,6 +73,7 @@ func (s *Services) DeleteId(id string) error {
 	}
 
 	err = s.store.Delete(val)
+	fmt.Println(err)
 	if err != nil {
 		return err
 	}
@@ -79,6 +89,14 @@ func (s *Services) UpdateId(post *model.Post) (*model.Post, error) {
 }
 
 func (s *Services) CreatePost(post *model.Post) error {
+
+	if post.Author == "" {
+		return errors.New("author is empty")
+	}
+	if post.Message == "" {
+		return errors.New("message is empty")
+	}
+
 	err := s.store.CreateFromFile(*post)
 	if err != nil {
 		return errors.New("couldn't create post from file")

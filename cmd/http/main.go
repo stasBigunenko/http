@@ -9,6 +9,7 @@ import (
 	"os"
 	"os/signal"
 	pb "src/http/api/proto"
+	"src/http/cmd/http/configHTTP"
 	"src/http/pkg/gRPC/grpccontroller"
 	"src/http/pkg/handlers"
 	"src/http/pkg/services"
@@ -16,7 +17,7 @@ import (
 
 //Start server and initialize server's http, storage, router
 func main() {
-	config := Set()
+	config := configHTTP.Set()
 
 	//storage := inMemory.New()
 
@@ -49,6 +50,8 @@ func main() {
 		<-c
 		srv.Shutdown(context.Background())
 	}()
+
+	log.Println("HTTP server started...", config.Port, config.Grpc)
 
 	if err := srv.ListenAndServe(); err != nil {
 		log.Printf("failed to serve:+%v\n", err)
