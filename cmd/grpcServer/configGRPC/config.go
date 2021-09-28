@@ -9,6 +9,9 @@ type Config struct {
 	//Host    string
 	TcpPort string
 
+	//Storage type
+	DbType string
+
 	//redis
 	RedisAddr string
 	RedisPsw  string
@@ -28,6 +31,11 @@ func SetGRPC() *Config {
 		config.TcpPort = "127.0.0.1:9000"
 	}
 
+	config.DbType = os.Getenv("DB_TYPE")
+	if config.DbType == "" {
+		config.DbType = "redis"
+	}
+
 	config.RedisAddr = os.Getenv("REDIS_ADDR")
 	if config.RedisAddr == "" {
 		config.RedisAddr = "127.0.0.1:6379"
@@ -44,8 +52,8 @@ func SetGRPC() *Config {
 	}
 
 	return &Config{
-		//Host:    config.Host,
 		TcpPort:   config.TcpPort,
+		DbType:    config.DbType,
 		RedisAddr: config.RedisAddr,
 		RedisPsw:  config.RedisPsw,
 		RedisDB:   config.RedisDB,

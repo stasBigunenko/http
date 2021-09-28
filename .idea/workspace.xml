@@ -4,12 +4,11 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b5978d65-be42-4398-bbc3-d4985a9977b2" name="Default Changelist" comment="gRPC as storage to http with docker">
+    <list default="true" id="b5978d65-be42-4398-bbc3-d4985a9977b2" name="Default Changelist" comment="Redis as storage with docker files">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmd/grpcServer/configGRPC/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/grpcServer/configGRPC/config.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmd/grpcServer/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/grpcServer/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker-compose.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/redis/redisDB.go" beforeDir="false" afterPath="$PROJECT_DIR$/storage/redis/redisDB.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmd/http/configHTTP/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/http/configHTTP/config.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,7 +29,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="grpc_as_storage" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -201,7 +200,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="small fixes" />
     <MESSAGE value="Fixed functions and some errors" />
     <MESSAGE value="Added readme file" />
     <MESSAGE value="Added readme file fixes" />
@@ -226,7 +224,8 @@
     <MESSAGE value="Add handler tests" />
     <MESSAGE value="gRPC as storage to http" />
     <MESSAGE value="gRPC as storage to http with docker" />
-    <option name="LAST_COMMIT_MESSAGE" value="gRPC as storage to http with docker" />
+    <MESSAGE value="Redis as storage with docker files" />
+    <option name="LAST_COMMIT_MESSAGE" value="Redis as storage with docker files" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>

@@ -1,13 +1,14 @@
 package main
 
 import (
-	"fmt"
 	"google.golang.org/grpc"
 	"log"
 	"net"
 	pb "src/http/api/proto"
 	"src/http/cmd/grpcServer/configGRPC"
 	"src/http/pkg/gRPC"
+	"src/http/storage"
+	"src/http/storage/inMemory"
 	redisDB "src/http/storage/redis"
 )
 
@@ -21,18 +22,20 @@ func main() {
 		log.Fatalf("failed to listen: %s", err)
 	}
 
-	//inMemory storage
-	//store := inMemory.New()
+	var store storage.Storage
 
-	fmt.Println(config.RedisAddr, config.RedisPsw, config.RedisDB)
-
-	store := redisDB.New(config.RedisAddr, config.RedisPsw, config.RedisDB)
+	switch config.DbType {
+	case "inmemory":
+		store = inMemory.New()
+	case "redis":
+		store = redisDB.New(config.RedisAddr, config.RedisPsw, config.RedisDB)
+	}
 
 	//create GRPC server
 	s := grpc.NewServer()
 	pb.RegisterPostServiceServer(s, gRPC.NewGRPCStore(store))
 
-	log.Println("GRPC server started...", config.TcpPort)
+	log.Printf("GRPC server started on port: %v\n", config.TcpPort)
 
 	if err := s.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %s", err)
