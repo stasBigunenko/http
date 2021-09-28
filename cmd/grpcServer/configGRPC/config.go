@@ -30,7 +30,7 @@ func SetGRPC() *Config {
 
 	config.RedisAddr = os.Getenv("REDIS_ADDR")
 	if config.RedisAddr == "" {
-		config.RedisAddr = "localhost:6379"
+		config.RedisAddr = "127.0.0.1:6379"
 	}
 
 	config.RedisPsw = os.Getenv("REDIS_PSW")

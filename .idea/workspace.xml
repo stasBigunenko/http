@@ -4,18 +4,12 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b5978d65-be42-4398-bbc3-d4985a9977b2" name="Default Changelist" comment="gRPC as storage to http">
-      <change afterPath="$PROJECT_DIR$/cmd/grpcServer/configGRPC/config.go" afterDir="false" />
+    <list default="true" id="b5978d65-be42-4398-bbc3-d4985a9977b2" name="Default Changelist" comment="gRPC as storage to http with docker">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmd/grpcServer/config.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmd/grpcServer/configGRPC/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/grpcServer/configGRPC/config.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmd/grpcServer/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/grpcServer/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmd/http/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/http/configHTTP/config.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmd/http/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/http/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/gRPC/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/gRPC/server.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/services/services.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/services/services.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/inMemory/inMemory.go" beforeDir="false" afterPath="$PROJECT_DIR$/storage/inMemory/inMemory.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-compose.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/redis/redisDB.go" beforeDir="false" afterPath="$PROJECT_DIR$/storage/redis/redisDB.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -207,7 +201,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="changed url address in routes" />
     <MESSAGE value="small fixes" />
     <MESSAGE value="Fixed functions and some errors" />
     <MESSAGE value="Added readme file" />
@@ -232,7 +225,8 @@
     <MESSAGE value="Create Services Interface and remake main.go" />
     <MESSAGE value="Add handler tests" />
     <MESSAGE value="gRPC as storage to http" />
-    <option name="LAST_COMMIT_MESSAGE" value="gRPC as storage to http" />
+    <MESSAGE value="gRPC as storage to http with docker" />
+    <option name="LAST_COMMIT_MESSAGE" value="gRPC as storage to http with docker" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>

@@ -13,18 +13,20 @@ type RedisDB struct {
 	Client *redis.Client
 }
 
-func New(addr string, psw string, db int) *RedisDB {
+func New(addr string, psw string, db string) *RedisDB {
 
-	rdb := redis.NewClient(&redis.Options{
-		Addr:     addr,
-		Password: psw,
-		DB:       db,
+	//rdb, _ := strconv.Atoi(db)
+
+	redisDB := redis.NewClient(&redis.Options{
+		Addr: addr,
+		//Password: psw,
+		DB: 0,
 	})
 
-	val, err := rdb.Ping().Result()
+	val, err := redisDB.Ping().Result()
 	fmt.Println(val, err)
 
-	return &RedisDB{Client: rdb}
+	return &RedisDB{Client: redisDB}
 }
 
 func (rdb *RedisDB) Create(p model.Post) (model.Post, error) {
