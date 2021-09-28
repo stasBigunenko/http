@@ -9,9 +9,9 @@ import (
 
 type ServicesInterface interface {
 	CreateId(post *model.Post) (*model.Post, error)
-	GetId(id int) (*model.Post, error)
+	GetId(id string) (*model.Post, error)
 	GetALL() *[]model.Post
-	DeleteId(id int) error
+	DeleteId(id string) error
 	UpdateId(post *model.Post) (*model.Post, error)
 	CreatePost(post *model.Post) error
 	Upload(file multipart.File) error

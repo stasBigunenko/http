@@ -3,28 +3,30 @@ syntax = "proto3";
 package api;
 option go_package = "github.com/stasBigunenko/http";
 
+import "google/protobuf/empty.proto";
+
 service PostService {
-    rpc GetPost(PostId) returns (PostObj) {}
-    rpc GetPosts(Empty) returns (stream PostObj) {}
-    rpc CreatePost(NewPost) returns (PostObj) {}
-    rpc UpdatePost(NewPost) returns (PostObj) {}
-    rpc DeletePost(PostId) returns (Empty) {}
-    rpc CreateFromFile(NewPost) returns (PostObj) {}
+    rpc Get(PostId) returns (PostObj) {}
+    rpc GetAll(google.protobuf.Empty) returns (AllPosts) {}
+    rpc Create(NewPost) returns (PostObj) {}
+    rpc Update(PostObj) returns (PostObj) {}
+    rpc Delete(PostId) returns (google.protobuf.Empty) {}
+    rpc CreateFromFile(PostObj) returns (google.protobuf.Empty) {}
 }
-
-message Empty {}
-
 message PostObj {
-    int32 id = 1;
+    string id = 1;
     string author = 2;
     string message = 3;
 }
 
+message AllPosts {
+    repeated PostObj allposts = 1;
+}
+
 message PostId {
-    int32 id = 1;
+    string Id = 1;
 }
 
 message NewPost {
-    string author = 1;
-    string message = 2;
+    string author = 1;string message = 2;
 }

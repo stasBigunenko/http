@@ -1,11 +1,13 @@
 package model
 
+import "github.com/google/uuid"
+
 //Post model struct
 
 type Post struct {
-	Id      int    `json:"Id"`
-	Author  string `json:"Author"`
-	Message string `json:"Message"`
+	Id      uuid.UUID `json:"Id"`
+	Author  string    `json:"Author"`
+	Message string    `json:"Message"`
 }
 
 type MyResponse struct {
