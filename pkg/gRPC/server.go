@@ -118,7 +118,7 @@ func (s *StorageServer) Delete(_ context.Context, in *pb.PostId) (*emptypb.Empty
 	if err != nil {
 		return nil, status.Errorf(codes.NotFound, "failed to delete post")
 	}
-	return nil, nil
+	return &emptypb.Empty{}, nil
 }
 
 func (s *StorageServer) CreateFromFile(_ context.Context, in *pb.PostObj) (*emptypb.Empty, error) {
@@ -137,5 +137,5 @@ func (s *StorageServer) CreateFromFile(_ context.Context, in *pb.PostObj) (*empt
 	if err != nil {
 		return nil, status.Errorf(codes.Internal, "failed due to internal problem")
 	}
-	return nil, nil
+	return &emptypb.Empty{}, nil
 }

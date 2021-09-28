@@ -25,12 +25,6 @@ func (s *Storage) Create(p model.Post) (model.Post, error) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
-	if p.Author == "" {
-		return model.Post{}, errors.New("author is empty")
-	}
-	if p.Message == "" {
-		return model.Post{}, errors.New("message is empty")
-	}
 	id := uuid.New()
 	p.Id = id
 	s.storage[id] = p
@@ -69,6 +63,7 @@ func (s *Storage) Update(p model.Post) (model.Post, error) {
 	if !ok {
 		return model.Post{}, errors.New("post cann't be updated. The post doesn't exist")
 	}
+
 	if p.Author == "" {
 		p.Author = s.storage[p.Id].Author
 	}
@@ -84,11 +79,14 @@ func (s *Storage) Update(p model.Post) (model.Post, error) {
 func (s *Storage) Delete(id uuid.UUID) error {
 	s.mu.Lock()
 	defer s.mu.Unlock()
+
 	_, ok := s.storage[id]
 	if !ok {
 		return errors.New("post can't be deleted - Id not found")
 	}
+
 	delete(s.storage, id)
+
 	return nil
 }
 
@@ -96,13 +94,6 @@ func (s *Storage) Delete(id uuid.UUID) error {
 func (s *Storage) CreateFromFile(p model.Post) error {
 	s.mu.Lock()
 	defer s.mu.Unlock()
-
-	if p.Author == "" {
-		return errors.New("author is empty")
-	}
-	if p.Message == "" {
-		return errors.New("message is empty")
-	}
 
 	s.storage[p.Id] = p
 	return nil

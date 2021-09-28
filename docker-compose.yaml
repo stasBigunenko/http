@@ -1,0 +1,36 @@
+version: "3.1"
+
+services:
+  http:
+    container_name: "http_pr"
+    build:
+      context: "./"
+      dockerfile: "./docker/http.Dockerfile"
+    ports:
+      - "8085:8085"
+    links:
+      - "grpc:grpc"
+    environment:
+      PORT: ":8085"
+      GRPC: "grpc:9000"
+    depends_on:
+      - "grpc"
+
+  grpc:
+    container_name: "grpc"
+    build:
+      context: "./"
+      dockerfile: "./docker/grpc.Dockerfile"
+    ports:
+      - "9000:9000"
+    environment:
+      TCP_PORT: ":9000"
+      REDIS_ADDR: ":6379"
+      REDIS_PSW: "qwerty"
+      REDIS_DB: "redisDB"
+#    depends_on:
+#      - redis
+#
+#  redis:
+#    container_name: "redis"
+#    image: redis
