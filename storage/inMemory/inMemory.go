@@ -2,7 +2,7 @@ package inMemory
 
 import (
 	"errors"
-	"sort"
+	"github.com/google/uuid"
 	"src/http/pkg/model"
 	"sync"
 )
@@ -11,14 +11,12 @@ import (
 
 type Storage struct {
 	mu      sync.Mutex
-	storage map[int]model.Post
-	idStore int
+	storage map[uuid.UUID]model.Post
 }
 
 func New() *Storage {
 	return &Storage{
-		storage: make(map[int]model.Post),
-		idStore: 0,
+		storage: make(map[uuid.UUID]model.Post),
 	}
 }
 
@@ -26,22 +24,21 @@ func New() *Storage {
 func (s *Storage) Create(p model.Post) (model.Post, error) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
-	s.idStore++
+
 	if p.Author == "" {
-		s.idStore--
 		return model.Post{}, errors.New("author is empty")
 	}
 	if p.Message == "" {
-		s.idStore--
 		return model.Post{}, errors.New("message is empty")
 	}
-	p.Id = s.idStore
-	s.storage[p.Id] = p
+	id := uuid.New()
+	p.Id = id
+	s.storage[id] = p
 	return p, nil
 }
 
 //Get function: find in storage requested Id and return Post with the same Id
-func (s *Storage) Get(id int) (model.Post, error) {
+func (s *Storage) Get(id uuid.UUID) (model.Post, error) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 	var p model.Post
@@ -56,13 +53,11 @@ func (s *Storage) Get(id int) (model.Post, error) {
 func (s *Storage) GetAll() []model.Post {
 	s.mu.Lock()
 	defer s.mu.Unlock()
+
 	var p []model.Post
 	for _, v := range s.storage {
 		p = append(p, v)
 	}
-	sort.Slice(p, func(i, j int) bool {
-		return p[i].Id < p[j].Id
-	})
 	return p
 }
 
@@ -86,7 +81,7 @@ func (s *Storage) Update(p model.Post) (model.Post, error) {
 }
 
 //Delete function: find in the storage requested Id and delete it from Storage
-func (s *Storage) Delete(id int) error {
+func (s *Storage) Delete(id uuid.UUID) error {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 	_, ok := s.storage[id]
@@ -109,14 +104,6 @@ func (s *Storage) CreateFromFile(p model.Post) error {
 		return errors.New("message is empty")
 	}
 
-	//Checking if storage have the same id and if "yes" create the next one after the last id in the memory
-	_, ok := s.storage[p.Id]
-	if !ok {
-		s.idStore = p.Id
-	} else {
-		s.idStore += 1
-	}
-	p.Id = s.idStore
 	s.storage[p.Id] = p
 	return nil
 }

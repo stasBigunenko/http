@@ -4,13 +4,13 @@ import (
 	"encoding/csv"
 	"errors"
 	"fmt"
+	"github.com/google/uuid"
 	"github.com/jszwec/csvutil"
 	"io"
 	"mime/multipart"
 	"os"
 	"src/http/pkg/model"
 	"src/http/storage"
-	"strconv"
 )
 
 //FilePath :name and path of the *.csv file
@@ -36,8 +36,14 @@ func (s *Services) CreateId(post *model.Post) (*model.Post, error) {
 	return &postNew, nil
 }
 
-func (s *Services) GetId(id int) (*model.Post, error) {
-	postId, err := s.store.Get(id)
+func (s *Services) GetId(id string) (*model.Post, error) {
+
+	val, err := uuid.Parse(id)
+	if err != nil {
+		return nil, errors.New("couldn't parse id")
+	}
+
+	postId, err := s.store.Get(val)
 	if err != nil {
 		return nil, err
 	}
@@ -50,8 +56,14 @@ func (s *Services) GetALL() *[]model.Post {
 	return &postAll
 }
 
-func (s *Services) DeleteId(id int) error {
-	err := s.store.Delete(id)
+func (s *Services) DeleteId(id string) error {
+
+	val, err := uuid.Parse(id)
+	if err != nil {
+		return errors.New("couldn't parse id")
+	}
+
+	err = s.store.Delete(val)
 	if err != nil {
 		return err
 	}
@@ -99,10 +111,11 @@ func (s *Services) Upload(file multipart.File) error {
 		var post model.Post
 
 		//Go through read data and call our function CreatePost to save the data in our Storage
-		post.Id, err = strconv.Atoi(csvData[0])
+		val, err := uuid.Parse(csvData[0])
 		if err != nil {
-			return err
+			return errors.New("couldn't parse id")
 		}
+		post.Id = val
 		post.Author = csvData[1]
 		post.Message = csvData[2]
 		s.CreatePost(&post)

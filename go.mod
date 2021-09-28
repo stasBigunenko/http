@@ -4,6 +4,7 @@ go 1.16
 
 require (
 	github.com/golang/protobuf v1.4.3
+	github.com/google/uuid v1.1.2
 	github.com/gorilla/mux v1.8.0
 	github.com/jszwec/csvutil v1.5.0
 	github.com/stretchr/testify v1.7.0

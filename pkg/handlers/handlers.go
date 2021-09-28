@@ -3,11 +3,11 @@ package handlers
 import (
 	"context"
 	"encoding/json"
+	"github.com/google/uuid"
 	"github.com/gorilla/mux"
 	"net/http"
 	"src/http/pkg/model"
 	"src/http/pkg/services"
-	"strconv"
 	"time"
 )
 
@@ -111,15 +111,8 @@ func (h *PostHandler) GetPost(w http.ResponseWriter, r *http.Request) {
 	//id, err := strconv.Atoi(r.URL.Query().Get("id"))
 	vars := mux.Vars(r)
 	key := vars["id"]
-	id, err := strconv.Atoi(key)
-	if err != nil {
-		msg := services.Response("The Id is not valid")
-		w.WriteHeader(http.StatusBadRequest)
-		w.Write(msg)
-		return
-	}
 
-	res, err := h.service.GetId(id)
+	res, err := h.service.GetId(key)
 	if err != nil {
 		msg := services.Response("This id doesn't exist")
 		w.WriteHeader(http.StatusNotFound)
@@ -165,15 +158,8 @@ func (h *PostHandler) DeletePost(w http.ResponseWriter, r *http.Request) {
 	//id, err := strconv.Atoi(r.URL.Query().Get("Id"))
 	vars := mux.Vars(r)
 	key := vars["id"]
-	id, err := strconv.Atoi(key)
-	if err != nil {
-		msg := services.Response("The Id is not valid")
-		w.WriteHeader(http.StatusBadRequest)
-		w.Write(msg)
-		return
-	}
 
-	err = h.service.DeleteId(id)
+	err := h.service.DeleteId(key)
 	if err != nil {
 		msg := services.Response("This id doesn't exist")
 		w.WriteHeader(http.StatusNotFound)
@@ -211,15 +197,14 @@ func (h *PostHandler) UpdatePost(w http.ResponseWriter, r *http.Request) {
 
 	vars := mux.Vars(r)
 	key := vars["id"]
-	id, err := strconv.Atoi(key)
+
+	post.Id, err = uuid.Parse(key)
 	if err != nil {
-		msg := services.Response("The Id is not valid")
+		msg := services.Response("Couldn't parse id.")
 		w.WriteHeader(http.StatusBadRequest)
 		w.Write(msg)
 		return
 	}
-
-	post.Id = id
 	res, err := h.service.UpdateId(&post)
 	if err != nil {
 		msg := services.Response("Couldn't update requested post.")
