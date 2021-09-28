@@ -7,35 +7,35 @@ import (
 	pb "src/http/api/proto"
 	"src/http/cmd/grpcServer/configGRPC"
 	"src/http/pkg/gRPC"
+	"src/http/storage"
 	"src/http/storage/inMemory"
+	redisDB "src/http/storage/redis"
 )
 
 func main() {
 	//Set http
-	cfg := configGRPC.SetGRPC()
+	config := configGRPC.SetGRPC()
 
 	//start listening on tcp
-	lis, err := net.Listen("tcp", cfg.TcpPort)
+	lis, err := net.Listen("tcp", config.TcpPort)
 	if err != nil {
 		log.Fatalf("failed to listen: %s", err)
 	}
 
-	//inMemory storage
-	store := inMemory.New()
+	var store storage.Storage
 
-	//redisDB storage
-	//redis, err := strconv.Atoi(cfg.RedisDB)
-	//if err != nil {
-	//	return
-	//}
-	//
-	//store := redisDB.New(cfg.RedisAddr, cfg.RedisPsw, redis)
+	switch config.DbType {
+	case "inmemory":
+		store = inMemory.New()
+	case "redis":
+		store = redisDB.New(config.RedisAddr, config.RedisPsw, config.RedisDB)
+	}
 
 	//create GRPC server
 	s := grpc.NewServer()
 	pb.RegisterPostServiceServer(s, gRPC.NewGRPCStore(store))
 
-	log.Println("GRPC server started...", cfg.TcpPort)
+	log.Printf("GRPC server started on port: %v\n", config.TcpPort)
 
 	if err := s.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %s", err)

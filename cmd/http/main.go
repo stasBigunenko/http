@@ -51,7 +51,7 @@ func main() {
 		srv.Shutdown(context.Background())
 	}()
 
-	log.Println("HTTP server started...", config.Port, config.Grpc)
+	log.Printf("HTTP server started on port: %v\n", config.Port)
 
 	if err := srv.ListenAndServe(); err != nil {
 		log.Printf("failed to serve:+%v\n", err)
