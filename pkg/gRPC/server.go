@@ -70,7 +70,7 @@ func (s *StorageServer) Create(_ context.Context, in *pb.NewPost) (*pb.PostObj, 
 
 	post, err := s.Store.Create(p)
 	if err != nil {
-		return nil, status.Error(codes.Internal, "failed to create post")
+		return nil, status.Error(codes.Internal, "internal storage problem")
 	}
 
 	res := post.Id.String()
