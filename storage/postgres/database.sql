@@ -1,0 +1,5 @@
+CREATE TABLE posts (
+    id VARCHAR(40) PRIMARY KEY NOT NULL,
+    author VARCHAR(50) NOT NULL,
+    message VARCHAR(150) NOT NULL
+);

@@ -1,6 +1,8 @@
 package main
 
 import (
+	"fmt"
+	_ "github.com/lib/pq"
 	"google.golang.org/grpc"
 	"log"
 	"net"
@@ -9,6 +11,7 @@ import (
 	"src/http/pkg/gRPC"
 	"src/http/storage"
 	"src/http/storage/inMemory"
+	"src/http/storage/postgres"
 	redisDB "src/http/storage/redis"
 )
 
@@ -22,14 +25,20 @@ func main() {
 		log.Fatalf("failed to listen: %s", err)
 	}
 
+	fmt.Println(config)
+
 	var store storage.Storage
 
 	switch config.DbType {
 	case "inmemory":
 		store = inMemory.New()
 	case "redis":
-		store = redisDB.New(config.RedisAddr, config.RedisPsw, config.RedisDB)
+		store = redisDB.New(config.RedisAddr, config.RedisDB)
+	case "postgres":
+		store, _ = postgres.NewPDB(config.PostgresHost, config.PostgresPort, config.PostgresUser, config.PostgresPsw, config.PostgresDB, config.PostgresSSL)
 	}
+
+	fmt.Printf("-----------------------------------------%v\n", store)
 
 	//create GRPC server
 	s := grpc.NewServer()

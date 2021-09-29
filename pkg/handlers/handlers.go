@@ -88,8 +88,8 @@ func (h *PostHandler) CreatePost(w http.ResponseWriter, r *http.Request) {
 
 	res, err := h.service.CreateId(&post)
 	if err != nil {
-		msg := services.Response("Could not create post")
-		w.WriteHeader(http.StatusBadRequest)
+		msg := services.Response("internal problem")
+		w.WriteHeader(http.StatusUnauthorized)
 		w.Write(msg)
 		return
 	}

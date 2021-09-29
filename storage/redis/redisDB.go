@@ -7,20 +7,21 @@ import (
 	"github.com/go-redis/redis"
 	"github.com/google/uuid"
 	"src/http/pkg/model"
+	"strconv"
 )
 
 type RedisDB struct {
 	Client *redis.Client
 }
 
-func New(addr string, psw string, db string) *RedisDB {
+func New(addr string, db string) *RedisDB {
 
-	//rdb, _ := strconv.Atoi(db)
+	rdb, _ := strconv.Atoi(db)
 
 	redisDB := redis.NewClient(&redis.Options{
-		Addr: addr,
-		//Password: psw,
-		DB: 0,
+		Addr:     addr,
+		Password: "",
+		DB:       rdb,
 	})
 
 	val, err := redisDB.Ping().Result()

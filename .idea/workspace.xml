@@ -4,11 +4,17 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b5978d65-be42-4398-bbc3-d4985a9977b2" name="Default Changelist" comment="Redis as storage with docker files">
+    <list default="true" id="b5978d65-be42-4398-bbc3-d4985a9977b2" name="Default Changelist" comment="small fixes with db">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmd/grpcServer/configGRPC/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/grpcServer/configGRPC/config.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmd/grpcServer/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/grpcServer/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmd/http/configHTTP/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/http/configHTTP/config.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-compose.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/gRPC/grpccontroller/client.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/gRPC/grpccontroller/client.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/gRPC/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/gRPC/server.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/handlers/handlers.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/handlers/handlers.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/redis/redisDB.go" beforeDir="false" afterPath="$PROJECT_DIR$/storage/redis/redisDB.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,7 +35,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="grpc_as_storage" />
+        <entry key="$PROJECT_DIR$" value="master" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -55,6 +61,7 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="DatabaseDriversLRU" value="postgresql" />
     <property name="DefaultGoTemplateProperty" value="Go File" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
@@ -84,7 +91,7 @@
       <recent name="C:\goProjects\src\http\cmd\grpcServer" />
     </key>
   </component>
-  <component name="RunManager" selected="Go Build.go build src/http/cmd/http">
+  <component name="RunManager" selected="Go Build.go build src/http/cmd/grpcServer">
     <configuration default="true" type="GoApplicationRunConfiguration" factoryName="Go Application">
       <module name="http" />
       <working_directory value="$PROJECT_DIR$" />
@@ -148,12 +155,12 @@
       </deployment>
       <method v="2" />
     </configuration>
-    <configuration name="docker-compose.yaml.redis: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
+    <configuration name="docker-compose.yaml.postgres: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
       <deployment type="docker-compose.yml">
         <settings>
           <option name="services">
             <list>
-              <option value="redis" />
+              <option value="postgres" />
             </list>
           </option>
           <option name="sourceFilePath" value="docker-compose.yaml" />
@@ -164,10 +171,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="Go Build.go build src/http/cmd/grpcServer" />
+        <item itemvalue="Docker.docker-compose.yaml.postgres: Compose Deployment" />
         <item itemvalue="Go Build.go build src/http/cmd/http" />
         <item itemvalue="Docker.docker-compose.yaml.http: Compose Deployment" />
         <item itemvalue="Docker.docker-compose.yaml.grpc: Compose Deployment" />
-        <item itemvalue="Docker.docker-compose.yaml.redis: Compose Deployment" />
       </list>
     </recent_temporary>
   </component>

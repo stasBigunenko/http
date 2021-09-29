@@ -67,7 +67,7 @@ func (gc gRPCClient) Create(pp model.Post) (model.Post, error) {
 		Message: pp.Message,
 	})
 	if err != nil {
-		return model.Post{}, status.Errorf(codes.Internal, "couldn't create post")
+		return model.Post{}, status.Error(codes.Internal, "couldn't create post")
 	}
 
 	val, err := uuid.Parse(post.Id)
