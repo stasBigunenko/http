@@ -53,11 +53,11 @@ func (_m *ServicesInterface) CreatePost(post *model.Post) error {
 }
 
 // DeleteId provides a mock function with given fields: id
-func (_m *ServicesInterface) DeleteId(id int) error {
+func (_m *ServicesInterface) DeleteId(id string) error {
 	ret := _m.Called(id)
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func(int) error); ok {
+	if rf, ok := ret.Get(0).(func(string) error); ok {
 		r0 = rf(id)
 	} else {
 		r0 = ret.Error(0)
@@ -106,11 +106,11 @@ func (_m *ServicesInterface) GetALL() *[]model.Post {
 }
 
 // GetId provides a mock function with given fields: id
-func (_m *ServicesInterface) GetId(id int) (*model.Post, error) {
+func (_m *ServicesInterface) GetId(id string) (*model.Post, error) {
 	ret := _m.Called(id)
 
 	var r0 *model.Post
-	if rf, ok := ret.Get(0).(func(int) *model.Post); ok {
+	if rf, ok := ret.Get(0).(func(string) *model.Post); ok {
 		r0 = rf(id)
 	} else {
 		if ret.Get(0) != nil {
@@ -119,7 +119,7 @@ func (_m *ServicesInterface) GetId(id int) (*model.Post, error) {
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(int) error); ok {
+	if rf, ok := ret.Get(1).(func(string) error); ok {
 		r1 = rf(id)
 	} else {
 		r1 = ret.Error(1)

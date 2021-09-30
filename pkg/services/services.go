@@ -75,7 +75,6 @@ func (s *Services) DeleteId(id string) error {
 	}
 
 	err = s.store.Delete(val)
-	fmt.Println(err)
 	if err != nil {
 		return err
 	}
