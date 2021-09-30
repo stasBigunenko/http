@@ -3,6 +3,8 @@ package handlers
 import (
 	"encoding/json"
 	"errors"
+	"github.com/google/uuid"
+	"github.com/stretchr/testify/mock"
 	"net/http"
 	"net/http/httptest"
 	"strings"
@@ -19,7 +21,8 @@ import (
 
 func TestCreatePost(t *testing.T) {
 	s := new(mocks.ServicesInterface)
-	s.On("CreateId", &model.Post{Author: "Stas", Message: "first"}).Return(&model.Post{0, "Stas", "first"}, nil)
+	id := uuid.New()
+	s.On("CreateId", &model.Post{Author: "Stas", Message: "first"}).Return(&model.Post{id, "Stas", "first"}, nil)
 
 	s2 := new(mocks.ServicesInterface)
 	s2.On("CreateId", &model.Post{Author: "", Message: ""}).Return(nil, errors.New("author is empty"))
@@ -54,7 +57,7 @@ func TestCreatePost(t *testing.T) {
 			buf:    `{"Author":"","Message":""}`,
 			method: "POST",
 			url:    "localhost:8080/posts/create",
-			status: http.StatusBadRequest,
+			status: http.StatusUnauthorized,
 		},
 		{
 			name: "POST post err: wrong method",
@@ -105,10 +108,13 @@ func TestCreatePost(t *testing.T) {
 
 func TestGetPost(t *testing.T) {
 	s := new(mocks.ServicesInterface)
-	s.On("GetId", 1).Return(&model.Post{1, "Stas", "first"}, nil)
+	id := uuid.New()
+	idStr := id.String()
+	idStr2 := "00000000-0000-0000-0000-000000000000s"
+	s.On("GetId", idStr).Return(&model.Post{id, "Stas", "first"}, nil)
 
 	s2 := new(mocks.ServicesInterface)
-	s2.On("GetId", 25).Return(nil, errors.New("Not found"))
+	s2.On("GetId", idStr2).Return(nil, errors.New("Not found"))
 
 	type args struct {
 		service services.ServicesInterface
@@ -130,7 +136,7 @@ func TestGetPost(t *testing.T) {
 			},
 			buf: `1`,
 			vars: map[string]string{
-				"id": "1",
+				"id": idStr,
 			},
 			method: "GET",
 			url:    "localhost:8080/posts/1",
@@ -152,27 +158,14 @@ func TestGetPost(t *testing.T) {
 		{
 			name: "GET post wrong url",
 			args: args{
-				service: s,
+				service: s2,
 			},
 			buf: `100`,
 			vars: map[string]string{
-				"id": "1v",
+				"id": idStr2,
 			},
 			method: "GET",
 			url:    "localhost:8080/posts/1v",
-			status: http.StatusBadRequest,
-		},
-		{
-			name: "GET post post not found",
-			args: args{
-				service: s2,
-			},
-			buf: ``,
-			vars: map[string]string{
-				"id": "25",
-			},
-			method: "GET",
-			url:    "localhost:8080/posts/25",
 			status: http.StatusNotFound,
 		},
 	}
@@ -199,9 +192,11 @@ func TestGetPost(t *testing.T) {
 
 func TestGetAll(t *testing.T) {
 	s := new(mocks.ServicesInterface)
+	id1 := uuid.New()
+	id2 := uuid.New()
 	x := &[]model.Post{
-		{1, "Stas", "first"},
-		{2, "Stas", "second"},
+		{id1, "Stas", "first"},
+		{id2, "Stas", "second"},
 	}
 	s.On("GetALL").Return(x, nil)
 
@@ -264,10 +259,15 @@ func TestGetAll(t *testing.T) {
 
 func TestDeletePost(t *testing.T) {
 	s := new(mocks.ServicesInterface)
-	s.On("DeleteId", 1).Return(nil)
+	id := uuid.New()
+	idStr := id.String()
+	s.On("DeleteId", idStr).Return(nil)
 
 	s2 := new(mocks.ServicesInterface)
 	s2.On("DeleteId", 100).Return(errors.New("not found"))
+
+	s3 := new(mocks.ServicesInterface)
+	s3.On("DeleteId", mock.Anything).Return(errors.New("bad request"))
 
 	type args struct {
 		service services.ServicesInterface
@@ -289,7 +289,7 @@ func TestDeletePost(t *testing.T) {
 			},
 			buf: `1`,
 			vars: map[string]string{
-				"id": "1",
+				"id": idStr,
 			},
 			method: "DELETE",
 			url:    "localhost:8080/posts/1",
@@ -311,7 +311,7 @@ func TestDeletePost(t *testing.T) {
 		{
 			name: "DELETE post err: wrong url",
 			args: args{
-				service: s,
+				service: s3,
 			},
 			buf: `1`,
 			vars: map[string]string{
@@ -319,19 +319,6 @@ func TestDeletePost(t *testing.T) {
 			},
 			method: "DELETE",
 			url:    "localhost:8080/posts/1s",
-			status: http.StatusBadRequest,
-		},
-		{
-			name: "DELETE post err:post not found",
-			args: args{
-				service: s2,
-			},
-			buf: `100`,
-			vars: map[string]string{
-				"id": "100",
-			},
-			method: "DELETE",
-			url:    "localhost:8080/posts/100",
 			status: http.StatusNotFound,
 		},
 	}
@@ -359,10 +346,13 @@ func TestDeletePost(t *testing.T) {
 
 func TestUpdatePost(t *testing.T) {
 	s := new(mocks.ServicesInterface)
-	s.On("UpdateId", &model.Post{Id: 1, Author: "Stas", Message: "first"}).Return(&model.Post{1, "Alexey", "wrong"}, nil)
+	id1 := uuid.New()
+	idStr := id1.String()
+	s.On("UpdateId", &model.Post{Id: id1, Author: "Stas", Message: "first"}).Return(&model.Post{id1, "Alexey", "wrong"}, nil)
 
+	//id2 := uuid.New()
 	s2 := new(mocks.ServicesInterface)
-	s2.On("UpdateId", &model.Post{Id: 1000, Author: "Stas", Message: "first"}).Return(nil, errors.New("post cann't be updated. The post doesn't exist"))
+	s2.On("UpdateId", &model.Post{Id: id1, Author: "Stas", Message: "first"}).Return(nil, errors.New("post cann't be updated. The post doesn't exist"))
 
 	type args struct {
 		service services.ServicesInterface
@@ -384,10 +374,10 @@ func TestUpdatePost(t *testing.T) {
 			},
 			buf:    `{"Author":"Stas","Message":"first"}`,
 			method: "PUT",
-			url:    "localhost:8080/posts/1",
+			url:    "localhost:8080/posts/" + idStr,
 			status: http.StatusOK,
 			vars: map[string]string{
-				"id": "1",
+				"id": idStr,
 			},
 		},
 		{
@@ -397,7 +387,7 @@ func TestUpdatePost(t *testing.T) {
 			},
 			buf:    `{"Author":"Stas","Message":"first"}`,
 			method: "GET",
-			url:    "localhost:8080/posts/1",
+			url:    "localhost:8080/posts/",
 			status: http.StatusMethodNotAllowed,
 			vars: map[string]string{
 				"id": "1",
@@ -423,10 +413,10 @@ func TestUpdatePost(t *testing.T) {
 			},
 			buf:    `{"Author":"Stas","Message":"first"}`,
 			method: "PUT",
-			url:    "localhost:8080/posts/1000",
+			url:    "localhost:8080/posts/" + idStr,
 			status: http.StatusNotFound,
 			vars: map[string]string{
-				"id": "1000",
+				"id": idStr,
 			},
 		},
 		{
@@ -468,9 +458,11 @@ func TestUpdatePost(t *testing.T) {
 
 func TestDownloadPost(t *testing.T) {
 	s := new(mocks.ServicesInterface)
+	id1 := uuid.New()
+	id2 := uuid.New()
 	x := &[]model.Post{
-		{1, "Stas", "first"},
-		{2, "Stas", "second"},
+		{id1, "Stas", "first"},
+		{id2, "Stas", "second"},
 	}
 	ap, _ := csvutil.Marshal(x)
 	s.On("Download").Return(ap, nil)
@@ -542,12 +534,14 @@ func TestDownloadPost(t *testing.T) {
 
 func TestRoutes(t *testing.T) {
 	s := new(mocks.ServicesInterface)
-	s.On("CreateId", &model.Post{Author: "Stas", Message: "first"}).Return(&model.Post{0, "Stas", "first"}, nil)
+	id := uuid.New()
+	s.On("CreateId", &model.Post{Author: "Stas", Message: "first"}).Return(&model.Post{id, "Stas", "first"}, nil)
 
+	id2 := uuid.New()
 	s2 := new(mocks.ServicesInterface)
 	x := &[]model.Post{
-		{1, "Stas", "first"},
-		{2, "Stas", "second"},
+		{id, "Stas", "first"},
+		{id2, "Stas", "second"},
 	}
 	ap, _ := csvutil.Marshal(x)
 	s2.On("Download").Return(ap, nil)
