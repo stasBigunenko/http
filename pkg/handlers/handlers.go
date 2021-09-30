@@ -3,12 +3,14 @@ package handlers
 import (
 	"context"
 	"encoding/json"
+	"net/http"
+	"time"
+
 	"github.com/google/uuid"
 	"github.com/gorilla/mux"
-	"net/http"
+
 	"src/http/pkg/model"
 	"src/http/pkg/services"
-	"time"
 )
 
 //Handlers with the CRUD functions and Middleware

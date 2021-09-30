@@ -2,9 +2,11 @@ package inMemory
 
 import (
 	"errors"
-	"github.com/google/uuid"
-	"src/http/pkg/model"
 	"sync"
+
+	"github.com/google/uuid"
+
+	"src/http/pkg/model"
 )
 
 //Storage functions

@@ -4,11 +4,13 @@ import (
 	"encoding/csv"
 	"errors"
 	"fmt"
-	"github.com/google/uuid"
-	"github.com/jszwec/csvutil"
 	"io"
 	"mime/multipart"
 	"os"
+
+	"github.com/google/uuid"
+	"github.com/jszwec/csvutil"
+
 	"src/http/pkg/model"
 	"src/http/storage"
 )

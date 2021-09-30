@@ -4,10 +4,12 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"strconv"
+
 	"github.com/go-redis/redis"
 	"github.com/google/uuid"
+
 	"src/http/pkg/model"
-	"strconv"
 )
 
 type RedisDB struct {

@@ -3,16 +3,18 @@ package handlers
 import (
 	"encoding/json"
 	"errors"
+	"net/http"
+	"net/http/httptest"
+	"strings"
+	"testing"
+
 	"github.com/gorilla/mux"
 	"github.com/jszwec/csvutil"
 	"github.com/stretchr/testify/assert"
-	"net/http"
-	"net/http/httptest"
+
 	"src/http/pkg/model"
 	"src/http/pkg/services"
 	"src/http/pkg/services/mocks"
-	"strings"
-	"testing"
 )
 
 func TestCreatePost(t *testing.T) {

@@ -2,15 +2,18 @@ package main
 
 import (
 	"fmt"
-	_ "github.com/lib/pq"
-	"google.golang.org/grpc"
 	"log"
 	"net"
+
+	_ "github.com/lib/pq"
+	"google.golang.org/grpc"
+
 	pb "src/http/api/proto"
 	"src/http/cmd/grpcServer/configGRPC"
 	"src/http/pkg/gRPC"
 	"src/http/storage"
 	"src/http/storage/inMemory"
+	mongoDB "src/http/storage/mongo"
 	"src/http/storage/postgres"
 	redisDB "src/http/storage/redis"
 )
@@ -25,8 +28,6 @@ func main() {
 		log.Fatalf("failed to listen: %s", err)
 	}
 
-	fmt.Println(config)
-
 	var store storage.Storage
 
 	switch config.DbType {
@@ -36,6 +37,8 @@ func main() {
 		store = redisDB.New(config.RedisAddr, config.RedisDB)
 	case "postgres":
 		store, _ = postgres.NewPDB(config.PostgresHost, config.PostgresPort, config.PostgresUser, config.PostgresPsw, config.PostgresDB, config.PostgresSSL)
+	case "mongo":
+		store = mongoDB.NewMongo(config.MONGO_INITDB_ROOT_USERNAME, config.MONGO_INITDB_ROOT_PASSWORD, config.MONGO_ADDR)
 	}
 
 	fmt.Printf("-----------------------------------------%v\n", store)

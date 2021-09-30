@@ -4,10 +4,12 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
+	"sync"
+
 	"github.com/google/uuid"
 	_ "github.com/lib/pq"
+
 	"src/http/pkg/model"
-	"sync"
 )
 
 type PostgresDB struct {
@@ -17,15 +19,17 @@ type PostgresDB struct {
 
 func NewPDB(host string, port string, user string, psw string, dbname string, ssl string) (*PostgresDB, error) {
 	connStr := "host=" + host + " port=" + port + " user=" + user + " password=" + psw + " dbname=" + dbname + " sslmode=" + ssl
-	fmt.Println(connStr)
-	//connStr = "host=postgres port=5432 dbname=postgres user=postgres password=qwerty sslmode=disable"
 
 	db, err := sql.Open("postgres", connStr)
 	if err != nil {
 		return nil, fmt.Errorf("failed to connect database %w\n", err)
 	}
 
-	return &PostgresDB{Pdb: db}, nil
+	database := &PostgresDB{Pdb: db}
+
+	database.Pdb.Exec("CREATE TABLE posts (\n    id VARCHAR(40) PRIMARY KEY NOT NULL,\n    author VARCHAR(50) NOT NULL,\n    message VARCHAR(150) NOT NULL\n);")
+
+	return database, nil
 }
 
 func (pdb *PostgresDB) Create(p model.Post) (model.Post, error) {
