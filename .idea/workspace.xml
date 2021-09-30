@@ -4,17 +4,14 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b5978d65-be42-4398-bbc3-d4985a9977b2" name="Default Changelist" comment="small fixes with db">
+    <list default="true" id="b5978d65-be42-4398-bbc3-d4985a9977b2" name="Default Changelist" comment="implemented postgres storage">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmd/grpcServer/configGRPC/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/grpcServer/configGRPC/config.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmd/grpcServer/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/grpcServer/main.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docker-compose.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/gRPC/grpccontroller/client.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/gRPC/grpccontroller/client.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/gRPC/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/gRPC/server.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/handlers/handlers.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/handlers/handlers.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/redis/redisDB.go" beforeDir="false" afterPath="$PROJECT_DIR$/storage/redis/redisDB.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/postgres/postgresDB.go" beforeDir="false" afterPath="$PROJECT_DIR$/storage/postgres/postgresDB.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,7 +69,7 @@
     <property name="go.import.settings.migrated" value="true" />
     <property name="go.modules.go.list.on.any.changes.was.set" value="true" />
     <property name="go.sdk.automatically.set" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../monorepa" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="go.vgo" />
   </component>
   <component name="RecentsManager">
@@ -129,12 +126,12 @@
       <framework value="gotest" />
       <method v="2" />
     </configuration>
-    <configuration name="docker-compose.yaml.grpc: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
+    <configuration name="docker-compose.yaml.http: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
       <deployment type="docker-compose.yml">
         <settings>
           <option name="services">
             <list>
-              <option value="grpc" />
+              <option value="http" />
             </list>
           </option>
           <option name="sourceFilePath" value="docker-compose.yaml" />
@@ -142,12 +139,12 @@
       </deployment>
       <method v="2" />
     </configuration>
-    <configuration name="docker-compose.yaml.http: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
+    <configuration name="docker-compose.yaml.mongo: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
       <deployment type="docker-compose.yml">
         <settings>
           <option name="services">
             <list>
-              <option value="http" />
+              <option value="mongo" />
             </list>
           </option>
           <option name="sourceFilePath" value="docker-compose.yaml" />
@@ -171,10 +168,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="Go Build.go build src/http/cmd/grpcServer" />
+        <item itemvalue="Docker.docker-compose.yaml.mongo: Compose Deployment" />
         <item itemvalue="Docker.docker-compose.yaml.postgres: Compose Deployment" />
         <item itemvalue="Go Build.go build src/http/cmd/http" />
         <item itemvalue="Docker.docker-compose.yaml.http: Compose Deployment" />
-        <item itemvalue="Docker.docker-compose.yaml.grpc: Compose Deployment" />
       </list>
     </recent_temporary>
   </component>
@@ -207,7 +204,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Fixed functions and some errors" />
     <MESSAGE value="Added readme file" />
     <MESSAGE value="Added readme file fixes" />
     <MESSAGE value="Added simple middleware log" />
@@ -232,7 +228,8 @@
     <MESSAGE value="gRPC as storage to http" />
     <MESSAGE value="gRPC as storage to http with docker" />
     <MESSAGE value="Redis as storage with docker files" />
-    <option name="LAST_COMMIT_MESSAGE" value="Redis as storage with docker files" />
+    <MESSAGE value="implemented postgres storage" />
+    <option name="LAST_COMMIT_MESSAGE" value="implemented postgres storage" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>

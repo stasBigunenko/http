@@ -23,6 +23,11 @@ type Config struct {
 	PostgresPsw  string
 	PostgresDB   string
 	PostgresSSL  string
+
+	//mongo
+	MONGO_INITDB_ROOT_USERNAME string
+	MONGO_INITDB_ROOT_PASSWORD string
+	MONGO_ADDR                 string
 }
 
 func SetGRPC() *Config {
@@ -35,7 +40,7 @@ func SetGRPC() *Config {
 
 	config.DbType = os.Getenv("DB_TYPE")
 	if config.DbType == "" {
-		config.DbType = "redis"
+		config.DbType = "mongo"
 	}
 
 	config.RedisAddr = os.Getenv("REDIS_ADDR")
@@ -78,6 +83,21 @@ func SetGRPC() *Config {
 		config.PostgresSSL = "disable"
 	}
 
+	config.MONGO_INITDB_ROOT_USERNAME = os.Getenv("MONGO_INITDB_ROOT_USERNAME")
+	if config.MONGO_INITDB_ROOT_USERNAME == "" {
+		config.MONGO_INITDB_ROOT_USERNAME = "root"
+	}
+
+	config.MONGO_INITDB_ROOT_PASSWORD = os.Getenv("MONGO_INITDB_ROOT_PASSWORD")
+	if config.MONGO_INITDB_ROOT_PASSWORD == "" {
+		config.MONGO_INITDB_ROOT_PASSWORD = "root"
+	}
+
+	config.MONGO_ADDR = os.Getenv("MONGO_ADDR")
+	if config.MONGO_ADDR == "" {
+		config.MONGO_ADDR = ":27020"
+	}
+
 	return &Config{
 		TcpPort: config.TcpPort,
 		DbType:  config.DbType,
@@ -91,5 +111,9 @@ func SetGRPC() *Config {
 		PostgresPsw:  config.PostgresPsw,
 		PostgresDB:   config.PostgresDB,
 		PostgresSSL:  config.PostgresSSL,
+
+		MONGO_ADDR:                 config.MONGO_ADDR,
+		MONGO_INITDB_ROOT_USERNAME: config.MONGO_INITDB_ROOT_USERNAME,
+		MONGO_INITDB_ROOT_PASSWORD: config.MONGO_INITDB_ROOT_PASSWORD,
 	}
 }

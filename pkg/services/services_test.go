@@ -2,13 +2,14 @@ package services
 
 import (
 	"errors"
+	"testing"
+
 	"github.com/jszwec/csvutil"
 	"github.com/stretchr/testify/assert"
 
 	"src/http/pkg/model"
 	"src/http/storage"
 	"src/http/storage/mocks"
-	"testing"
 )
 
 func TestCreateId(t *testing.T) {

@@ -2,12 +2,14 @@ package main
 
 import (
 	"context"
-	"github.com/gorilla/mux"
-	"google.golang.org/grpc"
 	"log"
 	"net/http"
 	"os"
 	"os/signal"
+
+	"github.com/gorilla/mux"
+	"google.golang.org/grpc"
+
 	pb "src/http/api/proto"
 	"src/http/cmd/http/configHTTP"
 	"src/http/pkg/gRPC/grpccontroller"

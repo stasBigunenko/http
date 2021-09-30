@@ -23,7 +23,7 @@ services:
       - "9000:9000"
     environment:
       TCP_PORT: ":9000"
-      DB_TYPE: "postgres"
+      DB_TYPE: "mongo"
       REDIS_ADDR: "redis:6379"
       REDIS_DB: "redisDB"
       POSTGRES_HOST: "postgres"
@@ -32,8 +32,10 @@ services:
       POSTGRES_PASSWORD: "qwerty"
       POSTGRES_DB: "postgres"
       POSTGRES_SSL: "disable"
-#    depends_on:
-#      - postgres
+      MONGO_INITDB_ROOT_USERNAME: "root"
+      MONGO_INITDB_ROOT_PASSWORD: "root"
+      MONGO_ADDR: "mongodb:27017"
+
 
   redis:
     container_name: "redis"
@@ -48,7 +50,17 @@ services:
       POSTGRES_USER: "postgres"
       POSTGRES_PASSWORD: "qwerty"
       POSTGRES_DATABASE: "postgres"
-    volumes:
-      - ./storage/postgres/database.sql:/docker-entrypoint-initdb.d/database.sql
+#    volumes:
+#      - ./storage/postgres/database.sql:/docker-entrypoint-initdb.d/database.sql
     ports:
       - "5432:5432"
+
+  mongo:
+    container_name: "mongodb"
+    image: mongo:latest
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: "root"
+      MONGO_INITDB_ROOT_PASSWORD: "root"
+    ports:
+      - "27017:27017"
