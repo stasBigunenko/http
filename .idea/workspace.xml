@@ -4,16 +4,7 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b5978d65-be42-4398-bbc3-d4985a9977b2" name="Default Changelist" comment="implemented mongodb storage and small code cleaning">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/handlers/handlers_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/handlers/handlers_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/services/mocks/ServicesInterface.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/services/services.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/services/services.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/services/services_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/services/services_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/inMemory/mockStorage.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/mockStorage.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/mocks/Storage.go" beforeDir="false" />
-    </list>
+    <list default="true" id="b5978d65-be42-4398-bbc3-d4985a9977b2" name="Default Changelist" comment="Added and repaired tests" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -89,7 +80,7 @@
       <recent name="C:\goProjects\src\http\cmd\grpcServer" />
     </key>
   </component>
-  <component name="RunManager" selected="Go Test.go test src/http/pkg/gRPC">
+  <component name="RunManager" selected="Go Test.go test src/http/pkg/services">
     <configuration default="true" type="GoApplicationRunConfiguration" factoryName="Go Application">
       <module name="http" />
       <working_directory value="$PROJECT_DIR$" />
@@ -99,31 +90,31 @@
       <filePath value="$PROJECT_DIR$" />
       <method v="2" />
     </configuration>
-    <configuration name="TestStorageServer_Get/Get_everything_good in src/http/pkg/gRPC" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="TestServices_CreateId/Create_posts_empty in src/http/pkg/services" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="http" />
-      <working_directory value="$PROJECT_DIR$/pkg/gRPC" />
+      <working_directory value="$PROJECT_DIR$/pkg/services" />
       <root_directory value="$PROJECT_DIR$" />
       <kind value="PACKAGE" />
-      <package value="src/http/pkg/gRPC" />
+      <package value="src/http/pkg/services" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
       <framework value="gotest" />
-      <pattern value="^\QTestStorageServer_Get\E$/^\QGet_everything_good\E$" />
+      <pattern value="^\QTestServices_CreateId\E$/^\QCreate_posts_empty\E$" />
       <method v="2" />
     </configuration>
-    <configuration name="TestStorageServer_Get/Get_everything_good#01 in src/http/pkg/gRPC" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="TestServices_CreateId/Create_posts_message in src/http/pkg/services" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="http" />
-      <working_directory value="$PROJECT_DIR$/pkg/gRPC" />
+      <working_directory value="$PROJECT_DIR$/pkg/services" />
       <root_directory value="$PROJECT_DIR$" />
       <kind value="PACKAGE" />
-      <package value="src/http/pkg/gRPC" />
+      <package value="src/http/pkg/services" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
       <framework value="gotest" />
-      <pattern value="^\QTestStorageServer_Get\E$/^\QGet_everything_good#01\E$" />
+      <pattern value="^\QTestServices_CreateId\E$/^\QCreate_posts_message\E$" />
       <method v="2" />
     </configuration>
-    <configuration name="TestStorageServer_Get/Get_everything_good#02 in src/http/pkg/gRPC" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="TestStorageServer_CreateFromFile in src/http/pkg/gRPC" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="http" />
       <working_directory value="$PROJECT_DIR$/pkg/gRPC" />
       <root_directory value="$PROJECT_DIR$" />
@@ -132,20 +123,10 @@
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
       <framework value="gotest" />
-      <pattern value="^\QTestStorageServer_Get\E$/^\QGet_everything_good#02\E$" />
+      <pattern value="^\QTestStorageServer_CreateFromFile\E$" />
       <method v="2" />
     </configuration>
     <configuration default="true" type="GoTestRunConfiguration" factoryName="Go Test">
-      <module name="http" />
-      <working_directory value="$PROJECT_DIR$" />
-      <kind value="DIRECTORY" />
-      <package value="http" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$" />
-      <framework value="gotest" />
-      <method v="2" />
-    </configuration>
-    <configuration name="go test http" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="http" />
       <working_directory value="$PROJECT_DIR$" />
       <kind value="DIRECTORY" />
@@ -166,13 +147,24 @@
       <framework value="gotest" />
       <method v="2" />
     </configuration>
+    <configuration name="go test src/http/pkg/services" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="http" />
+      <working_directory value="$PROJECT_DIR$/pkg/services" />
+      <root_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="src/http/pkg/services" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Go Test.go test src/http/pkg/services" />
+        <item itemvalue="Go Test.TestServices_CreateId/Create_posts_message in src/http/pkg/services" />
+        <item itemvalue="Go Test.TestServices_CreateId/Create_posts_empty in src/http/pkg/services" />
         <item itemvalue="Go Test.go test src/http/pkg/gRPC" />
-        <item itemvalue="Go Test.TestStorageServer_Get/Get_everything_good#02 in src/http/pkg/gRPC" />
-        <item itemvalue="Go Test.TestStorageServer_Get/Get_everything_good#01 in src/http/pkg/gRPC" />
-        <item itemvalue="Go Test.TestStorageServer_Get/Get_everything_good in src/http/pkg/gRPC" />
-        <item itemvalue="Go Test.go test http" />
+        <item itemvalue="Go Test.TestStorageServer_CreateFromFile in src/http/pkg/gRPC" />
       </list>
     </recent_temporary>
   </component>
@@ -205,7 +197,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Added readme file fixes" />
     <MESSAGE value="Added simple middleware log" />
     <MESSAGE value="Added simple middleware log some fixes" />
     <MESSAGE value="Added some headers errors, refactored time format" />
@@ -230,7 +221,8 @@
     <MESSAGE value="Redis as storage with docker files" />
     <MESSAGE value="implemented postgres storage" />
     <MESSAGE value="implemented mongodb storage and small code cleaning" />
-    <option name="LAST_COMMIT_MESSAGE" value="implemented mongodb storage and small code cleaning" />
+    <MESSAGE value="Added and repaired tests" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added and repaired tests" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>
@@ -241,7 +233,7 @@
     <SUITE FILE_PATH="coverage/http$TestCreateId_in_src_http_pkg_services.out" NAME="TestCreateId in src/http/pkg/services Coverage Results" MODIFIED="1633010988820" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="GoCoverage" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/http$TestGetAll_GetAll_post_Everything_OK_02_in_src_http_pkg_handlers.out" NAME="TestGetAll/GetAll_post_Everything_OK#02 in src/http/pkg/handlers Coverage Results" MODIFIED="1630656339185" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="GoCoverage" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/http$TestCreatePost_in_src_http_pkg_handlers__1_.out" NAME="TestCreatePost in src/http/pkg/handlers (1) Coverage Results" MODIFIED="1630654684746" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="GoCoverage" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
-    <SUITE FILE_PATH="coverage/http$go_test_src_http_pkg_gRPC.out" NAME="go test src/http/pkg/gRPC Coverage Results" MODIFIED="1633014319141" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="GoCoverage" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/http$go_test_src_http_pkg_gRPC.out" NAME="go test src/http/pkg/gRPC Coverage Results" MODIFIED="1633016491214" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="GoCoverage" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/http$TestPostHandler_CreatePost_in_src_http_pkg_handlers.out" NAME="TestPostHandler_CreatePost in src/http/pkg/handlers Coverage Results" MODIFIED="1630407525051" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="GoCoverage" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/http$TestGetAll_in_src_http_pkg_handlers.out" NAME="TestGetAll in src/http/pkg/handlers Coverage Results" MODIFIED="1630656364858" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="GoCoverage" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/http$TestGetPost_in_src_http_pkg_handlers.out" NAME="TestGetPost in src/http/pkg/handlers Coverage Results" MODIFIED="1630654878364" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="GoCoverage" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
@@ -259,6 +251,6 @@
     <SUITE FILE_PATH="coverage/http$TestCreatePost_POST_post_Everything_OK_in_src_http_pkg_handlers__1_.out" NAME="TestCreatePost/POST_post_Everything_OK in src/http/pkg/handlers (1) Coverage Results" MODIFIED="1630653869568" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="GoCoverage" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/http$go_test_src_http_pkg_handlers.out" NAME="go test src/http/pkg/handlers Coverage Results" MODIFIED="1633008872415" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="GoCoverage" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/http$TestUpdatePost_in_src_http_pkg_handlers.out" NAME="TestUpdatePost in src/http/pkg/handlers Coverage Results" MODIFIED="1630657698342" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="GoCoverage" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
-    <SUITE FILE_PATH="coverage/http$go_test_src_http_pkg_services.out" NAME="go test src/http/pkg/services Coverage Results" MODIFIED="1633013289226" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="GoCoverage" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/http$go_test_src_http_pkg_services.out" NAME="go test src/http/pkg/services Coverage Results" MODIFIED="1633016782336" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="GoCoverage" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
 </project>
