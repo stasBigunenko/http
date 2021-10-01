@@ -2,13 +2,16 @@ package main
 
 import (
 	"context"
+	"github.com/99designs/gqlgen/graphql/handler"
+	"github.com/99designs/gqlgen/graphql/playground"
+	"github.com/gorilla/mux"
+	"google.golang.org/grpc"
 	"log"
 	"net/http"
 	"os"
 	"os/signal"
-
-	"github.com/gorilla/mux"
-	"google.golang.org/grpc"
+	"src/http/pkg/graphQL/graph"
+	"src/http/pkg/graphQL/graph/generated"
 
 	pb "src/http/api/proto"
 	"src/http/cmd/http/configHTTP"
@@ -39,6 +42,10 @@ func main() {
 
 	router := postroutes.Routes(sub)
 
+	graphql := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: graph.NewResolver(&serv)}))
+	sub.Handle("/", playground.Handler("GraphQL playground", "/query/"))
+	sub.Handle("/graphql/", graphql)
+
 	srv := http.Server{
 		Addr:    config.Port,
 		Handler: router,
@@ -54,6 +61,7 @@ func main() {
 	}()
 
 	log.Printf("HTTP server started on port: %v\n", config.Port)
+	//log.Printf("connect to http://localhost:%s/ for GraphQL playground", )
 
 	if err := srv.ListenAndServe(); err != nil {
 		log.Printf("failed to serve:+%v\n", err)

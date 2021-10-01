@@ -12,7 +12,7 @@ type Config struct {
 
 func Set() *Config {
 	var config Config
-	config.Port = os.Getenv("PORT")
+	config.Port = os.Getenv("PORT_HTTP")
 	config.Grpc = os.Getenv("GRPC")
 
 	if config.Port == "" {

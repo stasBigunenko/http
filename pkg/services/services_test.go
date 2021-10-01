@@ -3,6 +3,7 @@ package services
 import (
 	"errors"
 	"github.com/jszwec/csvutil"
+	"src/http/pkg/mocks"
 	"testing"
 
 	"github.com/google/uuid"
@@ -11,7 +12,6 @@ import (
 
 	"src/http/pkg/model"
 	"src/http/storage"
-	"src/http/storage/mocks"
 )
 
 func TestServices_CreateId(t *testing.T) {

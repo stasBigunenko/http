@@ -10,8 +10,8 @@ import (
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/types/known/emptypb"
 	pb "src/http/api/proto"
+	"src/http/pkg/mocks"
 	"src/http/pkg/model"
-	"src/http/storage/mocks"
 	"testing"
 )
 

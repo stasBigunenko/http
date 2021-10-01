@@ -11,7 +11,7 @@ services:
     links:
       - "grpc:grpc"
     environment:
-      PORT: ":8085"
+      PORT_HTTP: ":8085"
       GRPC: "grpc:9000"
 
   grpc:
@@ -23,7 +23,7 @@ services:
       - "9000:9000"
     environment:
       TCP_PORT: ":9000"
-      DB_TYPE: "mongo"
+      DB_TYPE: "inmemory"
       REDIS_ADDR: "redis:6379"
       REDIS_DB: "redisDB"
       POSTGRES_HOST: "postgres"

@@ -7,6 +7,7 @@ import (
 	"github.com/stretchr/testify/mock"
 	"net/http"
 	"net/http/httptest"
+	"src/http/pkg/mocks"
 	"strings"
 	"testing"
 
@@ -16,7 +17,6 @@ import (
 
 	"src/http/pkg/model"
 	"src/http/pkg/services"
-	"src/http/pkg/services/mocks"
 )
 
 func TestCreatePost(t *testing.T) {
