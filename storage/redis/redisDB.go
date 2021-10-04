@@ -75,7 +75,6 @@ func (rdb *RedisDB) GetAll() []model.Post {
 	var posts []model.Post
 
 	all, err := rdb.Client.Keys("*").Result()
-	fmt.Println(all)
 	if err != nil {
 		return nil
 	}

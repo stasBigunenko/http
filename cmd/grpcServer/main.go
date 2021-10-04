@@ -41,7 +41,7 @@ func main() {
 		store = mongoDB.NewMongo(config.MONGO_INITDB_ROOT_USERNAME, config.MONGO_INITDB_ROOT_PASSWORD, config.MONGO_ADDR)
 	}
 
-	fmt.Printf("-----------------------------------------%v\n", store)
+	fmt.Printf("----------------------------------storage - %v\n", config.DbType)
 
 	//create GRPC server
 	s := grpc.NewServer()

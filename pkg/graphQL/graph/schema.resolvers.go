@@ -6,10 +6,11 @@ package graph
 import (
 	"context"
 	"errors"
-	"github.com/google/uuid"
 	"src/http/pkg/graphQL/graph/generated"
 	"src/http/pkg/graphQL/graph/model"
 	mymodel "src/http/pkg/model"
+
+	"github.com/google/uuid"
 )
 
 func (r *mutationResolver) CreatePost(ctx context.Context, input model.NewPost) (*model.Post, error) {
@@ -56,13 +57,15 @@ func (r *mutationResolver) UpdatePost(ctx context.Context, input model.UpdatePos
 	return &post, nil
 }
 
-func (r *mutationResolver) DeletePost(ctx context.Context, id string) (*bool, error) {
-	var res *bool
+func (r *mutationResolver) DeletePost(ctx context.Context, id string) (*string, error) {
+	var res string
 	err := r.service.DeleteId(id)
 	if err != nil {
-		return res, errors.New("storage problem")
+		res = "post can't be deleted"
+		return &res, errors.New("storage problem")
 	}
-	return res, nil
+	res = "post have been deleted"
+	return &res, nil
 }
 
 func (r *queryResolver) GetPosts(ctx context.Context) ([]*model.Post, error) {

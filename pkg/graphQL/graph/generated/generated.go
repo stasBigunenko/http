@@ -64,7 +64,7 @@ type ComplexityRoot struct {
 type MutationResolver interface {
 	CreatePost(ctx context.Context, input model.NewPost) (*model.Post, error)
 	UpdatePost(ctx context.Context, input model.UpdatePost) (*model.Post, error)
-	DeletePost(ctx context.Context, id string) (*bool, error)
+	DeletePost(ctx context.Context, id string) (*string, error)
 }
 type QueryResolver interface {
 	GetPosts(ctx context.Context) ([]*model.Post, error)
@@ -256,7 +256,7 @@ input UpdatePost {
 type Mutation {
   createPost(input: NewPost!): Post!
   updatePost(input: UpdatePost!): Post!
-  deletePost(id: ID!): Boolean
+  deletePost(id: ID!): String
 }
 `, BuiltIn: false},
 }
@@ -497,9 +497,9 @@ func (ec *executionContext) _Mutation_deletePost(ctx context.Context, field grap
 	if resTmp == nil {
 		return graphql.Null
 	}
-	res := resTmp.(*bool)
+	res := resTmp.(*string)
 	fc.Result = res
-	return ec.marshalOBoolean2ᚖbool(ctx, field.Selections, res)
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Post_id(ctx context.Context, field graphql.CollectedField, obj *model.Post) (ret graphql.Marshaler) {

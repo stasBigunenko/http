@@ -4,19 +4,13 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b5978d65-be42-4398-bbc3-d4985a9977b2" name="Default Changelist" comment="idea files">
+    <list default="true" id="b5978d65-be42-4398-bbc3-d4985a9977b2" name="Default Changelist" comment="added graphql">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmd/grpcServer/configGRPC/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/grpcServer/configGRPC/config.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmd/http/configHTTP/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/http/configHTTP/config.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmd/grpcServer/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/grpcServer/main.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmd/http/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/http/main.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docker-compose.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/gRPC/server_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/gRPC/server_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/handlers/handlers_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/handlers/handlers_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/services/mocks/ServicesInterface.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/mocks/ServicesInterface.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/services/services_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/services/services_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/mocks/Storage.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/mocks/Storage.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/graphQL/graph/generated/generated.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/graphQL/graph/generated/generated.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/graphQL/graph/schema.resolvers.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/graphQL/graph/schema.resolvers.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -197,7 +191,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Added readme file fixes" />
     <MESSAGE value="Added simple middleware log" />
     <MESSAGE value="Added simple middleware log some fixes" />
     <MESSAGE value="Added some headers errors, refactored time format" />
@@ -222,7 +215,8 @@
     <MESSAGE value="Redis as storage with docker files" />
     <MESSAGE value="implemented postgres storage" />
     <MESSAGE value="implemented mongodb storage and small code cleaning" />
-    <option name="LAST_COMMIT_MESSAGE" value="implemented mongodb storage and small code cleaning" />
+    <MESSAGE value="added graphql" />
+    <option name="LAST_COMMIT_MESSAGE" value="added graphql" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>

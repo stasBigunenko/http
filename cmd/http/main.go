@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"github.com/99designs/gqlgen/graphql/handler"
-	"github.com/99designs/gqlgen/graphql/playground"
 	"github.com/gorilla/mux"
 	"google.golang.org/grpc"
 	"log"
@@ -43,7 +42,6 @@ func main() {
 	router := postroutes.Routes(sub)
 
 	graphql := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: graph.NewResolver(&serv)}))
-	sub.Handle("/", playground.Handler("GraphQL playground", "/query/"))
 	sub.Handle("/graphql/", graphql)
 
 	srv := http.Server{
