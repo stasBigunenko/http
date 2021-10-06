@@ -4,13 +4,16 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b5978d65-be42-4398-bbc3-d4985a9977b2" name="Default Changelist" comment="added graphql">
+    <list default="true" id="b5978d65-be42-4398-bbc3-d4985a9977b2" name="Default Changelist" comment="added gitignore">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmd/grpcServer/configGRPC/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/grpcServer/configGRPC/config.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmd/grpcServer/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/grpcServer/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmd/http/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/http/main.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docker-compose.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/graphQL/graph/generated/generated.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/graphQL/graph/generated/generated.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/graphQL/graph/schema.resolvers.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/graphQL/graph/schema.resolvers.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/gRPC/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/gRPC/server.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/mongo/mongoDB.go" beforeDir="false" afterPath="$PROJECT_DIR$/storage/mongo/mongoDB.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/redis/redisDB.go" beforeDir="false" afterPath="$PROJECT_DIR$/storage/redis/redisDB.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -68,16 +71,16 @@
     <property name="go.import.settings.migrated" value="true" />
     <property name="go.modules.go.list.on.any.changes.was.set" value="true" />
     <property name="go.sdk.automatically.set" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../hackerRank" />
     <property name="settings.editor.selected.configurable" value="go.vgo" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\goProjects\src\elastic_train\my file" />
+      <recent name="C:\goProjects\src\http" />
       <recent name="C:\goProjects\src\hackerRank" />
       <recent name="C:\goProjects\src\hackerRank\HackerrankChallange" />
       <recent name="C:\goProjects\src\http\cmd" />
-      <recent name="C:\goProjects\src\src\hackerRank\HackerrankChallange" />
-      <recent name="C:\goProjects\src\src\hackerRank" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\goProjects\src\http\pkg\mocks" />
@@ -87,7 +90,7 @@
       <recent name="C:\goProjects\src\http\cmd\http" />
     </key>
   </component>
-  <component name="RunManager" selected="Go Build.go build src/http/cmd/http">
+  <component name="RunManager" selected="Go Build.go build src/http/cmd/grpcServer">
     <configuration default="true" type="GoApplicationRunConfiguration" factoryName="Go Application">
       <module name="http" />
       <working_directory value="$PROJECT_DIR$" />
@@ -115,15 +118,6 @@
       <filePath value="$PROJECT_DIR$/cmd/http/main.go" />
       <method v="2" />
     </configuration>
-    <configuration name="go build src/http/pkg/graphQL" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
-      <module name="http" />
-      <working_directory value="$PROJECT_DIR$" />
-      <kind value="PACKAGE" />
-      <package value="src/http/pkg/graphQL" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$/pkg/graphQL/server.go" />
-      <method v="2" />
-    </configuration>
     <configuration default="true" type="GoTestRunConfiguration" factoryName="Go Test">
       <module name="http" />
       <working_directory value="$PROJECT_DIR$" />
@@ -134,19 +128,40 @@
       <framework value="gotest" />
       <method v="2" />
     </configuration>
-    <configuration name="go test http" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
-      <module name="http" />
-      <working_directory value="$PROJECT_DIR$" />
-      <kind value="DIRECTORY" />
-      <package value="http" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$" />
-      <framework value="gotest" />
-      <method v="2" />
-    </configuration>
-    <configuration name="docker-compose.yaml: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
+    <configuration name="docker-compose.yaml.elasticsearch: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
       <deployment type="docker-compose.yml">
         <settings>
+          <option name="services">
+            <list>
+              <option value="elasticsearch" />
+            </list>
+          </option>
+          <option name="sourceFilePath" value="docker-compose.yaml" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <configuration name="docker-compose.yaml.grpc: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
+      <deployment type="docker-compose.yml">
+        <settings>
+          <option name="services">
+            <list>
+              <option value="grpc" />
+            </list>
+          </option>
+          <option name="sourceFilePath" value="docker-compose.yaml" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <configuration name="docker-compose.yaml.http: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
+      <deployment type="docker-compose.yml">
+        <settings>
+          <option name="services">
+            <list>
+              <option value="http" />
+            </list>
+          </option>
           <option name="sourceFilePath" value="docker-compose.yaml" />
         </settings>
       </deployment>
@@ -154,11 +169,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Go Build.go build src/http/cmd/http" />
         <item itemvalue="Go Build.go build src/http/cmd/grpcServer" />
-        <item itemvalue="Go Build.go build src/http/pkg/graphQL" />
-        <item itemvalue="Docker.docker-compose.yaml: Compose Deployment" />
-        <item itemvalue="Go Test.go test http" />
+        <item itemvalue="Go Build.go build src/http/cmd/http" />
+        <item itemvalue="Docker.docker-compose.yaml.elasticsearch: Compose Deployment" />
+        <item itemvalue="Docker.docker-compose.yaml.grpc: Compose Deployment" />
+        <item itemvalue="Docker.docker-compose.yaml.http: Compose Deployment" />
       </list>
     </recent_temporary>
   </component>
@@ -191,8 +206,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Added simple middleware log" />
-    <MESSAGE value="Added simple middleware log some fixes" />
     <MESSAGE value="Added some headers errors, refactored time format" />
     <MESSAGE value="Added some features, errors, process time" />
     <MESSAGE value="Changed Server struct and main file. Added shutdown timeout" />
@@ -216,7 +229,9 @@
     <MESSAGE value="implemented postgres storage" />
     <MESSAGE value="implemented mongodb storage and small code cleaning" />
     <MESSAGE value="added graphql" />
-    <option name="LAST_COMMIT_MESSAGE" value="added graphql" />
+    <MESSAGE value="small fixes" />
+    <MESSAGE value="added gitignore" />
+    <option name="LAST_COMMIT_MESSAGE" value="added gitignore" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>

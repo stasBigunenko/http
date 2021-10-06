@@ -2,6 +2,7 @@ package gRPC
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/google/uuid"
 	"google.golang.org/grpc/codes"
@@ -72,6 +73,7 @@ func (s *StorageServer) Create(_ context.Context, in *pb.NewPost) (*pb.PostObj, 
 
 	post, err := s.Store.Create(p)
 	if err != nil {
+		fmt.Printf(error.Error(err))
 		return nil, status.Error(codes.Internal, "internal storage problem")
 	}
 

@@ -38,6 +38,9 @@ func NewMongo(user string, psw string, addr string) *MongoDB {
 }
 
 func (mdb *MongoDB) Create(p model.Post) (model.Post, error) {
+	mdb.mu.Lock()
+	defer mdb.mu.Unlock()
+
 	collection := mdb.Mdb.Database("posts").Collection("posts")
 
 	id := uuid.New()
@@ -65,6 +68,9 @@ func (mdb *MongoDB) Get(id uuid.UUID) (model.Post, error) {
 	return p, nil
 }
 func (mdb *MongoDB) GetAll() []model.Post {
+	mdb.mu.Lock()
+	defer mdb.mu.Unlock()
+
 	collection := mdb.Mdb.Database("posts").Collection("posts")
 
 	var posts []model.Post
@@ -93,6 +99,9 @@ func (mdb *MongoDB) GetAll() []model.Post {
 }
 
 func (mdb *MongoDB) Update(p model.Post) (model.Post, error) {
+	mdb.mu.Lock()
+	defer mdb.mu.Unlock()
+
 	collection := mdb.Mdb.Database("posts").Collection("posts")
 
 	filter := bson.D{{"id", p.Id}}
@@ -127,6 +136,9 @@ func (mdb *MongoDB) Update(p model.Post) (model.Post, error) {
 	return p, nil
 }
 func (mdb *MongoDB) Delete(id uuid.UUID) error {
+	mdb.mu.Lock()
+	defer mdb.mu.Unlock()
+
 	collection := mdb.Mdb.Database("posts").Collection("posts")
 
 	filter := bson.D{{"id", id}}
@@ -138,6 +150,9 @@ func (mdb *MongoDB) Delete(id uuid.UUID) error {
 	return nil
 }
 func (mdb *MongoDB) CreateFromFile(p model.Post) error {
+	mdb.mu.Lock()
+	defer mdb.mu.Unlock()
+
 	collection := mdb.Mdb.Database("posts").Collection("posts")
 
 	_, err := collection.InsertOne(context.TODO(), p)

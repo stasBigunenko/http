@@ -28,6 +28,9 @@ type Config struct {
 	MONGO_INITDB_ROOT_USERNAME string
 	MONGO_INITDB_ROOT_PASSWORD string
 	MONGO_ADDR                 string
+
+	//elastic
+	ELK_ADDR string
 }
 
 func SetGRPC() *Config {
@@ -40,7 +43,7 @@ func SetGRPC() *Config {
 
 	config.DbType = os.Getenv("DB_TYPE")
 	if config.DbType == "" {
-		config.DbType = "inmemory"
+		config.DbType = "elastic"
 	}
 
 	config.RedisAddr = os.Getenv("REDIS_ADDR")
@@ -98,6 +101,11 @@ func SetGRPC() *Config {
 		config.MONGO_ADDR = ":27020"
 	}
 
+	config.ELK_ADDR = os.Getenv("ELASTIC_ADDR")
+	if config.ELK_ADDR == "" {
+		config.ELK_ADDR = "http://localhost:9200"
+	}
+
 	return &Config{
 		TcpPort: config.TcpPort,
 		DbType:  config.DbType,
@@ -115,5 +123,7 @@ func SetGRPC() *Config {
 		MONGO_ADDR:                 config.MONGO_ADDR,
 		MONGO_INITDB_ROOT_USERNAME: config.MONGO_INITDB_ROOT_USERNAME,
 		MONGO_INITDB_ROOT_PASSWORD: config.MONGO_INITDB_ROOT_PASSWORD,
+
+		ELK_ADDR: config.ELK_ADDR,
 	}
 }
