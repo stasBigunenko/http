@@ -8,8 +8,8 @@ services:
       dockerfile: "./docker/http.Dockerfile"
     ports:
       - "8085:8085"
-    links:
-      - "grpc:grpc"
+#    links:
+#      - "grpc:grpc"
     environment:
       PORT_HTTP: ":8085"
       GRPC: "grpc:9000"
@@ -23,7 +23,7 @@ services:
       - "9000:9000"
     environment:
       TCP_PORT: ":9000"
-      DB_TYPE: "redis"
+      DB_TYPE: "elastic"
       REDIS_ADDR: "redis:6379"
       REDIS_DB: "redisDB"
       POSTGRES_HOST: "postgres"
@@ -36,7 +36,8 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: "root"
       MONGO_ADDR: "mongodb:27017"
       ELK_ADDR: "http://localhost:9200"
-
+#    links:
+#      - "elasticsearch:elasticsearch"
 
   redis:
     container_name: "redis"
@@ -71,8 +72,8 @@ services:
     container_name: "elastic"
     environment:
       discovery.type: "single-node"
-    #      node.name: "elastic"
-    #      network.host: 0.0.0.0
-    #      network.publish_host: "_local_"
+#      node.name: "elastic"
+#      network.host: 0.0.0.0
+#      network.publish_host: "_local_"
     ports:
       - "9200:9200"
