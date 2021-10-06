@@ -8,8 +8,8 @@ services:
       dockerfile: "./docker/http.Dockerfile"
     ports:
       - "8085:8085"
-    links:
-      - "grpc:grpc"
+#    links:
+#      - "grpc:grpc"
     environment:
       PORT_HTTP: ":8085"
       GRPC: "grpc:9000"
