@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net"
+	"src/http/storage/elastic"
 
 	_ "github.com/lib/pq"
 	"google.golang.org/grpc"
@@ -39,9 +40,14 @@ func main() {
 		store, _ = postgres.NewPDB(config.PostgresHost, config.PostgresPort, config.PostgresUser, config.PostgresPsw, config.PostgresDB, config.PostgresSSL)
 	case "mongo":
 		store = mongoDB.NewMongo(config.MONGO_INITDB_ROOT_USERNAME, config.MONGO_INITDB_ROOT_PASSWORD, config.MONGO_ADDR)
+	case "elastic":
+		store, err = elastic.NewElastic(config.ELK_ADDR)
+		if err != nil {
+			log.Fatalf("failed to connect elastic: %s", err)
+		}
 	}
 
-	fmt.Printf("----------------------------------storage - %v\n", config.DbType)
+	fmt.Printf("----------------------------------storage - %v-------------------------------\n", config.DbType)
 
 	//create GRPC server
 	s := grpc.NewServer()

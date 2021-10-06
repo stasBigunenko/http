@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"strconv"
+	"sync"
 
 	"github.com/go-redis/redis"
 	"github.com/google/uuid"
@@ -14,6 +15,7 @@ import (
 
 type RedisDB struct {
 	Client *redis.Client
+	mu     sync.Mutex
 }
 
 func New(addr string, db string) *RedisDB {
@@ -33,6 +35,8 @@ func New(addr string, db string) *RedisDB {
 }
 
 func (rdb *RedisDB) Create(p model.Post) (model.Post, error) {
+	rdb.mu.Lock()
+	rdb.mu.Unlock()
 
 	id := uuid.New()
 	p.Id = id
@@ -54,6 +58,9 @@ func (rdb *RedisDB) Create(p model.Post) (model.Post, error) {
 }
 
 func (rdb *RedisDB) Get(id uuid.UUID) (model.Post, error) {
+	rdb.mu.Lock()
+	rdb.mu.Unlock()
+
 	idStr := id.String()
 
 	val, err := rdb.Client.Get(idStr).Bytes()
@@ -72,6 +79,9 @@ func (rdb *RedisDB) Get(id uuid.UUID) (model.Post, error) {
 }
 
 func (rdb *RedisDB) GetAll() []model.Post {
+	rdb.mu.Lock()
+	rdb.mu.Unlock()
+
 	var posts []model.Post
 
 	all, err := rdb.Client.Keys("*").Result()
@@ -97,6 +107,9 @@ func (rdb *RedisDB) GetAll() []model.Post {
 }
 
 func (rdb *RedisDB) Update(p model.Post) (model.Post, error) {
+	rdb.mu.Lock()
+	rdb.mu.Unlock()
+
 	idStr := p.Id.String()
 
 	val, err := rdb.Client.Get(idStr).Bytes()
@@ -132,6 +145,9 @@ func (rdb *RedisDB) Update(p model.Post) (model.Post, error) {
 }
 
 func (rdb *RedisDB) Delete(id uuid.UUID) error {
+	rdb.mu.Lock()
+	rdb.mu.Unlock()
+
 	idStr := id.String()
 
 	res, err := rdb.Client.Get(idStr).Result()
@@ -149,6 +165,9 @@ func (rdb *RedisDB) Delete(id uuid.UUID) error {
 }
 
 func (rdb *RedisDB) CreateFromFile(p model.Post) error {
+	rdb.mu.Lock()
+	rdb.mu.Unlock()
+
 	idStr := p.Id.String()
 
 	jp, err := json.Marshal(p)
