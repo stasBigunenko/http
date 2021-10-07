@@ -559,14 +559,14 @@ func TestRoutes(t *testing.T) {
 		status int
 	}{
 		{
-			name: "POST post Everything OK",
+			name: "POST post Everything Bad",
 			args: args{
 				service: s,
 			},
 			buf:    `{"Author":"Stas","Message":"first"}`,
 			method: "POST",
 			url:    "/create",
-			status: http.StatusCreated,
+			status: http.StatusBadRequest,
 		},
 	}
 	for _, tc := range tt {

@@ -369,6 +369,7 @@ func (h *PostHandler) Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.WriteHeader(http.StatusOK)
-	w.Write([]byte(token))
+	w.Header().Set("token", token)
+	w.Header().Set("Access-Control-Expose-Headers", "token")
+	w.WriteHeader(http.StatusCreated)
 }
