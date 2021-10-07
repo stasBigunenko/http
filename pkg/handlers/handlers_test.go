@@ -566,7 +566,7 @@ func TestRoutes(t *testing.T) {
 			buf:    `{"Author":"Stas","Message":"first"}`,
 			method: "POST",
 			url:    "/create",
-			status: http.StatusCreated,
+			status: http.StatusBadRequest,
 		},
 	}
 	for _, tc := range tt {
