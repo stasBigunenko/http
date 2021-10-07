@@ -559,7 +559,7 @@ func TestRoutes(t *testing.T) {
 		status int
 	}{
 		{
-			name: "POST post Everything OK",
+			name: "POST post Everything Bad",
 			args: args{
 				service: s,
 			},
