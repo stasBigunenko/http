@@ -6,6 +6,7 @@ package graph
 import (
 	"context"
 	"errors"
+	"log"
 	"src/http/pkg/graphQL/graph/generated"
 	"src/http/pkg/graphQL/graph/model"
 	mymodel "src/http/pkg/model"
@@ -14,6 +15,12 @@ import (
 )
 
 func (r *mutationResolver) CreatePost(ctx context.Context, input model.NewPost) (*model.Post, error) {
+	user, ok := ctx.Value("user").(string)
+	if !ok {
+		log.Println("cannot identify user name")
+	}
+	log.Printf("user with name '%s' send command CreatePost", user)
+
 	var p mymodel.Post
 	p.Author = input.Author
 	p.Message = input.Message
@@ -34,6 +41,12 @@ func (r *mutationResolver) CreatePost(ctx context.Context, input model.NewPost) 
 }
 
 func (r *mutationResolver) UpdatePost(ctx context.Context, input model.UpdatePost) (*model.Post, error) {
+	user, ok := ctx.Value("user").(string)
+	if !ok {
+		log.Println("cannot identify user name")
+	}
+	log.Printf("user with name '%s' send command CreatePost", user)
+
 	id := input.ID
 	idUUID, err := uuid.Parse(id)
 	if err != nil {
@@ -58,6 +71,13 @@ func (r *mutationResolver) UpdatePost(ctx context.Context, input model.UpdatePos
 }
 
 func (r *mutationResolver) DeletePost(ctx context.Context, id string) (*string, error) {
+
+	user, ok := ctx.Value("user").(string)
+	if !ok {
+		log.Println("cannot identify user name")
+	}
+	log.Printf("user with name '%s' send command CreatePost", user)
+
 	var res string
 	err := r.service.DeleteId(id)
 	if err != nil {
@@ -69,6 +89,12 @@ func (r *mutationResolver) DeletePost(ctx context.Context, id string) (*string, 
 }
 
 func (r *queryResolver) GetPosts(ctx context.Context) ([]*model.Post, error) {
+	user, ok := ctx.Value("user").(string)
+	if !ok {
+		log.Println("cannot identify user name")
+	}
+	log.Printf("user with name '%s' send command CreatePost", user)
+
 	var posts []*model.Post
 
 	res := r.service.GetALL()
@@ -87,6 +113,12 @@ func (r *queryResolver) GetPosts(ctx context.Context) ([]*model.Post, error) {
 }
 
 func (r *queryResolver) GetPost(ctx context.Context, id string) (*model.Post, error) {
+	user, ok := ctx.Value("user").(string)
+	if !ok {
+		log.Println("cannot identify user name")
+	}
+	log.Printf("user with name '%s' send command CreatePost", user)
+
 	res, err := r.service.GetId(id)
 	if err != nil {
 		return nil, errors.New("services problem")

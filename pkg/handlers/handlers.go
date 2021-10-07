@@ -3,6 +3,7 @@ package handlers
 import (
 	"context"
 	"encoding/json"
+	"log"
 	"net/http"
 	"time"
 
@@ -51,16 +52,17 @@ func processTimeout(h http.HandlerFunc, duration time.Duration) http.HandlerFunc
 }
 
 func (h *PostHandler) Routes(sub *mux.Router) *mux.Router {
-	//r := mux.NewRouter().StrictSlash(false)
-	//sub := r.PathPrefix("/posts").Subrouter()
 
 	sub.HandleFunc("/", processTimeout(h.GetAll, 5*time.Second)).Methods("GET")
+	sub.HandleFunc("/login", processTimeout(h.Login, 5*time.Second)).Methods("GET")
 	sub.HandleFunc("/download", processTimeout(h.DownloadPost, 5*time.Second)).Methods("GET")
 	sub.HandleFunc("/upload", processTimeout(h.UploadPost, 5*time.Second)).Methods("POST")
-	sub.HandleFunc("/create", processTimeout(h.CreatePost, 5*time.Second)).Methods("POST")
+	sub.HandleFunc("/create", h.CreatePost).Methods("POST")
 	sub.HandleFunc("/{id}", processTimeout(h.GetPost, 5*time.Second)).Methods("GET")
 	sub.HandleFunc("/{id}", processTimeout(h.DeletePost, 5*time.Second)).Methods("DELETE")
 	sub.HandleFunc("/{id}", processTimeout(h.UpdatePost, 5*time.Second)).Methods("PUT")
+
+	sub.Use(h.VerifyUser)
 
 	return sub
 }
@@ -74,6 +76,13 @@ func (h *PostHandler) CreatePost(w http.ResponseWriter, r *http.Request) {
 		w.Write(msg)
 		return
 	}
+
+	ctx := r.Context()
+	user, ok := ctx.Value("user").(string)
+	if !ok {
+		log.Println("cannot identify user name")
+	}
+	log.Printf("user with name '%s' send command CreatePost", user)
 
 	//receive requests only with size limit 2024 bytes
 	r.Body = http.MaxBytesReader(w, r.Body, MaxRequestSize)
@@ -110,6 +119,13 @@ func (h *PostHandler) GetPost(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	ctx := r.Context()
+	user, ok := ctx.Value("user").(string)
+	if !ok {
+		log.Println("cannot identify user name")
+	}
+	log.Printf("user with name '%s' send command GetPost\n", user)
+
 	//id, err := strconv.Atoi(r.URL.Query().Get("id"))
 	vars := mux.Vars(r)
 	key := vars["id"]
@@ -134,6 +150,14 @@ func (h *PostHandler) GetAll(w http.ResponseWriter, r *http.Request) {
 		w.Write(msg)
 		return
 	}
+
+	ctx := r.Context()
+	user, ok := ctx.Value("user").(string)
+	if !ok {
+		log.Println("cannot identify user name")
+	}
+	log.Printf("user with name '%s' send command GetAll\n", user)
+
 	res := h.service.GetALL()
 
 	if len(*res) == 0 {
@@ -156,6 +180,13 @@ func (h *PostHandler) DeletePost(w http.ResponseWriter, r *http.Request) {
 		w.Write(msg)
 		return
 	}
+
+	ctx := r.Context()
+	user, ok := ctx.Value("user").(string)
+	if !ok {
+		log.Println("cannot identify user name")
+	}
+	log.Printf("user with name '%s' send command DeletePost\n", user)
 
 	//id, err := strconv.Atoi(r.URL.Query().Get("Id"))
 	vars := mux.Vars(r)
@@ -183,6 +214,13 @@ func (h *PostHandler) UpdatePost(w http.ResponseWriter, r *http.Request) {
 		w.Write(msg)
 		return
 	}
+
+	ctx := r.Context()
+	user, ok := ctx.Value("user").(string)
+	if !ok {
+		log.Println("cannot identify user name")
+	}
+	log.Printf("user with name '%s' send command UpdatePost\n", user)
 
 	r.Body = http.MaxBytesReader(w, r.Body, MaxRequestSize)
 
@@ -227,6 +265,13 @@ func (h *PostHandler) DownloadPost(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	ctx := r.Context()
+	user, ok := ctx.Value("user").(string)
+	if !ok {
+		log.Println("cannot identify user name")
+	}
+	log.Printf("user with name '%s' send command DownloadPost\n", user)
+
 	res, err := h.service.Download()
 	if err != nil {
 		msg := services.Response("The file couldn't be created")
@@ -252,6 +297,13 @@ func (h *PostHandler) UploadPost(w http.ResponseWriter, r *http.Request) {
 		w.Write(msg)
 		return
 	}
+
+	ctx := r.Context()
+	user, ok := ctx.Value("user").(string)
+	if !ok {
+		log.Println("cannot identify user name")
+	}
+	log.Printf("user with name '%s' send command UploadPost\n", user)
 
 	err := r.ParseMultipartForm(50) // limit input length!
 	if err != nil {
@@ -286,4 +338,37 @@ func (h *PostHandler) UploadPost(w http.ResponseWriter, r *http.Request) {
 	msg := services.Response("The data from file have been uploaded to the memory Storage")
 	w.WriteHeader(http.StatusOK)
 	w.Write(msg)
+}
+
+func (h *PostHandler) Login(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	if r.Method != http.MethodGet {
+		msg := services.Response("Method Not Allowed")
+		w.WriteHeader(http.StatusMethodNotAllowed)
+		w.Write(msg)
+		return
+	}
+
+	var user struct {
+		Name string
+	}
+
+	err := json.NewDecoder(r.Body).Decode(&user)
+	if err != nil {
+		msg := services.Response("Too big request.")
+		w.WriteHeader(http.StatusNotAcceptable)
+		w.Write(msg)
+		return
+	}
+
+	token, err := h.generateTokenStringForUser(user.Name)
+	if err != nil {
+		msg := services.Response("Invalid name")
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write(msg)
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+	w.Write([]byte(token))
 }
