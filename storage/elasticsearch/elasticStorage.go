@@ -49,7 +49,7 @@ func NewElastic(addr string) (*ElasticSearch, error) {
 		return nil, err
 	}
 
-	res, err := client.Info()
+	res, _ := client.Info()
 	if err != nil {
 		log.Fatalf("Error getting response: %s", err)
 	}
@@ -62,8 +62,8 @@ func NewElastic(addr string) (*ElasticSearch, error) {
 }
 
 func (e *ElasticSearch) Create(p model.Post) (model.Post, error) {
-	//e.mu.Lock()
-	//defer e.mu.Unlock()
+	e.mu.Lock()
+	defer e.mu.Unlock()
 
 	id := uuid.New()
 	p.Id = id
@@ -71,7 +71,7 @@ func (e *ElasticSearch) Create(p model.Post) (model.Post, error) {
 
 	post, err := json.Marshal(p)
 	if err != nil {
-		return model.Post{}, errors.New("elastic problems")
+		return model.Post{}, errors.New("elastic's storage problems")
 	}
 
 	req := esapi.CreateRequest{
@@ -82,7 +82,7 @@ func (e *ElasticSearch) Create(p model.Post) (model.Post, error) {
 
 	res, err := req.Do(context.Background(), e.client)
 	if err != nil {
-		return model.Post{}, errors.New("elastic problems")
+		return model.Post{}, errors.New("elastic's storage problems")
 	}
 	log.Println(res)
 	defer res.Body.Close()
@@ -113,7 +113,7 @@ func (e *ElasticSearch) Get(id uuid.UUID) (model.Post, error) {
 	var post ElkPost
 	err = json.NewDecoder(res.Body).Decode(&post)
 	if err != nil {
-		return model.Post{}, errors.New("internal problem")
+		return model.Post{}, errors.New("decode storage problem")
 	}
 
 	return post.Source, nil
@@ -127,17 +127,11 @@ func (e *ElasticSearch) GetAll() []model.Post {
 		Index: []string{index_name},
 	}
 
-	res, err := req.Do(context.Background(), e.client)
-	if err != nil {
-		return nil
-	}
+	res, _ := req.Do(context.Background(), e.client)
 
 	var all ElkPosts
 
-	err = json.NewDecoder(res.Body).Decode(&all)
-	if err != nil {
-		return nil
-	}
+	json.NewDecoder(res.Body).Decode(&all)
 
 	posts := []model.Post{}
 
@@ -169,7 +163,7 @@ func (e *ElasticSearch) Update(p model.Post) (model.Post, error) {
 
 		err = json.NewDecoder(res.Body).Decode(&post)
 		if err != nil {
-			return model.Post{}, errors.New("internal problem")
+			return model.Post{}, errors.New("internal decode problem")
 		}
 	}
 
@@ -218,7 +212,7 @@ func (e *ElasticSearch) Delete(id uuid.UUID) error {
 
 	res, err := req.Do(context.Background(), e.client)
 	if err != nil {
-		return fmt.Errorf("failed to delete post: %w", err)
+		return errors.New("failed to delete post")
 	}
 	defer res.Body.Close()
 

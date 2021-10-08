@@ -48,7 +48,7 @@ func (mdb *MongoDB) Create(p model.Post) (model.Post, error) {
 
 	_, err := collection.InsertOne(context.TODO(), p)
 	if err != nil {
-		return model.Post{}, errors.New("internal mongo problem in mongo")
+		return model.Post{}, errors.New("internal mongo storage problem")
 	}
 
 	return p, nil
@@ -62,7 +62,7 @@ func (mdb *MongoDB) Get(id uuid.UUID) (model.Post, error) {
 
 	err := collection.FindOne(context.TODO(), filter).Decode(&p)
 	if err != nil {
-		return model.Post{}, errors.New("couldn't find post in mongo")
+		return model.Post{}, errors.New("couldn't find post in db")
 	}
 
 	return p, nil
@@ -77,10 +77,7 @@ func (mdb *MongoDB) GetAll() []model.Post {
 
 	findOptions := options.Find()
 
-	res, err := collection.Find(context.TODO(), bson.D{{}}, findOptions)
-	if err != nil {
-		log.Fatal(err)
-	}
+	res, _ := collection.Find(context.TODO(), bson.D{{}}, findOptions)
 
 	for res.Next(context.TODO()) {
 		var p model.Post
@@ -157,7 +154,7 @@ func (mdb *MongoDB) CreateFromFile(p model.Post) error {
 
 	_, err := collection.InsertOne(context.TODO(), p)
 	if err != nil {
-		return errors.New("internal mongo problem in mongo")
+		return errors.New("internal mongo problem in mongo db")
 	}
 
 	return nil

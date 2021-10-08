@@ -41,7 +41,7 @@ func main() {
 	case "mongo":
 		store = mongoDB.NewMongo(config.MONGO_INITDB_ROOT_USERNAME, config.MONGO_INITDB_ROOT_PASSWORD, config.MONGO_ADDR)
 	case "elastic":
-		store, err = elasticsearch.NewElastic(config.ELK_ADDR)
+		store, _ = elasticsearch.NewElastic(config.ELK_ADDR)
 		if err != nil {
 			log.Fatalf("failed to connect elastic: %s", err)
 		}

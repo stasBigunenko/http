@@ -53,8 +53,9 @@ func processTimeout(h http.HandlerFunc, duration time.Duration) http.HandlerFunc
 
 func (h *PostHandler) Routes(sub *mux.Router) *mux.Router {
 
-	sub.HandleFunc("/", processTimeout(h.GetAll, 5*time.Second)).Methods("GET")
 	sub.HandleFunc("/login", processTimeout(h.Login, 5*time.Second)).Methods("GET")
+
+	sub.HandleFunc("/", processTimeout(h.GetAll, 5*time.Second)).Methods("GET")
 	sub.HandleFunc("/download", processTimeout(h.DownloadPost, 5*time.Second)).Methods("GET")
 	sub.HandleFunc("/upload", processTimeout(h.UploadPost, 5*time.Second)).Methods("POST")
 	sub.HandleFunc("/create", h.CreatePost).Methods("POST")

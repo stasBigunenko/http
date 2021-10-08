@@ -123,7 +123,7 @@ func (pdb *PostgresDB) Update(p model.Post) (model.Post, error) {
 	_, err = pdb.Pdb.Exec(
 		`UPDATE posts SET author=$1, message=$2 WHERE id=$3`, p.Author, p.Message, idStr)
 	if err != nil {
-		return model.Post{}, err
+		return model.Post{}, errors.New("couldn't update post")
 	}
 
 	return p, nil

@@ -29,7 +29,7 @@ services:
       POSTGRES_HOST: "postgres"
       POSTGRES_PORT: "5432"
       POSTGRES_USER: "postgres"
-      POSTGRES_PASSWORD: "qwerty"`
+      POSTGRES_PASSWORD: "qwerty"
       POSTGRES_DB: "postgres"
       POSTGRES_SSL: "disable"
       MONGO_INITDB_ROOT_USERNAME: "root"
@@ -39,33 +39,33 @@ services:
 #    links:
 #      - "elasticsearch:elasticsearch"
 
-  redis:
-    container_name: "redis"
-    image: redis
-
-  postgres:
-    container_name: "postgres"
-    image: postgres:latest
-    restart: always
-    user: "postgres"
-    environment:
-      POSTGRES_USER: "postgres"
-      POSTGRES_PASSWORD: "qwerty"
-      POSTGRES_DATABASE: "postgres"
-#    volumes:
-#      - ./storage/postgres/database.sql:/docker-entrypoint-initdb.d/database.sql
-    ports:
-      - "5432:5432"
-
-  mongo:
-    container_name: "mongodb"
-    image: mongo:latest
-    restart: always
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: "root"
-      MONGO_INITDB_ROOT_PASSWORD: "root"
-    ports:
-      - "27017:27017"
+#  redis:
+#    container_name: "redis"
+#    image: redis
+#
+#  postgres:
+#    container_name: "postgres"
+#    image: postgres:latest
+#    restart: always
+#    user: "postgres"
+#    environment:
+#      POSTGRES_USER: "postgres"
+#      POSTGRES_PASSWORD: "qwerty"
+#      POSTGRES_DATABASE: "postgres"
+##    volumes:
+##      - ./storage/postgres/database.sql:/docker-entrypoint-initdb.d/database.sql
+#    ports:
+#      - "5432:5432"
+#
+#  mongo:
+#    container_name: "mongodb"
+#    image: mongo:latest
+#    restart: always
+#    environment:
+#      MONGO_INITDB_ROOT_USERNAME: "root"
+#      MONGO_INITDB_ROOT_PASSWORD: "root"
+#    ports:
+#      - "27017:27017"
 
   elasticsearch:
     image: elasticsearch:7.14.1

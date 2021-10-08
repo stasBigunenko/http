@@ -40,7 +40,7 @@ func (s *Storage) Get(id uuid.UUID) (model.Post, error) {
 	var p model.Post
 	p, ok := s.storage[id]
 	if !ok {
-		return model.Post{}, errors.New("post with Id %d not found")
+		return model.Post{}, errors.New("post not found")
 	}
 	return p, nil
 }
