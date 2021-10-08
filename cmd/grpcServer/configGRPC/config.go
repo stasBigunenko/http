@@ -43,7 +43,7 @@ func SetGRPC() *Config {
 
 	config.DbType = os.Getenv("DB_TYPE")
 	if config.DbType == "" {
-		config.DbType = "elastic"
+		config.DbType = "inmemory"
 	}
 
 	config.RedisAddr = os.Getenv("REDIS_ADDR")

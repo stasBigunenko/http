@@ -79,11 +79,11 @@ func (h *PostHandler) CreatePost(w http.ResponseWriter, r *http.Request) {
 	}
 
 	ctx := r.Context()
-	user, ok := ctx.Value("user").(string)
+	cl, ok := ctx.Value("claims").(model.Claims)
 	if !ok {
-		log.Println("cannot identify user name")
+		log.Println("cannot identify user name and id")
 	}
-	log.Printf("user with name '%s' send command CreatePost", user)
+	log.Printf("user with id '%s', name '%s' send command CreatePost", cl.Id, cl.Name)
 
 	//receive requests only with size limit 2024 bytes
 	r.Body = http.MaxBytesReader(w, r.Body, MaxRequestSize)
@@ -121,11 +121,11 @@ func (h *PostHandler) GetPost(w http.ResponseWriter, r *http.Request) {
 	}
 
 	ctx := r.Context()
-	user, ok := ctx.Value("user").(string)
+	cl, ok := ctx.Value("claims").(model.Claims)
 	if !ok {
 		log.Println("cannot identify user name")
 	}
-	log.Printf("user with name '%s' send command GetPost\n", user)
+	log.Printf("user with id '%s', name '%s' send command GetPost", cl.Id, cl.Name)
 
 	//id, err := strconv.Atoi(r.URL.Query().Get("id"))
 	vars := mux.Vars(r)
@@ -153,11 +153,11 @@ func (h *PostHandler) GetAll(w http.ResponseWriter, r *http.Request) {
 	}
 
 	ctx := r.Context()
-	user, ok := ctx.Value("user").(string)
+	cl, ok := ctx.Value("user").(model.Claims)
 	if !ok {
 		log.Println("cannot identify user name")
 	}
-	log.Printf("user with name '%s' send command GetAll\n", user)
+	log.Printf("user with id '%s', name '%s' send command GetAll", cl.Id, cl.Name)
 
 	res := h.service.GetALL()
 
@@ -183,11 +183,11 @@ func (h *PostHandler) DeletePost(w http.ResponseWriter, r *http.Request) {
 	}
 
 	ctx := r.Context()
-	user, ok := ctx.Value("user").(string)
+	cl, ok := ctx.Value("user").(model.Claims)
 	if !ok {
 		log.Println("cannot identify user name")
 	}
-	log.Printf("user with name '%s' send command DeletePost\n", user)
+	log.Printf("user with id '%s', name '%s' send command DeletePost", cl.Id, cl.Name)
 
 	//id, err := strconv.Atoi(r.URL.Query().Get("Id"))
 	vars := mux.Vars(r)
@@ -217,11 +217,11 @@ func (h *PostHandler) UpdatePost(w http.ResponseWriter, r *http.Request) {
 	}
 
 	ctx := r.Context()
-	user, ok := ctx.Value("user").(string)
+	cl, ok := ctx.Value("user").(model.Claims)
 	if !ok {
 		log.Println("cannot identify user name")
 	}
-	log.Printf("user with name '%s' send command UpdatePost\n", user)
+	log.Printf("user with id '%s', name '%s' send command UpdatePost", cl.Id, cl.Name)
 
 	r.Body = http.MaxBytesReader(w, r.Body, MaxRequestSize)
 
@@ -267,11 +267,11 @@ func (h *PostHandler) DownloadPost(w http.ResponseWriter, r *http.Request) {
 	}
 
 	ctx := r.Context()
-	user, ok := ctx.Value("user").(string)
+	cl, ok := ctx.Value("user").(model.Claims)
 	if !ok {
 		log.Println("cannot identify user name")
 	}
-	log.Printf("user with name '%s' send command DownloadPost\n", user)
+	log.Printf("user with id '%s', name '%s' send command DownloadPost", cl.Id, cl.Name)
 
 	res, err := h.service.Download()
 	if err != nil {
@@ -300,11 +300,11 @@ func (h *PostHandler) UploadPost(w http.ResponseWriter, r *http.Request) {
 	}
 
 	ctx := r.Context()
-	user, ok := ctx.Value("user").(string)
+	cl, ok := ctx.Value("user").(model.Claims)
 	if !ok {
 		log.Println("cannot identify user name")
 	}
-	log.Printf("user with name '%s' send command UploadPost\n", user)
+	log.Printf("user with id '%s', name '%s' send command UploadPost", cl.Id, cl.Name)
 
 	err := r.ParseMultipartForm(50) // limit input length!
 	if err != nil {
