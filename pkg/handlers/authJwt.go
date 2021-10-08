@@ -3,13 +3,15 @@ package handlers
 import (
 	"context"
 	"fmt"
-	"github.com/dgrijalva/jwt-go"
-	"github.com/google/uuid"
 	"net/http"
-	"src/http/pkg/model"
-	"src/http/pkg/services"
 	"strings"
 	"time"
+
+	"github.com/dgrijalva/jwt-go"
+	"github.com/google/uuid"
+
+	"src/http/pkg/model"
+	"src/http/pkg/services"
 )
 
 const SECRETKEY = "password"
