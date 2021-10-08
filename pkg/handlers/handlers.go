@@ -58,7 +58,7 @@ func (h *PostHandler) Routes(sub *mux.Router) *mux.Router {
 	sub.HandleFunc("/", processTimeout(h.GetAll, 5*time.Second)).Methods("GET")
 	sub.HandleFunc("/download", processTimeout(h.DownloadPost, 5*time.Second)).Methods("GET")
 	sub.HandleFunc("/upload", processTimeout(h.UploadPost, 5*time.Second)).Methods("POST")
-	sub.HandleFunc("/create", h.CreatePost).Methods("POST")
+	sub.HandleFunc("/create", processTimeout(h.CreatePost, 5*time.Second)).Methods("POST")
 	sub.HandleFunc("/{id}", processTimeout(h.GetPost, 5*time.Second)).Methods("GET")
 	sub.HandleFunc("/{id}", processTimeout(h.DeletePost, 5*time.Second)).Methods("DELETE")
 	sub.HandleFunc("/{id}", processTimeout(h.UpdatePost, 5*time.Second)).Methods("PUT")
