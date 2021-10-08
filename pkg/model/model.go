@@ -1,6 +1,9 @@
 package model
 
-import "github.com/google/uuid"
+import (
+	"github.com/dgrijalva/jwt-go"
+	"github.com/google/uuid"
+)
 
 //Post model struct
 
@@ -12,4 +15,9 @@ type Post struct {
 
 type MyResponse struct {
 	Msg string `json:"msg"`
+}
+
+type Claims struct {
+	Name string `json:"name"`
+	jwt.StandardClaims
 }
