@@ -356,8 +356,8 @@ func (h *PostHandler) Login(w http.ResponseWriter, r *http.Request) {
 
 	err := json.NewDecoder(r.Body).Decode(&user)
 	if err != nil {
-		msg := services.Response("Too big request.")
-		w.WriteHeader(http.StatusNotAcceptable)
+		msg := services.Response("Invalid user name")
+		w.WriteHeader(http.StatusBadRequest)
 		w.Write(msg)
 		return
 	}
