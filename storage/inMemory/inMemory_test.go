@@ -53,7 +53,7 @@ func TestStorage_Get(t *testing.T) {
 			name:    "Invalid id",
 			param:   id1,
 			want:    model.Post{},
-			wantErr: "post with Id %d not found",
+			wantErr: "post not found",
 		},
 	}
 	for _, tc := range tests {
