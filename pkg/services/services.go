@@ -50,7 +50,7 @@ func (s *Services) GetId(id string) (*model.Post, error) {
 
 	val, err := uuid.Parse(id)
 	if err != nil {
-		return nil, errors.New("couldn't parse id")
+		return nil, errors.New("service: couldn't parse id")
 	}
 
 	postId, err := s.store.Get(val)
@@ -71,7 +71,7 @@ func (s *Services) DeleteId(id string) error {
 
 	val, err := uuid.Parse(id)
 	if err != nil {
-		return errors.New("couldn't parse id")
+		return errors.New("service: couldn't parse id")
 	}
 
 	err = s.store.Delete(val)
@@ -100,7 +100,7 @@ func (s *Services) CreatePost(post *model.Post) error {
 
 	err := s.store.CreateFromFile(*post)
 	if err != nil {
-		return errors.New("couldn't create post from file")
+		return err
 	}
 	return nil
 }
@@ -132,7 +132,7 @@ func (s *Services) Upload(file multipart.File) error {
 		//Go through read data and call our function CreatePost to save the data in our Storage
 		val, err := uuid.Parse(csvData[0])
 		if err != nil {
-			return errors.New("couldn't parse id")
+			return errors.New("service: couldn't parse id")
 		}
 		post.Id = val
 		post.Author = csvData[1]

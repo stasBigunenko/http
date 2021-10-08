@@ -27,7 +27,7 @@ func (r *mutationResolver) CreatePost(ctx context.Context, input model.NewPost) 
 
 	newPost, err := r.service.CreateId(&p)
 	if err != nil {
-		return nil, errors.New("Internal problems")
+		return nil, errors.New("Internal service's problems")
 	}
 
 	idStr := newPost.Id.String()
@@ -59,7 +59,7 @@ func (r *mutationResolver) UpdatePost(ctx context.Context, input model.UpdatePos
 
 	res, err := r.service.UpdateId(&p)
 	if err != nil {
-		return nil, errors.New("services problem")
+		return nil, errors.New("internal service's problem")
 	}
 
 	var post model.Post
@@ -82,7 +82,7 @@ func (r *mutationResolver) DeletePost(ctx context.Context, id string) (*string, 
 	err := r.service.DeleteId(id)
 	if err != nil {
 		res = "post can't be deleted"
-		return &res, errors.New("storage problem")
+		return &res, errors.New("internal service's problem")
 	}
 	res = "post have been deleted"
 	return &res, nil
@@ -121,7 +121,7 @@ func (r *queryResolver) GetPost(ctx context.Context, id string) (*model.Post, er
 
 	res, err := r.service.GetId(id)
 	if err != nil {
-		return nil, errors.New("services problem")
+		return nil, errors.New("internal service's problem")
 	}
 	idUUID := res.Id.String()
 	post := model.Post{

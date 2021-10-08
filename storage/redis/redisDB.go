@@ -43,14 +43,14 @@ func (rdb *RedisDB) Create(p model.Post) (model.Post, error) {
 
 	jp, err := json.Marshal(p)
 	if err != nil {
-		return model.Post{}, errors.New("marshal problem")
+		return model.Post{}, errors.New("redis marshal problem")
 	}
 
 	idStr := id.String()
 
 	err = rdb.Client.Set(idStr, jp, 0).Err()
 	if err != nil {
-		return model.Post{}, errors.New("redis problem")
+		return model.Post{}, errors.New("redis internal problem")
 	}
 
 	return p, nil
@@ -65,14 +65,14 @@ func (rdb *RedisDB) Get(id uuid.UUID) (model.Post, error) {
 
 	val, err := rdb.Client.Get(idStr).Bytes()
 	if err != nil {
-		return model.Post{}, errors.New("redis problem")
+		return model.Post{}, errors.New("redis internal problem")
 	}
 
 	jup := model.Post{}
 
 	err = json.Unmarshal(val, &jup)
 	if err != nil {
-		return model.Post{}, errors.New("unmarshal problems")
+		return model.Post{}, errors.New("redis unmarshal problems")
 	}
 
 	return jup, nil
@@ -114,14 +114,14 @@ func (rdb *RedisDB) Update(p model.Post) (model.Post, error) {
 
 	val, err := rdb.Client.Get(idStr).Bytes()
 	if err != nil {
-		return model.Post{}, errors.New("post not found")
+		return model.Post{}, errors.New("redis: post not found")
 	}
 
 	var post model.Post
 
 	err = json.Unmarshal(val, &post)
 	if err != nil {
-		return model.Post{}, errors.New("marshal problem")
+		return model.Post{}, errors.New("redis marshal problem")
 	}
 
 	if post.Author == "" {
@@ -133,12 +133,12 @@ func (rdb *RedisDB) Update(p model.Post) (model.Post, error) {
 
 	jp, err := json.Marshal(p)
 	if err != nil {
-		return model.Post{}, errors.New("marshal problem")
+		return model.Post{}, errors.New("redis marshal problem")
 	}
 
 	err = rdb.Client.Set(idStr, jp, 0).Err()
 	if err != nil {
-		return model.Post{}, errors.New("redis problem")
+		return model.Post{}, errors.New("redis internal problem")
 	}
 
 	return p, nil
@@ -153,12 +153,12 @@ func (rdb *RedisDB) Delete(id uuid.UUID) error {
 	res, err := rdb.Client.Get(idStr).Result()
 	fmt.Println(res)
 	if err != nil {
-		return errors.New("post not found")
+		return errors.New("redis: post not found")
 	}
 
 	err = rdb.Client.Del(idStr).Err()
 	if err != nil {
-		return errors.New("redis problem")
+		return errors.New("redis internal problem")
 	}
 
 	return nil
@@ -172,7 +172,7 @@ func (rdb *RedisDB) CreateFromFile(p model.Post) error {
 
 	jp, err := json.Marshal(p)
 	if err != nil {
-		return errors.New("marshal problem")
+		return errors.New("redis marshal problem")
 	}
 
 	err = rdb.Client.Set(idStr, jp, 0).Err()
