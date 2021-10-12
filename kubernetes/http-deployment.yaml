@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: http-http-deployment
+  labels:
+    app: http-http
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: http-http
+  template:
+    metadata:
+      labels:
+        app: http-http
+    spec:
+      containers:
+        - name: http-http
+          image: stasbigunenko/http_http
+          env:
+            - name: PORT_HTTP
+              value: ":8085"
+            - name: GRPC
+              value: "grpc-service:9000"
+          ports:
+            - containerPort: 8085
