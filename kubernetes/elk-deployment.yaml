@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: elk-deployment
+  labels:
+    app: elk
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: elk
+  template:
+    metadata:
+      labels:
+        app: elk
+    spec:
+      containers:
+        - name: elk
+          image: elasticsearch:7.14.1
+          env:
+            - name: discovery.type
+              value: "single-node"
+          ports:
+            - containerPort: 9200
