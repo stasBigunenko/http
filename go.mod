@@ -13,6 +13,7 @@ require (
 	github.com/jszwec/csvutil v1.5.0
 	github.com/lib/pq v1.10.3
 	github.com/onsi/gomega v1.16.0 // indirect
+	github.com/prometheus/client_golang v1.11.0
 	github.com/stretchr/testify v1.7.0
 	github.com/vektah/gqlparser/v2 v2.2.0
 	go.mongodb.org/mongo-driver v1.7.2

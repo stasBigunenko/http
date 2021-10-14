@@ -2,22 +2,30 @@ package main
 
 import (
 	"context"
-	"github.com/99designs/gqlgen/graphql/handler"
-	"github.com/gorilla/mux"
-	"google.golang.org/grpc"
+	"github.com/prometheus/client_golang/prometheus"
 	"log"
 	"net/http"
 	"os"
 	"os/signal"
-	"src/http/pkg/graphQL/graph"
-	"src/http/pkg/graphQL/graph/generated"
+
+	"github.com/99designs/gqlgen/graphql/handler"
+	"github.com/gorilla/mux"
+	"google.golang.org/grpc"
 
 	pb "src/http/api/proto"
 	"src/http/cmd/http/configHTTP"
 	"src/http/pkg/gRPC/grpccontroller"
+	"src/http/pkg/graphQL/graph"
+	"src/http/pkg/graphQL/graph/generated"
 	"src/http/pkg/handlers"
 	"src/http/pkg/services"
 )
+
+func init() {
+	prometheus.Register(handlers.TotalRequests)
+	prometheus.Register(handlers.ResponseStatus)
+	prometheus.Register(handlers.HttpDuration)
+}
 
 //Start server and initialize server's http, storage, router
 func main() {
@@ -37,6 +45,7 @@ func main() {
 	postroutes := handlers.NewHandler(&serv)
 
 	r := mux.NewRouter().StrictSlash(false)
+
 	sub := r.PathPrefix("/posts").Subrouter()
 
 	router := postroutes.Routes(sub)

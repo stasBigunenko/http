@@ -3,6 +3,7 @@ package handlers
 import (
 	"context"
 	"encoding/json"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"log"
 	"net/http"
 	"time"
@@ -52,6 +53,7 @@ func processTimeout(h http.HandlerFunc, duration time.Duration) http.HandlerFunc
 }
 
 func (h *PostHandler) Routes(sub *mux.Router) *mux.Router {
+	sub.Path("/metrics").Handler(promhttp.Handler())
 
 	sub.HandleFunc("/login", processTimeout(h.Login, 5*time.Second)).Methods("GET")
 
@@ -63,6 +65,7 @@ func (h *PostHandler) Routes(sub *mux.Router) *mux.Router {
 	sub.HandleFunc("/{id}", processTimeout(h.DeletePost, 5*time.Second)).Methods("DELETE")
 	sub.HandleFunc("/{id}", processTimeout(h.UpdatePost, 5*time.Second)).Methods("PUT")
 
+	sub.Use(h.prometheusMiddleware)
 	sub.Use(h.VerifyUser)
 
 	return sub
@@ -153,7 +156,7 @@ func (h *PostHandler) GetAll(w http.ResponseWriter, r *http.Request) {
 	}
 
 	ctx := r.Context()
-	cl, ok := ctx.Value("user").(model.Claims)
+	cl, ok := ctx.Value("claims").(model.Claims)
 	if !ok {
 		log.Println("cannot identify user name")
 	}
@@ -183,7 +186,7 @@ func (h *PostHandler) DeletePost(w http.ResponseWriter, r *http.Request) {
 	}
 
 	ctx := r.Context()
-	cl, ok := ctx.Value("user").(model.Claims)
+	cl, ok := ctx.Value("claims").(model.Claims)
 	if !ok {
 		log.Println("cannot identify user name")
 	}
@@ -217,7 +220,7 @@ func (h *PostHandler) UpdatePost(w http.ResponseWriter, r *http.Request) {
 	}
 
 	ctx := r.Context()
-	cl, ok := ctx.Value("user").(model.Claims)
+	cl, ok := ctx.Value("claims").(model.Claims)
 	if !ok {
 		log.Println("cannot identify user name")
 	}
@@ -267,7 +270,7 @@ func (h *PostHandler) DownloadPost(w http.ResponseWriter, r *http.Request) {
 	}
 
 	ctx := r.Context()
-	cl, ok := ctx.Value("user").(model.Claims)
+	cl, ok := ctx.Value("claims").(model.Claims)
 	if !ok {
 		log.Println("cannot identify user name")
 	}
@@ -300,7 +303,7 @@ func (h *PostHandler) UploadPost(w http.ResponseWriter, r *http.Request) {
 	}
 
 	ctx := r.Context()
-	cl, ok := ctx.Value("user").(model.Claims)
+	cl, ok := ctx.Value("claims").(model.Claims)
 	if !ok {
 		log.Println("cannot identify user name")
 	}
