@@ -24,12 +24,14 @@ const SECRETKEY = "password"
 func (h *PostHandler) VerifyUser(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
-		notAuth := "/posts/login"
+		notAuth := []string{"/posts/login", "/posts/prometheus", "/posts/graphql/login", "/posts/metrics"}
 		requestPath := r.URL.Path
 
-		if notAuth == requestPath {
-			next.ServeHTTP(w, r)
-			return
+		for _, val := range notAuth {
+			if val == requestPath {
+				next.ServeHTTP(w, r)
+				return
+			}
 		}
 
 		token, err := GetJwtTokenFromRequest(r)
