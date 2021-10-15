@@ -24,7 +24,6 @@ import (
 func init() {
 	prometheus.Register(handlers.TotalRequests)
 	prometheus.Register(handlers.ResponseStatus)
-	prometheus.Register(handlers.HttpDuration)
 }
 
 //Start server and initialize server's http, storage, router
