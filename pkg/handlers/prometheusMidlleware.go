@@ -3,7 +3,6 @@ package handlers
 import (
 	"github.com/gorilla/mux"
 	"github.com/prometheus/client_golang/prometheus"
-	"github.com/prometheus/client_golang/prometheus/promauto"
 	"net/http"
 	"strconv"
 )
@@ -38,17 +37,11 @@ var ResponseStatus = prometheus.NewCounterVec(
 	[]string{"status"},
 )
 
-var HttpDuration = promauto.NewHistogramVec(prometheus.HistogramOpts{
-	Name: "my_http_response_time_seconds",
-	Help: "Duration of HTTP requests.",
-}, []string{"path"})
-
 func (h *PostHandler) prometheusMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		route := mux.CurrentRoute(r)
 		path, _ := route.GetPathTemplate()
 
-		timer := prometheus.NewTimer(HttpDuration.WithLabelValues(path))
 		rw := NewResponseWriter(w)
 		next.ServeHTTP(rw, r)
 
@@ -56,7 +49,5 @@ func (h *PostHandler) prometheusMiddleware(next http.Handler) http.Handler {
 
 		ResponseStatus.WithLabelValues(strconv.Itoa(statusCode)).Inc()
 		TotalRequests.WithLabelValues(path).Inc()
-
-		timer.ObserveDuration()
 	})
 }
