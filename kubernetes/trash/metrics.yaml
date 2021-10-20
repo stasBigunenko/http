@@ -1,0 +1,42 @@
+Name:                   stable-kube-state-metrics
+Namespace:              default
+CreationTimestamp:      Mon, 18 Oct 2021 13:24:23 +0300
+Labels:                 app.kubernetes.io/instance=stable
+                        app.kubernetes.io/managed-by=Helm
+                        app.kubernetes.io/name=kube-state-metrics
+                        app.kubernetes.io/version=2.2.0
+                        helm.sh/chart=kube-state-metrics-3.5.2
+Annotations:            deployment.kubernetes.io/revision: 1
+                        meta.helm.sh/release-name: stable
+                        meta.helm.sh/release-namespace: default
+Selector:               app.kubernetes.io/name=kube-state-metrics
+Replicas:               1 desired | 1 updated | 1 total | 1 available | 0 unavailable
+StrategyType:           RollingUpdate
+MinReadySeconds:        0
+RollingUpdateStrategy:  25% max unavailable, 25% max surge
+Pod Template:
+  Labels:           app.kubernetes.io/instance=stable
+                    app.kubernetes.io/name=kube-state-metrics
+  Service Account:  stable-kube-state-metrics
+  Containers:
+   kube-state-metrics:
+    Image:      k8s.gcr.io/kube-state-metrics/kube-state-metrics:v2.2.0
+    Port:       8080/TCP
+    Host Port:  0/TCP
+    Args:
+      --port=8080
+      --resources=certificatesigningrequests,configmaps,cronjobs,daemonsets,deployments,endpoints,horizontalpodautoscalers,ingresses,jobs,limitranges,mutatingwebhookconfigurations,namespaces,networkpolicies,nodes,persistentvolumeclaims,persistentvolumes,poddisruptionbudgets,pods,replicasets,replicationcontrollers,resourcequotas,secrets,services,statefulsets,storageclasses,validatingwebhookconfigurations,volumeattachments
+      --telemetry-port=8081
+    Liveness:     http-get http://:8080/healthz delay=5s timeout=5s period=10s #success=1 #failure=3
+    Readiness:    http-get http://:8080/ delay=5s timeout=5s period=10s #success=1 #failure=3
+    Environment:  <none>
+    Mounts:       <none>
+  Volumes:        <none>
+Conditions:
+  Type           Status  Reason
+  ----           ------  ------
+  Progressing    True    NewReplicaSetAvailable
+  Available      True    MinimumReplicasAvailable
+OldReplicaSets:  <none>
+NewReplicaSet:   stable-kube-state-metrics-789dd9fcf (1/1 replicas created)
+Events:          <none>
