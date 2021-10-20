@@ -1,0 +1,20 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: http-monitor
+  labels:
+    app: http-http
+    release: stable
+  namespace: default
+spec:
+  jobLabel: myCounter
+  endpoints:
+    - port: http-http
+      path: posts/metrics
+  selector:
+    matchLabels:
+      app: http-http
+      release: stable
+  namespaceSelector:
+    matchNames:
+      - default

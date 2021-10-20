@@ -2,6 +2,10 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: http-http-deployment
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/path: /posts/metrics
+    prometheus.io/port: "8085"
   labels:
     app: http-http
 spec:
@@ -11,8 +15,13 @@ spec:
       app: http-http
   template:
     metadata:
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/path: /posts/metrics
+        prometheus.io/port: "8085"
       labels:
         app: http-http
+        release: stable
     spec:
       containers:
         - name: http-http
