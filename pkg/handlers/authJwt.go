@@ -24,7 +24,7 @@ const SECRETKEY = "password"
 func (h *PostHandler) VerifyUser(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
-		notAuth := []string{"/posts/login", "/posts/prometheus", "/posts/graphql/login", "/posts/metrics"}
+		notAuth := []string{"/posts/login", "/posts/prometheus", "/posts/graphql/login", "/posts/metrics", "/metrics"}
 		requestPath := r.URL.Path
 
 		for _, val := range notAuth {

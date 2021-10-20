@@ -1,11 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: http-service
-  namespace: default
+  name: grafana-service
 spec:
   selector:
-    app: http-http
+    app: grafana
   ports:
     - protocol: TCP
-      port: 8085
+      port: 3000
