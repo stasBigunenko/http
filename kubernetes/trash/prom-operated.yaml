@@ -1,0 +1,34 @@
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: "2021-10-18T10:24:47Z"
+  labels:
+    operated-prometheus: "true"
+  name: prometheus-operated
+  namespace: default
+  ownerReferences:
+  - apiVersion: monitoring.coreos.com/v1
+    kind: Prometheus
+    name: stable-kube-prometheus-sta-prometheus
+    uid: 207dad67-f0c1-4f3e-aaa2-02a2dc00c5b5
+  resourceVersion: "73545"
+  uid: cfdd1fcb-ed93-425b-857f-3179ed60c79e
+spec:
+  clusterIP: None
+  clusterIPs:
+  - None
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+  - name: web
+    port: 9090
+    protocol: TCP
+    targetPort: web
+  selector:
+    app.kubernetes.io/name: prometheus
+  sessionAffinity: None
+  type: ClusterIP
+status:
+  loadBalancer: {}
