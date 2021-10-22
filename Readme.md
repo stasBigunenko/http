@@ -1,13 +1,21 @@
-simple HTTP server
+Simple CRUD API with additional functions: save data in and download data from *csv file.
 
-The server automatically will connect with http connection on localhost (on 127.0.0.1:8080). If you want to change any of these values you can use enviroment variables "PORT" and/or "HOST".
+HTTP Server working through GRPC Server which can be connected to differenet storages through enviroment variables.
+You can connect to the following types:
+- inmemory storage
+- Redis storage
+- PostgreSQL storage
+- MongoDB storage
+- ElastickSearch storage
 
-The server working with Post struct in json format.
-Post {"Id": "uuid.UUID", "Author": "string", "Message": "string"}
+HTTP server supports GraphQL service.
 
-The server response on the simple request as POST, GET, PUT and DELETE.
+HTTP server has JWT auth. You can receive token by login to the server and you should indicate your name. You will receive the token in header's response which you should specify in all your requests.
 
-If you make POST, PUT or DELETE requests, changes will be automatically and safely saved to the memory Storage.
-Your request body JSON should be object enclosed, just like the GET output. (for example {"Author": "Foo", "Message":"Foo"})
-Id values are not mutable. Any id value in the body of your PUT request will be ignored. 
-A POST or PUT request should include a Content-Type: application/json header to use the JSON in the request body. 
+Also HTTP server connected to monitoring system Prometheus and data visualization platform Grafana.
+
+All services working through Docker with docker-compose file, or you can work through Kubernetes as well.
+
+If the enviroment variables will be empty of any wanted storage, the connection will be using default credentials.
+
+You can find lists of all enviroment variables in config files which are located in cmd dir to each server.
