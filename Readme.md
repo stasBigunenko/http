@@ -25,6 +25,7 @@ API Documentation.
 To test the REST API , use any rest client like postman etc or cURL.
 
 to login and receive a token:
+
 curl --location --request GET 'http://localhost:8085/posts/login' \
 --header 'Content-Type: application/json' \
 --data-raw '{
@@ -32,6 +33,7 @@ curl --location --request GET 'http://localhost:8085/posts/login' \
 }'
 
 to Create post:
+
 curl --location --request POST 'http://localhost:8085/posts/create' \
 --header 'Authorization: Bearer <your_token>' \
 --header 'Content-Type: application/json' \
@@ -41,17 +43,20 @@ curl --location --request POST 'http://localhost:8085/posts/create' \
 }'
 
 to Get post:
+
 curl --location --request GET 'http://localhost:8085/posts/<id_of_the_post>' \
 --header 'Authorization: Bearer <your_token>' \
 --header 'Content-Type: text/plain' \
 --data-binary '@'
 
 to Get all posts:
+
 curl --location --request GET 'http://localhost:8085/posts/' \
 --header 'Authorization: Bearer <your_token>' \
 --data-raw ''
 
 to Update post:
+
 curl --location --request PUT 'http://localhost:8085/posts/<id_of_the_post>' \
 --header 'Authorization: Bearer <your_token>' \
 --header 'Content-Type: application/json' \
@@ -61,15 +66,18 @@ curl --location --request PUT 'http://localhost:8085/posts/<id_of_the_post>' \
 }'
 
 to Delete post:
+
 curl --location --request DELETE 'http://localhost:8085/posts/<id_of_the_post>' \
 --header 'Authorization: Bearer <your_token>'
 
 to Save data to the file:
+
 curl --location --request GET 'http://localhost:8085/posts/download' \
 --header 'Authorization: Bearer <your_token>'
 --to 'file=@"path_name_of_the_file.csv"'
 
 to Download data from file:
+
 curl --location --request POST 'http://localhost:8085/posts/upload' \
 --header 'Authorization: Bearer <your_token>' \
 --form 'file=@"path_name_of_the_file.csv"'
@@ -77,30 +85,35 @@ curl --location --request POST 'http://localhost:8085/posts/upload' \
 to use GraphQL service:
 
 to Create post:
+
 curl --location --request POST 'http://localhost:8085/posts/graphql/' \
 --header 'Authorization: Bearer <your_token>' \
 --header 'Content-Type: application/json' \
 --data-raw '{"query":"mutation{\r\n  createPost(input:{author: \"andrew\", message:\"the first3\"}){\r\n    id,\r\n    author,\r\n    message\r\n  }\r\n}","variables":{}}'
 
 to Get post:
+
 curl --location --request POST 'http://localhost:8085/posts/graphql/' \
 --header 'Authorization: Bearer <your_token>' \
 --header 'Content-Type: application/json' \
 --data-raw '{"query":"query{ getPost(id: \"<id_of_the_post>\"){\r\n    id,\r\n    author,\r\n    message\r\n  }\r\n}","variables":{}}'
 
 to Get all posts:
+
 curl --location --request POST 'http://localhost:8085/posts/graphql/' \
 --header 'Authorization: Bearer <your_token>' \
 --header 'Content-Type: application/json' \
 --data-raw '{"query":"query {\r\n  getPosts{\r\n    id,\r\n    author,\r\n    message\r\n  }\r\n}","variables":{}}'
 
 to Update post:
+
 curl --location --request POST 'http://localhost:8085/posts/graphql/' \
 --header 'Authorization: Bearer <your_token>' \
 --header 'Content-Type: application/json' \
 --data-raw '{"query":"mutation{\r\n  updatePost (input:{id: \"id_of_the_post>\", author: \"<new_name>\", message:\"<new_message>\"}){\r\n    id,\r\n    author,\r\n    message\r\n  }\r\n}","variables":{}}'
 
 to Delete post:
+
 curl --location --request POST 'http://localhost:8085/posts/graphql/' \
 --header 'Authorization: Bearer <your_token>' \
 --header 'Content-Type: application/json' \
