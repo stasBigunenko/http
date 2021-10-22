@@ -20,9 +20,7 @@ If the enviroment variables will be empty of any wanted storage, the connection 
 
 You can find lists of all enviroment variables in config files which are located in cmd dir to each server.
 
-API Documentation.
-
-To test the REST API , use any rest client like postman etc or cURL.
+To test the REST API use any rest client like postman etc or cURL.
 
 to login and receive a token:
 
