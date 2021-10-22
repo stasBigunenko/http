@@ -1,6 +1,6 @@
 Simple CRUD API with additional functions: save data in and download data from *csv file.
 
-HTTP Server working through GRPC Server which can be connected to differenet storages through enviroment variables.
+HTTP Server working through gRPC Server which can be connected to differenet storages through enviroment variables.
 You can connect to the following types:
 - inmemory storage
 - Redis storage
