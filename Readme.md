@@ -10,7 +10,7 @@ You can connect to the following types:
 
 HTTP server supports GraphQL service.
 
-HTTP server has JWT auth. You can receive token by login to the server and you should indicate your name. You will receive the token in header's response which you should specify in all your requests.
+HTTP server has JWT auth. You can receive token by login to the server where you should indicate your name. You will receive the token in header's response which you should specify in all your requests.
 
 Also HTTP server connected to monitoring system Prometheus and data visualization platform Grafana.
 
