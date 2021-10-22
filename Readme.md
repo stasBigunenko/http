@@ -74,7 +74,7 @@ curl --location --request POST 'http://localhost:8085/posts/upload' \
 --header 'Authorization: Bearer <your_token>' \
 --form 'file=@"path_name_of_the_file.csv"'
 
-to use GraphQL:
+to use GraphQL service:
 
 to Create post:
 curl --location --request POST 'http://localhost:8085/posts/graphql/' \
