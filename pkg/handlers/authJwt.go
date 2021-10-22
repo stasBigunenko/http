@@ -16,11 +16,6 @@ import (
 
 const SECRETKEY = "password"
 
-//type Claims struct {
-//	Name string `json:"name"`
-//	jwt.StandardClaims
-//}
-
 func (h *PostHandler) VerifyUser(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 

@@ -15,11 +15,11 @@ import (
 )
 
 func (r *mutationResolver) CreatePost(ctx context.Context, input model.NewPost) (*model.Post, error) {
-	user, ok := ctx.Value("user").(string)
+	cl, ok := ctx.Value("claims").(mymodel.Claims)
 	if !ok {
 		log.Println("cannot identify user name")
 	}
-	log.Printf("user with name '%s' send command CreatePost", user)
+	log.Printf("user with id '%s', name '%s' send command CreatePost", cl.Id, cl.Name)
 
 	var p mymodel.Post
 	p.Author = input.Author
@@ -41,11 +41,11 @@ func (r *mutationResolver) CreatePost(ctx context.Context, input model.NewPost) 
 }
 
 func (r *mutationResolver) UpdatePost(ctx context.Context, input model.UpdatePost) (*model.Post, error) {
-	user, ok := ctx.Value("user").(string)
+	cl, ok := ctx.Value("claims").(mymodel.Claims)
 	if !ok {
 		log.Println("cannot identify user name")
 	}
-	log.Printf("user with name '%s' send command CreatePost", user)
+	log.Printf("user with id '%s', name '%s' send command UpdatePost", cl.Id, cl.Name)
 
 	id := input.ID
 	idUUID, err := uuid.Parse(id)
@@ -72,11 +72,11 @@ func (r *mutationResolver) UpdatePost(ctx context.Context, input model.UpdatePos
 
 func (r *mutationResolver) DeletePost(ctx context.Context, id string) (*string, error) {
 
-	user, ok := ctx.Value("user").(string)
+	cl, ok := ctx.Value("claims").(mymodel.Claims)
 	if !ok {
 		log.Println("cannot identify user name")
 	}
-	log.Printf("user with name '%s' send command CreatePost", user)
+	log.Printf("user with id '%s', name '%s' send command DeletePost", cl.Id, cl.Name)
 
 	var res string
 	err := r.service.DeleteId(id)
@@ -89,11 +89,11 @@ func (r *mutationResolver) DeletePost(ctx context.Context, id string) (*string, 
 }
 
 func (r *queryResolver) GetPosts(ctx context.Context) ([]*model.Post, error) {
-	user, ok := ctx.Value("user").(string)
+	cl, ok := ctx.Value("claims").(mymodel.Claims)
 	if !ok {
 		log.Println("cannot identify user name")
 	}
-	log.Printf("user with name '%s' send command CreatePost", user)
+	log.Printf("user with id '%s', name '%s' send command DeletePost", cl.Id, cl.Name)
 
 	var posts []*model.Post
 
@@ -113,11 +113,11 @@ func (r *queryResolver) GetPosts(ctx context.Context) ([]*model.Post, error) {
 }
 
 func (r *queryResolver) GetPost(ctx context.Context, id string) (*model.Post, error) {
-	user, ok := ctx.Value("user").(string)
+	cl, ok := ctx.Value("claims").(mymodel.Claims)
 	if !ok {
 		log.Println("cannot identify user name")
 	}
-	log.Printf("user with name '%s' send command CreatePost", user)
+	log.Printf("user with id '%s', name '%s' send command GetPost", cl.Id, cl.Name)
 
 	res, err := r.service.GetId(id)
 	if err != nil {
