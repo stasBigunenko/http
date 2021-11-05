@@ -14,6 +14,8 @@ services:
       PORT_HTTP: ":8085"
       GRPC: "grpc:9000"
       RMQ_PATH: "rabbitmq-broker:5672/"
+      RMQ_LOG: "guest"
+      RMQ_PASS: "guest"
     depends_on:
       - rabbitmq-broker
 
@@ -124,4 +126,6 @@ services:
       - rabbitmq-broker
     environment:
       RMQ_PATH: "rabbitmq-broker:5672/"
+      RMQ_LOG: "guest"
+      RMQ_PASS: "guest"
     restart: on-failure
