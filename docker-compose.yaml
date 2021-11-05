@@ -44,63 +44,63 @@ services:
 #    links:
 #      - "elasticsearch:elasticsearch"
 
-#  redis:
-#    container_name: "redis"
-#    image: redis
-#
-#  postgres:
-#    container_name: "postgres"
-#    image: postgres:latest
-#    restart: always
-#    user: "postgres"
-#    environment:
-#      POSTGRES_USER: "postgres"
-#      POSTGRES_PASSWORD: "qwerty"
-#      POSTGRES_DATABASE: "postgres"
-##    volumes:
-##      - ./storage/postgres/database.sql:/docker-entrypoint-initdb.d/database.sql
-#    ports:
-#      - "5432:5432"
-#
-#  mongo:
-#    container_name: "mongodb"
-#    image: mongo:latest
-#    restart: always
-#    environment:
-#      MONGO_INITDB_ROOT_USERNAME: "root"
-#      MONGO_INITDB_ROOT_PASSWORD: "root"
-#    ports:
-#      - "27017:27017"
+  redis:
+    container_name: "redis"
+    image: redis
 
-#  elasticsearch:
-#    image: elasticsearch:7.14.1
-#    container_name: "elastic"
-#    environment:
-#      discovery.type: "single-node"
-##      node.name: "elastic"
-##      network.host: 0.0.0.0
-##      network.publish_host: "_local_"
-#    ports:
-#      - "9200:9200"
-
-#  prometheus:
-#    image: prom/prometheus:latest
+  postgres:
+    container_name: "postgres"
+    image: postgres:latest
+    restart: always
+    user: "postgres"
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "qwerty"
+      POSTGRES_DATABASE: "postgres"
 #    volumes:
-#      - ./prometheus:/etc/prometheus/
-#    command:
-#      - '--config.file=/etc/prometheus/prometheus.yml'
-#      - '--storage.tsdb.path=/prometheus'
-#    ports:
-#      - 9090:9090
-#    depends_on:
-#      - http
-#
-#  grafana:
-#    image: grafana/grafana:latest
-#    ports:
-#      - 3000:3000
-#    depends_on:
-#      - prometheus
+#      - ./storage/postgres/database.sql:/docker-entrypoint-initdb.d/database.sql
+    ports:
+      - "5432:5432"
+
+  mongo:
+    container_name: "mongodb"
+    image: mongo:latest
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: "root"
+      MONGO_INITDB_ROOT_PASSWORD: "root"
+    ports:
+      - "27017:27017"
+
+  elasticsearch:
+    image: elasticsearch:7.14.1
+    container_name: "elastic"
+    environment:
+      discovery.type: "single-node"
+#      node.name: "elastic"
+#      network.host: 0.0.0.0
+#      network.publish_host: "_local_"
+    ports:
+      - "9200:9200"
+
+  prometheus:
+    image: prom/prometheus:latest
+    volumes:
+      - ./prometheus:/etc/prometheus/
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+    ports:
+      - 9090:9090
+    depends_on:
+      - http
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - 3000:3000
+    depends_on:
+      - prometheus
 
   rabbitmq-broker:
     image: rabbitmq:management-alpine
@@ -116,7 +116,7 @@ services:
     environment:
       RABBITMQ_DEFAULT_PASS: "guest"
       RABBITMQ_DEFAULT_USER: "guest"
-      RABBITMQ_DEFAULT_VHOST: "/"
+#      RABBITMQ_DEFAULT_VHOST: "/"
 
   consumer:
     build:
@@ -124,6 +124,7 @@ services:
       dockerfile: "./docker/consumer.Dockerfile"
     depends_on:
       - rabbitmq-broker
+      - http
     environment:
       RMQ_PATH: "rabbitmq-broker:5672/"
       RMQ_LOG: "guest"
