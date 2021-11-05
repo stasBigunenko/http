@@ -101,6 +101,8 @@ func (h *PostHandler) CreatePost(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	createChPost(post)
+
 	res, err := h.service.CreateId(&post)
 	if err != nil {
 		msg := services.Response("internal problem")
@@ -196,6 +198,8 @@ func (h *PostHandler) DeletePost(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	key := vars["id"]
 
+	deleteChPost(key)
+
 	err := h.service.DeleteId(key)
 	if err != nil {
 		msg := services.Response("This id doesn't exist")
@@ -249,6 +253,9 @@ func (h *PostHandler) UpdatePost(w http.ResponseWriter, r *http.Request) {
 		w.Write(msg)
 		return
 	}
+
+	createChPost(post)
+
 	res, err := h.service.UpdateId(&post)
 	if err != nil {
 		msg := services.Response("Couldn't update requested post.")
