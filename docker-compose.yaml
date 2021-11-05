@@ -13,6 +13,9 @@ services:
     environment:
       PORT_HTTP: ":8085"
       GRPC: "grpc:9000"
+      RMQ_PATH: "rabbitmq-broker:5672/"
+    depends_on:
+      - rabbitmq-broker
 
   grpc:
     container_name: "grpc"
@@ -23,7 +26,7 @@ services:
       - "9000:9000"
     environment:
       TCP_PORT: ":9000"
-      DB_TYPE: "redis"
+      DB_TYPE: "inmemory"
       REDIS_ADDR: "redis:6379"
       REDIS_DB: "redisDB"
       POSTGRES_HOST: "postgres"
@@ -39,33 +42,33 @@ services:
 #    links:
 #      - "elasticsearch:elasticsearch"
 
-  redis:
-    container_name: "redis"
-    image: redis
-
-  postgres:
-    container_name: "postgres"
-    image: postgres:latest
-    restart: always
-    user: "postgres"
-    environment:
-      POSTGRES_USER: "postgres"
-      POSTGRES_PASSWORD: "qwerty"
-      POSTGRES_DATABASE: "postgres"
-#    volumes:
-#      - ./storage/postgres/database.sql:/docker-entrypoint-initdb.d/database.sql
-    ports:
-      - "5432:5432"
-
-  mongo:
-    container_name: "mongodb"
-    image: mongo:latest
-    restart: always
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: "root"
-      MONGO_INITDB_ROOT_PASSWORD: "root"
-    ports:
-      - "27017:27017"
+#  redis:
+#    container_name: "redis"
+#    image: redis
+#
+#  postgres:
+#    container_name: "postgres"
+#    image: postgres:latest
+#    restart: always
+#    user: "postgres"
+#    environment:
+#      POSTGRES_USER: "postgres"
+#      POSTGRES_PASSWORD: "qwerty"
+#      POSTGRES_DATABASE: "postgres"
+##    volumes:
+##      - ./storage/postgres/database.sql:/docker-entrypoint-initdb.d/database.sql
+#    ports:
+#      - "5432:5432"
+#
+#  mongo:
+#    container_name: "mongodb"
+#    image: mongo:latest
+#    restart: always
+#    environment:
+#      MONGO_INITDB_ROOT_USERNAME: "root"
+#      MONGO_INITDB_ROOT_PASSWORD: "root"
+#    ports:
+#      - "27017:27017"
 
 #  elasticsearch:
 #    image: elasticsearch:7.14.1
@@ -78,21 +81,47 @@ services:
 #    ports:
 #      - "9200:9200"
 
-  prometheus:
-    image: prom/prometheus:latest
-    volumes:
-      - ./prometheus:/etc/prometheus/
-    command:
-      - '--config.file=/etc/prometheus/prometheus.yml'
-      - '--storage.tsdb.path=/prometheus'
-    ports:
-      - 9090:9090
-    depends_on:
-      - http
+#  prometheus:
+#    image: prom/prometheus:latest
+#    volumes:
+#      - ./prometheus:/etc/prometheus/
+#    command:
+#      - '--config.file=/etc/prometheus/prometheus.yml'
+#      - '--storage.tsdb.path=/prometheus'
+#    ports:
+#      - 9090:9090
+#    depends_on:
+#      - http
+#
+#  grafana:
+#    image: grafana/grafana:latest
+#    ports:
+#      - 3000:3000
+#    depends_on:
+#      - prometheus
 
-  grafana:
-    image: grafana/grafana:latest
+  rabbitmq-broker:
+    image: rabbitmq:management-alpine
+    container_name: "rabbitmq-broker"
+    hostname: rabbitmq-broker
     ports:
-      - 3000:3000
+      - 5672:5672 # for sender and consumer connections
+      - 15672:15672
+    volumes:
+      - ./rabbitmq/data/:/var/lib/rabbitmq
+      - ./rabbitmq/log/:/var/log/rabbitmq
+    restart: unless-stopped
+    environment:
+      RABBITMQ_DEFAULT_PASS: "guest"
+      RABBITMQ_DEFAULT_USER: "guest"
+      RABBITMQ_DEFAULT_VHOST: "/"
+
+  consumer:
+    build:
+      context: "./"
+      dockerfile: "./docker/consumer.Dockerfile"
     depends_on:
-      - prometheus
+      - rabbitmq-broker
+    environment:
+      RMQ_PATH: "rabbitmq-broker:5672/"
+    restart: on-failure

@@ -4,15 +4,16 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/streadway/amqp"
-	"os"
+	"src/http/cmd/http/configHTTP"
 	"src/http/pkg/model"
 )
 
 func connectProducer() (*amqp.Connection, error) {
 
-	path := os.Getenv("RMQ_PATH")
+	config := configHTTP.Set()
 
-	conn, err := amqp.Dial("amqp://guest:guest@" + path)
+	connStr := "amqp://" + config.RMQLog + ":" + config.RMQPass + "@" + config.RMQPath
+	conn, err := amqp.Dial(connStr)
 	if err != nil {
 		fmt.Println("Failed Initializing Broker Connection")
 		panic(err)
