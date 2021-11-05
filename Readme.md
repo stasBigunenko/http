@@ -16,7 +16,7 @@ Also HTTP server connected to monitoring system Prometheus and data visualizatio
 
 All services working through Docker with docker-compose file, or you can work through Kubernetes as well.
 
-Added queu service through RabbitMQ.
+Also added service with queues through RabbitMQ.
 
 If the enviroment variables will be empty of any wanted storage, the connection will be using default credentials.
 
