@@ -116,7 +116,7 @@ services:
     environment:
       RABBITMQ_DEFAULT_PASS: "guest"
       RABBITMQ_DEFAULT_USER: "guest"
-      RABBITMQ_DEFAULT_VHOST: "/"
+#      RABBITMQ_DEFAULT_VHOST: "/"
 
   consumer:
     build:
@@ -124,6 +124,7 @@ services:
       dockerfile: "./docker/consumer.Dockerfile"
     depends_on:
       - rabbitmq-broker
+      - http
     environment:
       RMQ_PATH: "rabbitmq-broker:5672/"
       RMQ_LOG: "guest"

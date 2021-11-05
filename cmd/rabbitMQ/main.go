@@ -10,9 +10,23 @@ import (
 
 func main() {
 
-	path := os.Getenv("RMQ_PATH")
+	path := os.Getenv("RMQPath")
+	if path == "" {
+		path = "localhost:5672/"
+	}
 
-	conn, err := amqp.Dial("amqp://guest:guest@" + path)
+	login := os.Getenv("RMQ_LOG")
+	if login == "" {
+		login = "guest"
+	}
+
+	pass := os.Getenv("RMQ_PASS")
+	if pass == "" {
+		pass = "guest"
+	}
+
+	connStr := "amqp://" + login + ":" + pass + "@" + path
+	conn, err := amqp.Dial(connStr)
 	if err != nil {
 		fmt.Println("Failed Initializing Broker Connection")
 		panic(err)
