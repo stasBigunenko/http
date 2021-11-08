@@ -10,7 +10,7 @@ import (
 
 func main() {
 
-	path := os.Getenv("RMQPath")
+	path := os.Getenv("RMQ_PATH")
 	if path == "" {
 		path = "localhost:5672/"
 	}

@@ -28,7 +28,7 @@ services:
       - "9000:9000"
     environment:
       TCP_PORT: ":9000"
-      DB_TYPE: "inmemory"
+      DB_TYPE: "redis"
       REDIS_ADDR: "redis:6379"
       REDIS_DB: "redisDB"
       POSTGRES_HOST: "postgres"
@@ -124,9 +124,9 @@ services:
       dockerfile: "./docker/consumer.Dockerfile"
     depends_on:
       - rabbitmq-broker
-      - http
+#      - http
     environment:
       RMQ_PATH: "rabbitmq-broker:5672/"
       RMQ_LOG: "guest"
       RMQ_PASS: "guest"
-    restart: on-failure
+#    restart: on-failure
