@@ -52,6 +52,10 @@ func main() {
 		nil,
 	)
 
+	if msgs == nil {
+		os.Exit(2)
+	}
+
 	forever := make(chan bool)
 	go func() {
 		for d := range msgs {

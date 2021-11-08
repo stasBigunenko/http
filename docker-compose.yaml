@@ -129,4 +129,4 @@ services:
       RMQ_PATH: "rabbitmq-broker:5672/"
       RMQ_LOG: "guest"
       RMQ_PASS: "guest"
-#    restart: on-failure
+    restart: on-failure
